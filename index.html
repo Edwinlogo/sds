@@ -1,1100 +1,485 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Safe Drive Services – School Transportation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+
   <style>
-    /* ─── CSS Variables ──────────────────────────────────────── */
-    :root {
-      --bg: #F7F6F2;
-      --bg2: #EDECEA;
-      --surface: #FFFFFF;
-      --border: rgba(0,0,0,0.08);
-      --text: #161412;
-      --text-muted: #6B6560;
-      --accent: #1B4FD8;
-      --accent-2: #F0A500;
-      --accent-light: #E8EDFF;
-      --navy: #0B1F4B;
-      --nav-bg: rgba(247,246,242,0.88);
-      --card-shadow: 0 2px 24px rgba(0,0,0,0.07);
-      --radius: 18px;
-      --transition: 0.3s cubic-bezier(.4,0,.2,1);
-    }
-    [data-theme="dark"] {
-      --bg: #0D1117;
-      --bg2: #161B24;
-      --surface: #1C2333;
-      --border: rgba(255,255,255,0.08);
-      --text: #EEF0F4;
-      --text-muted: #8891A5;
-      --accent: #4D7AFF;
-      --accent-2: #FFBA2E;
-      --accent-light: #1A2340;
-      --navy: #2A4080;
-      --nav-bg: rgba(13,17,23,0.9);
-      --card-shadow: 0 2px 24px rgba(0,0,0,0.35);
-    }
+  :root {
+    --bg:#F5F5F3; --bg2:#EBEBEA; --surface:#FFFFFF; --border:rgba(0,0,0,.09);
+    --text:#1A1A1A; --text-muted:#666260;
+    --accent:#1A3D8F; --accent-h:#152F6E; --accent-lt:#E8EEF9;
+    --gold:#D4920A; --gold-lt:#FFF5DC;
+    --navy:#0C1E45;
+    --nav-bg:rgba(245,245,243,.85);
+    --sh:0 2px 20px rgba(0,0,0,.07); --sh-lg:0 8px 40px rgba(0,0,0,.10);
+    --r:16px; --ease:.32s cubic-bezier(.4,0,.2,1);
+  }
+  [data-theme="dark"]{
+    --bg:#0E1117; --bg2:#161B26; --surface:#1C2336; --border:rgba(255,255,255,.08);
+    --text:#E8EAF0; --text-muted:#8A93AB;
+    --accent:#4B72D4; --accent-h:#5C82E2; --accent-lt:#172046;
+    --gold:#F5B93A; --gold-lt:#2A1F04;
+    --navy:#060E22;
+    --nav-bg:rgba(14,17,23,.88);
+    --sh:0 2px 20px rgba(0,0,0,.3); --sh-lg:0 8px 40px rgba(0,0,0,.4);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);transition:background var(--ease),color var(--ease);overflow-x:hidden;line-height:1.6;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3,h4,h5{font-family:'Raleway',sans-serif;line-height:1.15;font-weight:700;}
 
-    /* ─── Reset & Base ───────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      transition: background var(--transition), color var(--transition);
-      overflow-x: hidden;
-    }
-    img { max-width: 100%; display: block; }
-    a { color: inherit; text-decoration: none; }
-    h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; line-height: 1.15; }
+  /* ── Floating logo ── */
+  .fl-logo{position:fixed;top:14px;left:24px;z-index:200;}
+  .fl-logo img{height:46px;width:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.25));transition:height var(--ease);}
+  [data-theme="dark"] .fl-logo img{filter:brightness(1.15) drop-shadow(0 2px 8px rgba(0,0,0,.5));}
+  @media(max-width:680px){.fl-logo img{height:36px;}}
 
-    /* ─── Navbar ─────────────────────────────────────────────── */
-    .nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: var(--nav-bg);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 5%;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 68px;
-      transition: background var(--transition);
-    }
-    .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: 1.15rem;
-      color: var(--text);
-    }
-    .nav-logo .logo-icon {
-      width: 36px; height: 36px;
-      background: var(--accent);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 18px;
-    }
-    .nav-links {
-      display: flex; align-items: center; gap: 8px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.875rem; font-weight: 500;
-      padding: 6px 14px; border-radius: 8px;
-      color: var(--text-muted);
-      transition: color var(--transition), background var(--transition);
-    }
-    .nav-links a:hover { color: var(--text); background: var(--bg2); }
-    .nav-links a.cta {
-      background: var(--accent); color: white;
-      font-weight: 600;
-    }
-    .nav-links a.cta:hover { opacity: 0.9; background: var(--accent); }
+  /* ── Sun/moon toggle ── */
+  .theme-btn{
+    position:fixed;top:18px;right:20px;z-index:200;
+    width:38px;height:38px;border-radius:50%;border:none;
+    background:var(--surface);box-shadow:var(--sh);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+    color:var(--text);transition:transform .2s,box-shadow var(--ease),background var(--ease);
+  }
+  .theme-btn:hover{transform:scale(1.12);box-shadow:var(--sh-lg);}
+  .theme-btn svg{width:17px;height:17px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .icon-moon{display:none;}
+  [data-theme="dark"] .icon-sun{display:none;}
+  [data-theme="dark"] .icon-moon{display:block;}
 
-    .nav-right { display: flex; align-items: center; gap: 12px; }
-    
-    /* Dark Mode Toggle */
-    .theme-toggle {
-      width: 48px; height: 26px;
-      background: var(--bg2);
-      border: 1.5px solid var(--border);
-      border-radius: 99px;
-      cursor: pointer;
-      position: relative;
-      transition: background var(--transition);
-      flex-shrink: 0;
-    }
-    .theme-toggle::after {
-      content: '';
-      position: absolute;
-      top: 3px; left: 3px;
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      background: var(--accent);
-      transition: transform var(--transition);
-    }
-    [data-theme="dark"] .theme-toggle::after { transform: translateX(22px); }
-    .theme-toggle-label { font-size: 0.75rem; color: var(--text-muted); }
+  /* ── Nav ── */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:150;
+    display:flex;align-items:center;justify-content:flex-end;
+    padding:0 72px 0 160px;height:70px;
+    background:transparent;
+    transition:background var(--ease),backdrop-filter var(--ease),border-color var(--ease),transform .38s cubic-bezier(.4,0,.2,1);
+    border-bottom:1px solid transparent;
+  }
+  .nav.scrolled{background:var(--nav-bg);backdrop-filter:blur(18px);border-color:var(--border);}
+  .nav.hidden{transform:translateY(-100%);}
+  .nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
+  .nav-links a{
+    font-family:'Raleway',sans-serif;font-size:.87rem;font-weight:600;letter-spacing:.03em;
+    padding:7px 14px;border-radius:8px;
+    color:rgba(255,255,255,.75);
+    transition:color var(--ease),background var(--ease);
+  }
+  .nav-links a:hover{color:#fff;background:rgba(255,255,255,.1);}
+  .nav-links a.ncta{background:var(--accent);color:#fff;margin-left:6px;padding:7px 16px;}
+  .nav-links a.ncta:hover{background:var(--accent-h);}
+  .nav.scrolled .nav-links a{color:var(--text-muted);}
+  .nav.scrolled .nav-links a:hover{color:var(--text);background:var(--bg2);}
+  .nav.scrolled .nav-links a.ncta{color:#fff;background:var(--accent);}
+  .nav.scrolled .nav-links a.ncta:hover{background:var(--accent-h);}
 
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
-    .hamburger span { width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+  /* Hamburger */
+  .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+  .hbg span{width:22px;height:2px;border-radius:2px;background:var(--text);display:block;transition:all .28s;}
+  .nav:not(.scrolled) .hbg span{background:#fff;}
+  .hbg.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+  .hbg.open span:nth-child(2){opacity:0;}
+  .hbg.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+  @media(max-width:900px){.nav-links{display:none;}.hbg{display:flex;}}
+  .mob-nav{
+    display:none;position:fixed;top:70px;left:0;right:0;z-index:149;
+    background:var(--surface);border-bottom:1px solid var(--border);
+    box-shadow:var(--sh-lg);flex-direction:column;padding:12px 20px 20px;gap:4px;
+  }
+  .mob-nav.open{display:flex;}
+  .mob-nav a{font-family:'Raleway',sans-serif;font-weight:600;font-size:.97rem;padding:11px 16px;border-radius:9px;color:var(--text);transition:background var(--ease);}
+  .mob-nav a:hover{background:var(--bg2);}
+  .mob-nav a.ncta{background:var(--accent);color:#fff;text-align:center;margin-top:6px;}
 
-    /* ─── Hero ───────────────────────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      padding: 68px 5% 0;
-      display: grid; grid-template-columns: 1fr 1fr;
-      align-items: center; gap: 60px;
-      position: relative; overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background: radial-gradient(ellipse 60% 50% at 70% 40%, var(--accent-light), transparent 70%);
-      pointer-events: none;
-    }
-    .hero-content { position: relative; z-index: 1; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent-light);
-      color: var(--accent);
-      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 6px 14px; border-radius: 99px;
-      margin-bottom: 24px;
-      border: 1px solid rgba(77,122,255,0.2);
-    }
-    .hero-badge::before { content: '●'; font-size: 8px; }
-    .hero h1 {
-      font-size: clamp(2.6rem, 5vw, 4rem);
-      font-weight: 800;
-      line-height: 1.08;
-      margin-bottom: 22px;
-      letter-spacing: -0.02em;
-    }
-    .hero h1 .highlight {
-      color: var(--accent);
-      position: relative;
-    }
-    .hero p {
-      font-size: 1.05rem; color: var(--text-muted);
-      line-height: 1.7; max-width: 480px;
-      margin-bottom: 36px;
-    }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 26px;
-      border-radius: 12px;
-      font-family: 'Syne', sans-serif;
-      font-weight: 600; font-size: 0.93rem;
-      cursor: pointer; border: none;
-      transition: all var(--transition);
-    }
-    .btn-primary {
-      background: var(--accent); color: white;
-      box-shadow: 0 4px 20px rgba(27,79,216,0.35);
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(27,79,216,0.45); }
-    .btn-outline {
-      background: transparent;
-      border: 1.5px solid var(--border);
-      color: var(--text);
-    }
-    .btn-outline:hover { background: var(--bg2); }
-    .hero-stats {
-      display: flex; gap: 32px; margin-top: 44px;
-      padding-top: 32px; border-top: 1px solid var(--border);
-    }
-    .hero-stat .num {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem; font-weight: 800;
-      color: var(--accent);
-    }
-    .hero-stat .label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+  /* ── Buttons ── */
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;font-family:'Raleway',sans-serif;font-weight:700;font-size:.92rem;letter-spacing:.02em;cursor:pointer;border:none;transition:all var(--ease);}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover{background:var(--accent-h);transform:translateY(-2px);box-shadow:0 6px 24px rgba(26,61,143,.4);}
+  .btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.3);backdrop-filter:blur(8px);}
+  .btn-ghost:hover{background:rgba(255,255,255,.18);transform:translateY(-2px);}
+  .btn-gold{background:var(--gold);color:#1A0F00;box-shadow:0 4px 20px rgba(212,146,10,.4);}
+  .btn-gold:hover{filter:brightness(1.06);transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,146,10,.5);}
+  .btn-wout{background:transparent;border:1.5px solid rgba(255,255,255,.28);color:#fff;}
+  .btn-wout:hover{background:rgba(255,255,255,.08);transform:translateY(-2px);}
 
-    .hero-visual {
-      position: relative; z-index: 1;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .hero-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: var(--card-shadow);
-      max-width: 420px; width: 100%;
-      animation: float 4s ease-in-out infinite;
-    }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-    .hero-card-top {
-      display: flex; align-items: center; gap: 14px;
-      margin-bottom: 20px;
-    }
-    .hero-card-icon {
-      width: 52px; height: 52px; border-radius: 14px;
-      background: var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; flex-shrink: 0;
-    }
-    .hero-card h3 { font-size: 1.1rem; font-weight: 700; }
-    .hero-card p { font-size: 0.83rem; color: var(--text-muted); }
-    .hero-card-features { display: flex; flex-direction: column; gap: 10px; }
-    .hero-feature {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 0.88rem; color: var(--text-muted);
-      padding: 8px 12px; border-radius: 10px;
-      background: var(--bg2);
-    }
-    .hero-feature .icon { font-size: 1rem; }
-    .float-chip {
-      position: absolute;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      box-shadow: var(--card-shadow);
-      border-radius: 12px;
-      padding: 10px 16px;
-      font-size: 0.8rem; font-weight: 600;
-      display: flex; align-items: center; gap: 8px;
-      animation: float 5s ease-in-out infinite;
-    }
-    .float-chip-1 { top: 10%; left: -8%; animation-delay: 0.5s; }
-    .float-chip-2 { bottom: 15%; right: -6%; animation-delay: 1.2s; }
+  /* ── Hero ── */
+  .hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;}
+  .hero-bg{
+    position:absolute;inset:0;z-index:0;
+    background:
+      linear-gradient(138deg,rgba(12,30,69,.93) 0%,rgba(26,61,143,.78) 55%,rgba(12,30,69,.65) 100%),
+      url('https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-2-2-1024x683.png') center/cover no-repeat;
+  }
+  [data-theme="dark"] .hero-bg{background:linear-gradient(138deg,rgba(6,14,34,.96) 0%,rgba(12,30,69,.9) 55%,rgba(6,14,34,.8) 100%),url('https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-2-2-1024x683.png') center/cover no-repeat;}
+  .hero-content{position:relative;z-index:1;padding:130px 8% 80px;max-width:780px;}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:'Raleway',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:22px;
+  }
+  .hero-eyebrow::before{content:'';width:26px;height:2px;background:var(--gold);}
+  .hero h1{font-size:clamp(2.8rem,5.5vw,4.4rem);font-weight:900;color:#fff;letter-spacing:-.02em;margin-bottom:20px;}
+  .hero h1 span{color:var(--gold);}
+  .hero p{font-size:1.08rem;color:rgba(255,255,255,.7);max-width:520px;line-height:1.78;margin-bottom:38px;}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
+  .hero-stats{display:flex;flex-wrap:wrap;gap:0;margin-top:56px;padding-top:34px;border-top:1px solid rgba(255,255,255,.14);}
+  .hstat{padding-right:36px;margin-right:36px;border-right:1px solid rgba(255,255,255,.12);}
+  .hstat:last-child{border-right:none;}
+  .hstat .n{font-family:'Raleway',sans-serif;font-size:2.1rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:4px;}
+  .hstat .l{font-size:.8rem;color:rgba(255,255,255,.52);font-weight:500;}
 
-    /* ─── Section common ─────────────────────────────────────── */
-    .section { padding: 96px 5%; }
-    .section-alt { background: var(--bg2); }
-    .section-label {
-      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
-      font-weight: 800; letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-    .section-subtitle {
-      font-size: 1.05rem; color: var(--text-muted);
-      line-height: 1.7; max-width: 580px;
-    }
-    .section-header { margin-bottom: 56px; }
-    .section-header.centered { text-align: center; }
-    .section-header.centered .section-subtitle { margin: 0 auto; }
+  /* ── Sections ── */
+  .sec{padding:88px 8%;}
+  .sec-alt{background:var(--bg2);}
+  .eyebrow{
+    font-family:'Raleway',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  }
+  .eyebrow::before{content:'';width:22px;height:2px;background:var(--accent);}
+  .sec-title{font-size:clamp(1.8rem,3vw,2.55rem);font-weight:800;letter-spacing:-.02em;margin-bottom:14px;}
+  .sec-sub{font-size:1.02rem;color:var(--text-muted);line-height:1.78;max-width:560px;}
+  .sec-hdr{margin-bottom:50px;}
+  .sec-hdr.center{text-align:center;}
+  .sec-hdr.center .eyebrow{justify-content:center;}
+  .sec-hdr.center .sec-sub{margin:0 auto;}
 
-    /* ─── Services / Features ────────────────────────────────── */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      box-shadow: var(--card-shadow);
-      transition: transform var(--transition), box-shadow var(--transition);
-    }
-    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 40px rgba(0,0,0,0.12); }
-    .feature-icon {
-      width: 48px; height: 48px; border-radius: 12px;
-      background: var(--accent-light);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px; margin-bottom: 18px;
-    }
-    .feature-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
-    .feature-card p { font-size: 0.87rem; color: var(--text-muted); line-height: 1.65; }
+  /* ── Cards grid ── */
+  .grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--sh);transition:transform var(--ease),box-shadow var(--ease);}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);}
+  .card-ico{width:48px;height:48px;border-radius:11px;background:var(--accent-lt);display:flex;align-items:center;justify-content:center;font-size:1.35rem;margin-bottom:16px;}
+  .card h3{font-size:1.02rem;font-weight:700;margin-bottom:7px;}
+  .card p{font-size:.87rem;color:var(--text-muted);line-height:1.7;}
 
-    /* ─── About Split ────────────────────────────────────────── */
-    .about-split {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 72px; align-items: center;
-    }
-    .about-img-wrap {
-      position: relative;
-    }
-    .about-img-bg {
-      position: absolute; inset: -16px;
-      background: var(--accent-light);
-      border-radius: 28px;
-      z-index: 0;
-    }
-    .about-img {
-      position: relative; z-index: 1;
-      border-radius: 22px;
-      overflow: hidden;
-      aspect-ratio: 4/3;
-      background: var(--bg2);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .about-img-placeholder {
-      font-size: 6rem; opacity: 0.3;
-    }
-    .about-list { display: flex; flex-direction: column; gap: 16px; margin: 28px 0; }
-    .about-item {
-      display: flex; gap: 14px; align-items: flex-start;
-    }
-    .about-item-icon {
-      width: 36px; height: 36px; flex-shrink: 0;
-      border-radius: 10px;
-      background: var(--accent);
-      color: white;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; margin-top: 2px;
-    }
-    .about-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
-    .about-item p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+  /* ── About split ── */
+  .about-split{display:grid;grid-template-columns:1fr 1fr;gap:68px;align-items:center;}
+  .about-img-wrap{position:relative;}
+  .about-img-wrap img{border-radius:18px;width:100%;object-fit:cover;box-shadow:var(--sh-lg);}
+  .about-img-wrap::after{content:'';position:absolute;bottom:-14px;right:-14px;width:65%;height:65%;background:var(--accent-lt);border-radius:18px;z-index:-1;}
+  .about-checks{display:flex;flex-direction:column;gap:16px;margin:26px 0;}
+  .acheck{display:flex;gap:13px;}
+  .acheck-dot{width:24px;height:24px;flex-shrink:0;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;margin-top:2px;}
+  .acheck h4{font-size:.94rem;font-weight:700;margin-bottom:3px;}
+  .acheck p{font-size:.86rem;color:var(--text-muted);line-height:1.62;}
+  @media(max-width:900px){.about-split{grid-template-columns:1fr;gap:36px;}.about-img-wrap{max-width:500px;}}
 
-    /* ─── How It Works ───────────────────────────────────────── */
-    .steps-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0; position: relative;
-    }
-    .steps-grid::before {
-      content: '';
-      position: absolute; top: 40px; left: calc(12.5% + 24px);
-      right: calc(12.5% + 24px); height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      z-index: 0;
-    }
-    .step {
-      text-align: center; padding: 0 20px;
-      position: relative; z-index: 1;
-    }
-    .step-num {
-      width: 52px; height: 52px; border-radius: 50%;
-      background: var(--accent);
-      color: white;
-      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 20px;
-      border: 4px solid var(--bg);
-      box-shadow: 0 0 0 2px var(--accent);
-    }
-    .step:nth-child(2) .step-num { background: var(--accent-2); box-shadow: 0 0 0 2px var(--accent-2); }
-    .step:nth-child(3) .step-num { background: var(--navy); box-shadow: 0 0 0 2px var(--navy); }
-    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
-    .step p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; }
+  /* ── Steps ── */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;}
+  .step-c{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--sh);position:relative;transition:transform var(--ease);}
+  .step-c:hover{transform:translateY(-3px);}
+  .step-c:not(:last-child)::after{content:'→';position:absolute;right:-11px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:1.1rem;font-weight:700;z-index:2;}
+  .step-n{font-family:'Raleway',sans-serif;font-size:2.6rem;font-weight:900;color:var(--accent-lt);line-height:1;margin-bottom:12px;}
+  .step-c h3{font-size:1rem;font-weight:700;margin-bottom:7px;}
+  .step-c p{font-size:.86rem;color:var(--text-muted);line-height:1.65;}
+  @media(max-width:680px){.step-c:not(:last-child)::after{display:none;}}
 
-    /* ─── DRIVER RECRUITMENT ─────────────────────────────────── */
-    #drive-with-us {
-      background: var(--navy);
-      position: relative; overflow: hidden;
-    }
-    [data-theme="dark"] #drive-with-us { background: #0A1428; }
+  /* ── Recruitment ── */
+  #drive-with-us{background:var(--navy);position:relative;overflow:hidden;padding:88px 8%;}
+  [data-theme="dark"] #drive-with-us{background:#060911;}
+  .r-glow{pointer-events:none;position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 55% 55% at 85% 15%,rgba(75,114,212,.22),transparent 60%),radial-gradient(ellipse 40% 50% at 10% 88%,rgba(212,146,10,.12),transparent 55%);}
+  .r-grid{pointer-events:none;position:absolute;inset:0;z-index:0;opacity:.032;background-image:linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px);background-size:48px 48px;}
+  .r-inner{position:relative;z-index:1;}
+  .r-cols{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-bottom:60px;}
+  @media(max-width:900px){.r-cols{grid-template-columns:1fr;gap:42px;}}
+  .r-eyebrow{font-family:'Raleway',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .r-eyebrow::before{content:'';width:22px;height:2px;background:var(--gold);}
+  .r-title{font-family:'Raleway',sans-serif;font-size:clamp(2rem,3.4vw,3rem);font-weight:900;letter-spacing:-.02em;color:#fff;margin-bottom:16px;}
+  .r-sub{font-size:1rem;color:rgba(255,255,255,.6);line-height:1.78;margin-bottom:34px;}
+  .perks{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:500px){.perks{grid-template-columns:1fr;}}
+  .perk{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;transition:background var(--ease);}
+  .perk:hover{background:rgba(255,255,255,.09);}
+  .perk-top{display:flex;align-items:center;gap:9px;margin-bottom:5px;}
+  .perk-ico{font-size:1.2rem;}
+  .perk h4{font-family:'Raleway',sans-serif;font-size:.88rem;font-weight:700;color:#fff;}
+  .perk p{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.55;}
+  .req-panel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:30px;}
+  .req-panel h3{font-family:'Raleway',sans-serif;font-size:1.08rem;font-weight:700;color:#fff;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.09);display:flex;align-items:center;gap:9px;}
+  .req-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .req-list li{display:flex;align-items:flex-start;gap:9px;font-size:.86rem;color:rgba(255,255,255,.68);line-height:1.5;}
+  .req-list li::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0;margin-top:1px;}
+  .r-divider{height:1px;background:rgba(255,255,255,.08);margin-bottom:60px;}
+  .pos-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
+  .pos-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:99px;font-size:.85rem;color:rgba(255,255,255,.78);font-family:'Raleway',sans-serif;font-weight:600;transition:background var(--ease);}
+  .pos-badge:hover{background:rgba(255,255,255,.12);}
+  .r-cta-box{text-align:center;padding:50px 36px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;position:relative;overflow:hidden;}
+  .r-cta-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));}
+  .r-cta-box h2{font-family:'Raleway',sans-serif;font-size:clamp(1.75rem,2.8vw,2.4rem);font-weight:900;color:#fff;margin-bottom:10px;}
+  .r-cta-box p{color:rgba(255,255,255,.58);font-size:.98rem;margin-bottom:30px;}
+  .cta-acts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  @media(max-width:480px){.cta-acts{flex-direction:column;align-items:center;}}
 
-    .recruit-bg-pattern {
-      position: absolute; inset: 0; z-index: 0;
-      background-image:
-        radial-gradient(circle at 80% 20%, rgba(77,122,255,0.2) 0%, transparent 50%),
-        radial-gradient(circle at 10% 80%, rgba(240,165,0,0.12) 0%, transparent 40%);
-      pointer-events: none;
-    }
-    .recruit-grid-lines {
-      position: absolute; inset: 0; z-index: 0; opacity: 0.04;
-      background-image:
-        linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
-      background-size: 48px 48px;
-    }
+  /* ── Team ── */
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px;}
+  .team-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);transition:transform var(--ease),box-shadow var(--ease);text-align:center;}
+  .team-card:hover{transform:translateY(-5px);box-shadow:var(--sh-lg);}
+  .team-card img{width:100%;aspect-ratio:1;object-fit:cover;object-position:top center;display:block;}
+  .team-info{padding:18px 14px;}
+  .team-info h3{font-size:.97rem;font-weight:700;margin-bottom:4px;}
+  .team-info p{font-size:.72rem;color:var(--accent);font-family:'Raleway',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.07em;}
 
-    .recruit-inner { position: relative; z-index: 1; }
-    .recruit-top {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 64px; align-items: center;
-      margin-bottom: 72px;
-    }
-    .recruit-headline .section-label { color: var(--accent-2); }
-    .recruit-headline .section-title { color: #fff; }
-    .recruit-headline .section-subtitle { color: rgba(255,255,255,0.65); max-width: 440px; }
+  /* ── Contact ── */
+  .contact-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:52px;align-items:start;}
+  @media(max-width:900px){.contact-grid{grid-template-columns:1fr;}}
+  .contact-cards{display:flex;flex-direction:column;gap:14px;}
+  .cc{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px 20px;display:flex;gap:14px;align-items:center;box-shadow:var(--sh);transition:transform var(--ease);}
+  .cc:hover{transform:translateX(4px);}
+  .cc-ico{width:44px;height:44px;flex-shrink:0;border-radius:11px;background:var(--accent-lt);color:var(--accent);font-size:1.2rem;display:flex;align-items:center;justify-content:center;}
+  .cc h4{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:3px;}
+  .cc p{font-size:.93rem;font-weight:500;}
+  .cf-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px;box-shadow:var(--sh);}
+  .cf-box h3{font-size:1.25rem;font-weight:800;margin-bottom:22px;}
+  .f-row{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  @media(max-width:500px){.f-row{grid-template-columns:1fr;}}
+  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+  .field label{font-size:.8rem;font-weight:600;color:var(--text-muted);font-family:'Raleway',sans-serif;letter-spacing:.03em;}
+  .field input,.field textarea,.field select{padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;background:var(--bg2);color:var(--text);font-family:'Source Sans 3',sans-serif;font-size:.92rem;outline:none;transition:border-color var(--ease),background var(--ease);}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);background:var(--surface);}
+  .field textarea{min-height:95px;resize:vertical;}
+  .f-submit{width:100%;justify-content:center;font-size:.95rem;padding:13px;}
 
-    .recruit-perks { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
-    .perk {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 18px 20px;
-      display: flex; align-items: flex-start; gap: 12px;
-    }
-    .perk-icon { font-size: 1.5rem; flex-shrink: 0; }
-    .perk h4 { font-size: 0.9rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .perk p { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+  /* ── Footer ── */
+  footer{background:var(--navy);color:rgba(255,255,255,.62);padding:56px 8% 26px;}
+  [data-theme="dark"] footer{background:#060911;}
+  .ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:44px;margin-bottom:40px;}
+  @media(max-width:680px){.ft-grid{grid-template-columns:1fr;}}
+  .ft-brand img{height:38px;width:auto;filter:brightness(0) invert(1) opacity(.88);margin-bottom:14px;}
+  .ft-brand p{font-size:.86rem;line-height:1.7;max-width:280px;}
+  .ft-social{display:flex;gap:9px;margin-top:18px;}
+  .soc-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.65);transition:background .2s,border-color .2s;}
+  .soc-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff;}
+  .soc-btn svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  footer h4{font-family:'Raleway',sans-serif;font-size:.76rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+  footer ul li a{font-size:.86rem;transition:color .2s;}
+  footer ul li a:hover{color:#fff;}
+  .ft-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:.8rem;}
 
-    /* Requirements section */
-    .recruit-requirements {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 36px;
-    }
-    .recruit-requirements h3 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700; font-size: 1.2rem;
-      color: white; margin-bottom: 24px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .recruit-requirements h3::before { content: '📋'; }
-    .req-list {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-      list-style: none;
-    }
-    .req-list li {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 0.86rem; color: rgba(255,255,255,0.7);
-      padding: 10px 14px;
-      background: rgba(255,255,255,0.04);
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.07);
-    }
-    .req-list li::before { content: '✓'; color: var(--accent-2); font-weight: 700; flex-shrink: 0; }
-
-    /* Divider */
-    .recruit-divider {
-      height: 1px;
-      background: rgba(255,255,255,0.1);
-      margin: 56px 0;
-    }
-
-    /* CTA Block */
-    .recruit-cta-block {
-      text-align: center;
-      padding: 56px 40px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-    .recruit-cta-block::before {
-      content: '';
-      position: absolute; inset: -2px;
-      border-radius: 26px;
-      background: linear-gradient(135deg, rgba(77,122,255,0.5), rgba(240,165,0,0.3));
-      z-index: -1;
-    }
-    .recruit-cta-block h2 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; font-size: clamp(1.8rem, 3vw, 2.4rem);
-      color: white; margin-bottom: 12px;
-    }
-    .recruit-cta-block p {
-      color: rgba(255,255,255,0.6);
-      font-size: 1.02rem; margin-bottom: 36px;
-    }
-    .recruit-cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-    .btn-gold {
-      background: var(--accent-2); color: #1a1000;
-      box-shadow: 0 4px 20px rgba(240,165,0,0.4);
-      font-size: 1rem;
-    }
-    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(240,165,0,0.5); }
-    .btn-white-outline {
-      background: transparent;
-      border: 1.5px solid rgba(255,255,255,0.35);
-      color: white;
-    }
-    .btn-white-outline:hover { background: rgba(255,255,255,0.08); }
-
-    /* Driver type badges */
-    .driver-types {
-      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
-      margin-bottom: 36px;
-    }
-    .driver-type-badge {
-      display: flex; align-items: center; gap: 8px;
-      padding: 10px 20px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 99px;
-      font-size: 0.88rem; color: rgba(255,255,255,0.8);
-      font-weight: 500;
-    }
-
-    /* ─── Testimonials / Social Proof ───────────────────────── */
-    .testimonials { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .testimonial {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      box-shadow: var(--card-shadow);
-    }
-    .testimonial-stars { color: var(--accent-2); font-size: 0.9rem; margin-bottom: 14px; }
-    .testimonial blockquote { font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; font-style: italic; margin-bottom: 20px; }
-    .testimonial-author { display: flex; align-items: center; gap: 12px; }
-    .avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; color: var(--accent); }
-    .author-name { font-size: 0.9rem; font-weight: 700; }
-    .author-role { font-size: 0.78rem; color: var(--text-muted); }
-
-    /* ─── Team ───────────────────────────────────────────────── */
-    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
-    .team-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px 20px;
-      text-align: center;
-      box-shadow: var(--card-shadow);
-      transition: transform var(--transition);
-    }
-    .team-card:hover { transform: translateY(-4px); }
-    .team-avatar {
-      width: 80px; height: 80px; border-radius: 50%;
-      background: var(--accent-light);
-      margin: 0 auto 16px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2rem;
-      border: 3px solid var(--border);
-    }
-    .team-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-    .team-card p { font-size: 0.78rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-
-    /* ─── Contact ────────────────────────────────────────────── */
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
-    .contact-info { display: flex; flex-direction: column; gap: 20px; }
-    .contact-item {
-      display: flex; gap: 16px; align-items: flex-start;
-      padding: 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: var(--card-shadow);
-    }
-    .contact-item-icon {
-      width: 44px; height: 44px; border-radius: 12px;
-      background: var(--accent-light); color: var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; flex-shrink: 0;
-    }
-    .contact-item h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .contact-item p { font-size: 0.95rem; font-weight: 500; }
-
-    .contact-form {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 36px;
-      box-shadow: var(--card-shadow);
-    }
-    .contact-form h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 24px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); }
-    .form-group input, .form-group textarea, .form-group select {
-      padding: 12px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      background: var(--bg2);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      transition: border-color var(--transition), background var(--transition);
-      outline: none;
-    }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-      border-color: var(--accent);
-    }
-    .form-group textarea { min-height: 100px; resize: vertical; }
-
-    /* ─── Footer ─────────────────────────────────────────────── */
-    footer {
-      background: var(--navy);
-      color: rgba(255,255,255,0.7);
-      padding: 56px 5% 28px;
-    }
-    [data-theme="dark"] footer { background: #08101F; }
-    .footer-top {
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 48px; margin-bottom: 48px;
-    }
-    .footer-brand h3 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800; color: white; font-size: 1.15rem;
-      margin-bottom: 12px;
-    }
-    .footer-brand p { font-size: 0.87rem; line-height: 1.65; max-width: 280px; }
-    footer h4 { font-family: 'Syne', sans-serif; font-weight: 700; color: white; font-size: 0.9rem; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
-    footer ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    footer ul li a { font-size: 0.87rem; transition: color 0.2s; }
-    footer ul li a:hover { color: white; }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 12px;
-    }
-    .footer-bottom p { font-size: 0.82rem; }
-    .social-links { display: flex; gap: 12px; }
-    .social-link {
-      width: 36px; height: 36px; border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.15);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .social-link:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
-
-    /* ─── Mobile Responsive ──────────────────────────────────── */
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 88px; min-height: auto; padding-bottom: 60px; }
-      .hero p { margin: 0 auto 36px; }
-      .hero-actions { justify-content: center; }
-      .hero-stats { justify-content: center; }
-      .hero-visual { display: none; }
-      .about-split { grid-template-columns: 1fr; gap: 40px; }
-      .about-img-wrap { display: none; }
-      .recruit-top { grid-template-columns: 1fr; gap: 40px; }
-      .recruit-perks { grid-template-columns: 1fr; }
-      .req-list { grid-template-columns: 1fr; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr 1fr; }
-      .steps-grid::before { display: none; }
-    }
-    @media (max-width: 600px) {
-      .section { padding: 64px 5%; }
-      .hero h1 { font-size: 2.2rem; }
-      .form-row { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr; }
-      .recruit-cta-block { padding: 36px 20px; }
-    }
-
-    /* ─── Scroll animations ──────────────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-
-    /* Mobile nav open state */
-    .mobile-nav {
-      display: none;
-      position: fixed; top: 68px; left: 0; right: 0; z-index: 99;
-      background: var(--nav-bg);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 5%;
-      flex-direction: column; gap: 4px;
-    }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav a {
-      padding: 12px 14px; border-radius: 10px;
-      font-size: 0.95rem; font-weight: 500;
-      color: var(--text);
-      transition: background var(--transition);
-    }
-    .mobile-nav a:hover { background: var(--bg2); }
-    .mobile-nav a.cta { background: var(--accent); color: white; text-align: center; }
+  /* ── Scroll reveal ── */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+  .rv.in{opacity:1;transform:none;}
+  .d1{transition-delay:.08s;} .d2{transition-delay:.16s;} .d3{transition-delay:.24s;} .d4{transition-delay:.32s;}
   </style>
 </head>
 <body>
 
-<!-- ─── NAVBAR ──────────────────────────────────────────────── -->
-<nav class="nav">
-  <a class="nav-logo" href="#">
-    <div class="logo-icon">🚐</div>
-    Safe Drive Services
-  </a>
+<!-- floating logo -->
+<a class="fl-logo" href="#home" aria-label="Safe Drive Services – Home">
+  <img src="https://safedriveservice.com/wp-content/uploads/2024/08/logo-original-copia-1.png" alt="Safe Drive Services"/>
+</a>
+
+<!-- sun/moon toggle -->
+<button class="theme-btn" id="themeBtn" aria-label="Toggle dark/light mode">
+  <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+  <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+
+<!-- nav -->
+<nav class="nav" id="mainNav">
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#about">About Us</a></li>
     <li><a href="#how-it-works">How It Works</a></li>
-    <li><a href="#drive-with-us">Drive With Us</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#drive-with-us" class="cta">Join Our Team →</a></li>
+    <li><a href="#drive-with-us" class="ncta">Drive With Us →</a></li>
   </ul>
-  <div class="nav-right">
-    <span class="theme-toggle-label">🌙</span>
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
-    <div class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
+  <button class="hbg" id="hbg" aria-label="Toggle menu"><span></span><span></span><span></span></button>
 </nav>
-
-<!-- Mobile nav -->
-<div class="mobile-nav" id="mobileNav">
+<div class="mob-nav" id="mobNav">
   <a href="#services">Services</a>
   <a href="#about">About Us</a>
   <a href="#how-it-works">How It Works</a>
-  <a href="#drive-with-us">Drive With Us</a>
   <a href="#contact">Contact</a>
-  <a href="#drive-with-us" class="cta">Join Our Team →</a>
+  <a href="#drive-with-us" class="ncta">Drive With Us →</a>
 </div>
 
-<!-- ─── HERO ─────────────────────────────────────────────────── -->
-<section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-badge reveal">Florida, USA · Nationwide</div>
-    <h1 class="reveal reveal-delay-1">
-      Safe Rides for<br>
-      <span class="highlight">Every Child,</span><br>
-      Every Day.
-    </h1>
-    <p class="reveal reveal-delay-2">
-      Safe Drive Services provides reliable, professional transportation for children with special needs across hundreds of school districts in the United States.
-    </p>
-    <div class="hero-actions reveal reveal-delay-3">
-      <a href="#how-it-works" class="btn btn-primary">How It Works →</a>
-      <a href="#drive-with-us" class="btn btn-outline">Drive With Us</a>
-    </div>
-    <div class="hero-stats reveal reveal-delay-4">
-      <div class="hero-stat">
-        <div class="num">500+</div>
-        <div class="label">School Districts</div>
+<!-- ════════════════════ HERO ════════════════════ -->
+<section id="home">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow rv">Serving School Districts Nationwide</div>
+      <h1 class="rv d1">Safe Rides for<br><span>Every Child,</span><br>Every Day.</h1>
+      <p class="rv d2">Safe Drive Services provides professional, compassionate transportation for children with special needs — trusted by hundreds of school districts across the United States.</p>
+      <div class="hero-ctas rv d3">
+        <a href="#how-it-works" class="btn btn-primary">How It Works →</a>
+        <a href="#drive-with-us" class="btn btn-ghost">Drive With Us</a>
       </div>
-      <div class="hero-stat">
-        <div class="num">10K+</div>
-        <div class="label">Students Served</div>
+      <div class="hero-stats rv d4">
+        <div class="hstat"><div class="n">500+</div><div class="l">School Districts</div></div>
+        <div class="hstat"><div class="n">10K+</div><div class="l">Students Served</div></div>
+        <div class="hstat"><div class="n">15+</div><div class="l">States</div></div>
       </div>
-      <div class="hero-stat">
-        <div class="num">15+</div>
-        <div class="label">States</div>
-      </div>
-    </div>
-  </div>
-  <div class="hero-visual">
-    <div class="float-chip float-chip-1">📍 GPS Tracked</div>
-    <div class="hero-card">
-      <div class="hero-card-top">
-        <div class="hero-card-icon">🚌</div>
-        <div>
-          <h3>Safe Drive</h3>
-          <p>School transportation you can trust</p>
-        </div>
-      </div>
-      <div class="hero-card-features">
-        <div class="hero-feature"><span class="icon">🛡️</span> Fully vetted & trained drivers</div>
-        <div class="hero-feature"><span class="icon">📡</span> Real-time GPS tracking</div>
-        <div class="hero-feature"><span class="icon">♿</span> Special needs support</div>
-        <div class="hero-feature"><span class="icon">⏰</span> Punctual & reliable service</div>
-      </div>
-    </div>
-    <div class="float-chip float-chip-2">✅ Background checked</div>
-  </div>
-</section>
-
-<!-- ─── SERVICES ──────────────────────────────────────────────── -->
-<section class="section section-alt" id="services">
-  <div class="section-header centered reveal">
-    <div class="section-label">What We Do</div>
-    <h2 class="section-title">Trusted School Transportation</h2>
-    <p class="section-subtitle">We provide specialized transportation for children, combining safety, reliability and care in every single ride.</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card reveal">
-      <div class="feature-icon">🎒</div>
-      <h3>School Runs</h3>
-      <p>Daily pick-up and drop-off for students attending special education programs and traditional schools throughout the district.</p>
-    </div>
-    <div class="feature-card reveal reveal-delay-1">
-      <div class="feature-icon">♿</div>
-      <h3>Special Needs Transport</h3>
-      <p>Our drivers and monitors are specially trained to assist children with physical, cognitive, and developmental needs with compassion and expertise.</p>
-    </div>
-    <div class="feature-card reveal reveal-delay-2">
-      <div class="feature-icon">🏫</div>
-      <h3>School Mobility Program</h3>
-      <p>Extended coverage reaching underserved communities, ensuring every child can access quality education regardless of location.</p>
-    </div>
-    <div class="feature-card reveal reveal-delay-3">
-      <div class="feature-icon">📱</div>
-      <h3>Parent Notifications</h3>
-      <p>Real-time communication so parents always know when their child is picked up, en route, and safely delivered to school.</p>
     </div>
   </div>
 </section>
 
-<!-- ─── ABOUT ──────────────────────────────────────────────────── -->
-<section class="section" id="about">
+<!-- ════════════════════ SERVICES ════════════════════ -->
+<section class="sec sec-alt" id="services">
+  <div class="sec-hdr center rv">
+    <div class="eyebrow">What We Offer</div>
+    <h2 class="sec-title">Trusted School Transportation</h2>
+    <p class="sec-sub">We combine professional logistics with genuine care — because every child deserves a safe, comfortable ride.</p>
+  </div>
+  <div class="grid-4">
+    <div class="card rv"><div class="card-ico">🎒</div><h3>Daily School Runs</h3><p>Reliable morning pick-up and afternoon drop-off for students in special education and traditional school programs.</p></div>
+    <div class="card rv d1"><div class="card-ico">♿</div><h3>Special Needs Support</h3><p>Trained staff provide compassionate, expert assistance for children with physical, cognitive, and developmental needs.</p></div>
+    <div class="card rv d2"><div class="card-ico">🏫</div><h3>School Mobility Program</h3><p>Extended coverage ensuring every child — regardless of location — can access quality education every day.</p></div>
+    <div class="card rv d3"><div class="card-ico">📡</div><h3>GPS Tracking</h3><p>Live vehicle tracking with automatic parent notifications for every pick-up and drop-off event.</p></div>
+  </div>
+</section>
+
+<!-- ════════════════════ ABOUT ════════════════════ -->
+<section class="sec" id="about">
   <div class="about-split">
-    <div class="about-img-wrap reveal">
-      <div class="about-img-bg"></div>
-      <div class="about-img">
-        <div class="about-img-placeholder">🚌</div>
-      </div>
+    <div class="about-img-wrap rv">
+      <img src="https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-2-2-1024x683.png" alt="Safe Drive transportation"/>
     </div>
     <div>
-      <div class="section-label reveal">About Safe Drive</div>
-      <h2 class="section-title reveal">More Than Transportation — We Build Trust</h2>
-      <p class="section-subtitle reveal" style="max-width:100%">Safe Drive Services was built by parents who understood that getting a child to school safely is one of the most important responsibilities any company can hold. Our team combines professional logistics with genuine care for every child we serve.</p>
-      <div class="about-list">
-        <div class="about-item reveal">
-          <div class="about-item-icon">🔍</div>
-          <div>
-            <h4>Rigorous Driver Selection</h4>
-            <p>Every driver undergoes thorough background checks, driving record reviews, and multiple in-person interviews before joining our team.</p>
-          </div>
-        </div>
-        <div class="about-item reveal reveal-delay-1">
-          <div class="about-item-icon">🗺️</div>
-          <div>
-            <h4>GPS Technology</h4>
-            <p>We use real-time GPS tracking on all vehicles, ensuring that every route is optimized for safety and efficiency.</p>
-          </div>
-        </div>
-        <div class="about-item reveal reveal-delay-2">
-          <div class="about-item-icon">📋</div>
-          <div>
-            <h4>Continuous Training</h4>
-            <p>Ongoing training programs ensure our staff stays up-to-date on best practices for child safety, first aid, and special needs support.</p>
-          </div>
-        </div>
+      <div class="eyebrow rv">About Safe Drive</div>
+      <h2 class="sec-title rv d1">More Than Transportation — We Build Trust</h2>
+      <p class="sec-sub rv d2" style="max-width:100%">Founded with a single mission: ensuring every child can get to school safely and comfortably. Our team combines professional logistics expertise with a genuine commitment to the families we serve.</p>
+      <div class="about-checks">
+        <div class="acheck rv d2"><div class="acheck-dot">✓</div><div><h4>Rigorous Driver Selection</h4><p>Federal background checks, driving record reviews, and in-person interviews before every hire.</p></div></div>
+        <div class="acheck rv d3"><div class="acheck-dot">✓</div><div><h4>GPS-Optimized Routes</h4><p>Every route is designed for safety and efficiency using real-time vehicle tracking technology.</p></div></div>
+        <div class="acheck rv d4"><div class="acheck-dot">✓</div><div><h4>Continuous Staff Training</h4><p>Ongoing programs in child safety, first aid, and special needs care keep our team at the highest standards.</p></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── HOW IT WORKS ───────────────────────────────────────────── -->
-<section class="section section-alt" id="how-it-works">
-  <div class="section-header centered reveal">
-    <div class="section-label">The Process</div>
-    <h2 class="section-title">How It Works</h2>
-    <p class="section-subtitle">Getting started with Safe Drive is simple. Here's how we onboard new school districts and families.</p>
+<!-- ════════════════════ HOW IT WORKS ════════════════════ -->
+<section class="sec sec-alt" id="how-it-works">
+  <div class="sec-hdr center rv">
+    <div class="eyebrow">The Process</div>
+    <h2 class="sec-title">How It Works</h2>
+    <p class="sec-sub">Getting started with Safe Drive is simple and straightforward.</p>
   </div>
-  <div class="steps-grid">
-    <div class="step reveal">
-      <div class="step-num">1</div>
-      <h3>Contact Us</h3>
-      <p>Reach out via our contact form or call us directly. We'll schedule an assessment of your transportation needs.</p>
-    </div>
-    <div class="step reveal reveal-delay-1">
-      <div class="step-num">2</div>
-      <h3>Custom Route Planning</h3>
-      <p>Our logistics team designs efficient, safe routes tailored to your district's geography and student locations.</p>
-    </div>
-    <div class="step reveal reveal-delay-2">
-      <div class="step-num">3</div>
-      <h3>Driver Assignment</h3>
-      <p>We match experienced, trained drivers to each route, taking student needs into careful consideration.</p>
-    </div>
-    <div class="step reveal reveal-delay-3">
-      <div class="step-num">4</div>
-      <h3>Safe Daily Service</h3>
-      <p>Your students are picked up and dropped off safely every day, with real-time tracking and parent updates.</p>
-    </div>
+  <div class="steps">
+    <div class="step-c rv"><div class="step-n">01</div><h3>Contact Us</h3><p>Reach out via our form or by phone. We assess your district's transportation requirements.</p></div>
+    <div class="step-c rv d1"><div class="step-n">02</div><h3>Route Planning</h3><p>Our logistics team designs safe, efficient routes tailored to your students and geography.</p></div>
+    <div class="step-c rv d2"><div class="step-n">03</div><h3>Driver Assignment</h3><p>Experienced, trained drivers are matched to each route with student needs carefully considered.</p></div>
+    <div class="step-c rv d3"><div class="step-n">04</div><h3>Safe Daily Service</h3><p>Students picked up and dropped off every day with real-time tracking and parent notifications.</p></div>
   </div>
 </section>
 
-<!-- ─── DRIVER RECRUITMENT ─────────────────────────────────────── -->
-<section class="section" id="drive-with-us">
-  <div class="recruit-bg-pattern"></div>
-  <div class="recruit-grid-lines"></div>
+<!-- ════════════════════ DRIVE WITH US ════════════════════ -->
+<section id="drive-with-us">
+  <div class="r-glow"></div>
+  <div class="r-grid"></div>
+  <div class="r-inner">
 
-  <div class="recruit-inner">
-    <!-- Top: Headline + Perks -->
-    <div class="recruit-top">
-      <div class="recruit-headline">
-        <div class="section-label reveal">We're Hiring</div>
-        <h2 class="section-title reveal" style="color:#fff; font-size: clamp(2.2rem, 4vw, 3.2rem);">
-          Drive With Us.<br>Make a Difference.
-        </h2>
-        <p class="section-subtitle reveal" style="color:rgba(255,255,255,0.65); max-width:100%;">
-          Due to our rapid growth, Safe Drive Services is constantly looking for passionate, reliable drivers and student monitors across the United States. Join our family and help ensure every child gets to school safely.
-        </p>
-        <div class="recruit-perks reveal reveal-delay-1">
-          <div class="perk">
-            <span class="perk-icon">💰</span>
-            <div>
-              <h4>Competitive Pay</h4>
-              <p>Attractive hourly rates with additional route bonuses and incentives.</p>
-            </div>
-          </div>
-          <div class="perk">
-            <span class="perk-icon">📅</span>
-            <div>
-              <h4>Flexible Schedule</h4>
-              <p>School-hours routes that work around your life. No nights or weekends.</p>
-            </div>
-          </div>
-          <div class="perk">
-            <span class="perk-icon">🏥</span>
-            <div>
-              <h4>Benefits Package</h4>
-              <p>Health coverage, paid training, and growth opportunities available.</p>
-            </div>
-          </div>
-          <div class="perk">
-            <span class="perk-icon">❤️</span>
-            <div>
-              <h4>Purposeful Work</h4>
-              <p>Make a real impact in the lives of children with special needs every day.</p>
-            </div>
-          </div>
+    <div class="r-cols">
+      <!-- Headline + perks -->
+      <div>
+        <div class="r-eyebrow rv">We're Hiring</div>
+        <h2 class="r-title rv d1">Drive With Us.<br>Make a Difference.</h2>
+        <p class="r-sub rv d2">Due to our rapid growth, Safe Drive is constantly looking for reliable drivers and student monitors across the United States. Join our family and help every child get to school safely.</p>
+        <div class="perks rv d3">
+          <div class="perk"><div class="perk-top"><span class="perk-ico">💰</span><h4>Competitive Pay</h4></div><p>Attractive hourly rates with route bonuses and performance incentives.</p></div>
+          <div class="perk"><div class="perk-top"><span class="perk-ico">📅</span><h4>Flexible Hours</h4></div><p>School-hours routes only — no nights or weekends required.</p></div>
+          <div class="perk"><div class="perk-top"><span class="perk-ico">🏥</span><h4>Benefits Package</h4></div><p>Health coverage, paid training, and growth opportunities available.</p></div>
+          <div class="perk"><div class="perk-top"><span class="perk-ico">❤️</span><h4>Purposeful Work</h4></div><p>Make a real difference in the lives of children with special needs every single day.</p></div>
         </div>
       </div>
 
       <!-- Requirements -->
-      <div class="recruit-requirements reveal reveal-delay-2">
-        <h3>Basic Requirements</h3>
+      <div class="req-panel rv d2">
+        <h3>📋 Basic Requirements</h3>
         <ul class="req-list">
           <li>Valid Driver's License (CDL preferred for bus routes)</li>
-          <li>Clean driving record (last 3 years)</li>
-          <li>Pass federal & state background check</li>
-          <li>At least 21 years of age</li>
+          <li>Clean driving record — last 3 years</li>
+          <li>Federal &amp; state background check clearance</li>
+          <li>Minimum 21 years of age</li>
           <li>High school diploma or equivalent</li>
           <li>Drug screening clearance</li>
           <li>Basic English communication skills</li>
-          <li>CPR / First Aid certification (or willingness to obtain)</li>
-          <li>Reliable and punctual work ethic</li>
-          <li>Experience with children (a plus!)</li>
+          <li>CPR / First Aid certified (or willing to obtain)</li>
+          <li>Reliable, punctual, and professional attitude</li>
+          <li>Prior experience with children is a plus</li>
         </ul>
       </div>
     </div>
 
-    <!-- Divider -->
-    <div class="recruit-divider"></div>
+    <div class="r-divider"></div>
 
     <!-- CTA -->
-    <div class="recruit-cta-block reveal">
-      <div class="driver-types">
-        <span class="driver-type-badge">🚌 Bus Drivers</span>
-        <span class="driver-type-badge">🚐 Van Drivers</span>
-        <span class="driver-type-badge">👩‍⚕️ Student Monitors</span>
-        <span class="driver-type-badge">🔄 Part-Time Available</span>
+    <div class="r-cta-box rv">
+      <div class="pos-row">
+        <span class="pos-badge">🚌 Bus Drivers</span>
+        <span class="pos-badge">🚐 Van Drivers</span>
+        <span class="pos-badge">👩‍⚕️ Student Monitors</span>
+        <span class="pos-badge">🔄 Part-Time Available</span>
       </div>
       <h2>Ready to Join Our Team?</h2>
-      <p>Fill out our short application form and we'll be in touch within 48 hours.</p>
-      <div class="recruit-cta-actions">
-        <!-- ✏️ REPLACE THE HREF BELOW WITH YOUR GOOGLE FORM LINK -->
-        <a href="https://forms.gle/YOUR_GOOGLE_FORM_LINK" target="_blank" class="btn btn-gold btn-primary">
-          📝 Apply Now — It Takes 3 Minutes
-        </a>
-        <a href="tel:+14078201996" class="btn btn-white-outline">
-          📞 Call Us: (407) 820-1996
-        </a>
+      <p>Fill out our quick application — it takes under 3 minutes. We'll be in touch within 48 hours.</p>
+      <div class="cta-acts">
+        <!-- ✏️ REPLACE THIS HREF WITH YOUR GOOGLE FORM LINK -->
+        <a href="https://forms.gle/YOUR_GOOGLE_FORM_LINK" target="_blank" class="btn btn-gold">📝 Apply Now</a>
+        <a href="tel:+14078201996" class="btn btn-wout">📞 (407) 820-1996</a>
       </div>
     </div>
+
   </div>
 </section>
 
-<!-- ─── TESTIMONIALS ───────────────────────────────────────────── -->
-<section class="section section-alt">
-  <div class="section-header centered reveal">
-    <div class="section-label">What People Say</div>
-    <h2 class="section-title">Trusted by Families & Districts</h2>
-  </div>
-  <div class="testimonials">
-    <div class="testimonial reveal">
-      <div class="testimonial-stars">★★★★★</div>
-      <blockquote>"Safe Drive has been an absolute lifesaver. Knowing my daughter with autism is in caring, professional hands every morning gives me so much peace of mind."</blockquote>
-      <div class="testimonial-author">
-        <div class="avatar">ML</div>
-        <div>
-          <div class="author-name">Maria L.</div>
-          <div class="author-role">Parent, Orlando FL</div>
-        </div>
-      </div>
-    </div>
-    <div class="testimonial reveal reveal-delay-1">
-      <div class="testimonial-stars">★★★★★</div>
-      <blockquote>"Our district made the switch to Safe Drive two years ago and we haven't looked back. Their team is professional, responsive, and genuinely cares about our students."</blockquote>
-      <div class="testimonial-author">
-        <div class="avatar">JR</div>
-        <div>
-          <div class="author-name">James R.</div>
-          <div class="author-role">Transportation Director, Hillsborough County</div>
-        </div>
-      </div>
-    </div>
-    <div class="testimonial reveal reveal-delay-2">
-      <div class="testimonial-stars">★★★★★</div>
-      <blockquote>"I've been driving with Safe Drive for over a year. The team is supportive, the schedule works perfectly for my family, and the work is meaningful every single day."</blockquote>
-      <div class="testimonial-author">
-        <div class="avatar">CR</div>
-        <div>
-          <div class="author-name">Carlos R.</div>
-          <div class="author-role">Driver, Miami FL</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── TEAM ───────────────────────────────────────────────────── -->
-<section class="section">
-  <div class="section-header centered reveal">
-    <div class="section-label">Our Leadership</div>
-    <h2 class="section-title">The Team Behind Safe Drive</h2>
+<!-- ════════════════════ TEAM ════════════════════ -->
+<section class="sec sec-alt">
+  <div class="sec-hdr center rv">
+    <div class="eyebrow">Our Leadership</div>
+    <h2 class="sec-title">The Team Behind Safe Drive</h2>
   </div>
   <div class="team-grid">
-    <div class="team-card reveal">
-      <div class="team-avatar">👩</div>
-      <h3>Adda Lopez</h3>
-      <p>Chief Executive Officer</p>
+    <div class="team-card rv">
+      <img src="https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-7-500x500.png" alt="Adda Lopez CEO"/>
+      <div class="team-info"><h3>Adda Lopez</h3><p>Chief Executive Officer</p></div>
     </div>
-    <div class="team-card reveal reveal-delay-1">
-      <div class="team-avatar">👩</div>
-      <h3>Jannie Orduz</h3>
-      <p>Chief Operating Officer</p>
+    <div class="team-card rv d1">
+      <img src="https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-1-1-500x500.png" alt="Jannie Orduz COO"/>
+      <div class="team-info"><h3>Jannie Orduz</h3><p>Chief Operating Officer</p></div>
     </div>
-    <div class="team-card reveal reveal-delay-2">
-      <div class="team-avatar">👨</div>
-      <h3>Yoyle Guerrero</h3>
-      <p>Recruitment & Marketing</p>
+    <div class="team-card rv d2">
+      <img src="https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-2-1-500x500.png" alt="Yoyle Guerrero"/>
+      <div class="team-info"><h3>Yoyle Guerrero</h3><p>Recruitment &amp; Marketing</p></div>
     </div>
-    <div class="team-card reveal reveal-delay-3">
-      <div class="team-avatar">👨</div>
-      <h3>Daniel Guerrero</h3>
-      <p>Digital Support</p>
+    <div class="team-card rv d3">
+      <img src="https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-3-1-500x500.png" alt="Daniel Guerrero"/>
+      <div class="team-info"><h3>Daniel Guerrero</h3><p>Digital Support</p></div>
     </div>
   </div>
 </section>
 
-<!-- ─── CONTACT ────────────────────────────────────────────────── -->
-<section class="section section-alt" id="contact">
-  <div class="section-header reveal">
-    <div class="section-label">Get In Touch</div>
-    <h2 class="section-title">Let's Talk</h2>
-    <p class="section-subtitle">Have questions about our services or want to partner with us? Reach out and we'll get back to you quickly.</p>
+<!-- ════════════════════ CONTACT ════════════════════ -->
+<section class="sec" id="contact">
+  <div class="sec-hdr rv">
+    <div class="eyebrow">Get In Touch</div>
+    <h2 class="sec-title">Let's Talk</h2>
+    <p class="sec-sub">Whether you represent a school district, are a parent, or want to drive with us — we'd love to hear from you.</p>
   </div>
   <div class="contact-grid">
-    <div class="contact-info">
-      <div class="contact-item reveal">
-        <div class="contact-item-icon">📞</div>
-        <div>
-          <h4>Phone</h4>
-          <p>+1 (407) 820-1996</p>
-        </div>
-      </div>
-      <div class="contact-item reveal reveal-delay-1">
-        <div class="contact-item-icon">✉️</div>
-        <div>
-          <h4>Email</h4>
-          <p>info@safedriveservice.com</p>
-        </div>
-      </div>
-      <div class="contact-item reveal reveal-delay-2">
-        <div class="contact-item-icon">📍</div>
-        <div>
-          <h4>Location</h4>
-          <p>Florida, USA · Operating Nationwide</p>
-        </div>
-      </div>
-      <div class="contact-item reveal reveal-delay-3">
-        <div class="contact-item-icon">💼</div>
-        <div>
-          <h4>Careers</h4>
-          <p>Looking to join the team? <a href="#drive-with-us" style="color:var(--accent);font-weight:600;">Apply here →</a></p>
-        </div>
-      </div>
+    <div class="contact-cards">
+      <div class="cc rv"><div class="cc-ico">📞</div><div><h4>Phone</h4><p>+1 (407) 820-1996</p></div></div>
+      <div class="cc rv d1"><div class="cc-ico">✉️</div><div><h4>Email</h4><p>info@safedriveservice.com</p></div></div>
+      <div class="cc rv d2"><div class="cc-ico">📍</div><div><h4>Location</h4><p>Florida, USA · Nationwide</p></div></div>
+      <a href="#drive-with-us" class="cc rv d3" style="cursor:pointer;"><div class="cc-ico">🚐</div><div><h4>Careers</h4><p style="color:var(--accent);font-weight:600;">Apply to drive with us →</p></div></a>
     </div>
-    <div class="contact-form reveal reveal-delay-1">
+    <div class="cf-box rv d1">
       <h3>Send Us a Message</h3>
-      <div class="form-row">
-        <div class="form-group">
-          <label>First Name</label>
-          <input type="text" placeholder="Maria"/>
-        </div>
-        <div class="form-group">
-          <label>Last Name</label>
-          <input type="text" placeholder="Lopez"/>
-        </div>
+      <div class="f-row">
+        <div class="field"><label>First Name</label><input type="text" placeholder="Maria"/></div>
+        <div class="field"><label>Last Name</label><input type="text" placeholder="Lopez"/></div>
       </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" placeholder="maria@example.com"/>
-      </div>
-      <div class="form-group">
-        <label>Phone</label>
-        <input type="tel" placeholder="+1 (407) 000-0000"/>
-      </div>
-      <div class="form-group">
-        <label>I'm reaching out as a...</label>
+      <div class="field"><label>Email</label><input type="email" placeholder="maria@example.com"/></div>
+      <div class="field"><label>Phone</label><input type="tel" placeholder="+1 (407) 000-0000"/></div>
+      <div class="field"><label>I am a...</label>
         <select>
           <option>Parent / Guardian</option>
           <option>School District Representative</option>
@@ -1103,44 +488,34 @@
           <option>Other</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Message</label>
-        <textarea placeholder="Tell us about your needs..."></textarea>
-      </div>
-      <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;">
-        Send Message →
-      </button>
+      <div class="field"><label>Message</label><textarea placeholder="Tell us about your needs..."></textarea></div>
+      <button class="btn btn-primary f-submit">Send Message →</button>
     </div>
   </div>
 </section>
 
-<!-- ─── FOOTER ────────────────────────────────────────────────── -->
+<!-- ════════════════════ FOOTER ════════════════════ -->
 <footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <h3>🚐 Safe Drive Services</h3>
-      <p>Providing safe, reliable, and caring transportation for children with special needs across the United States.</p>
-      <div class="social-links" style="margin-top:20px;">
-        <a href="https://www.instagram.com/safe_drive_services_" target="_blank" class="social-link">📷</a>
-        <a href="#" class="social-link">👍</a>
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <img src="https://safedriveservice.com/wp-content/uploads/2024/08/logo-original-copia-1.png" alt="Safe Drive Services"/>
+      <p>Safe, reliable, and compassionate transportation for children with special needs across the United States.</p>
+      <div class="ft-social">
+        <a href="https://www.instagram.com/safe_drive_services_" target="_blank" class="soc-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" class="soc-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
       </div>
-    </div>
-    <div>
-      <h4>Services</h4>
-      <ul>
-        <li><a href="#services">School Transportation</a></li>
-        <li><a href="#services">Special Needs Support</a></li>
-        <li><a href="/index.php/schoolmobility/">School Mobility</a></li>
-        <li><a href="#how-it-works">How It Works</a></li>
-      </ul>
     </div>
     <div>
       <h4>Company</h4>
       <ul>
         <li><a href="#about">About Us</a></li>
-        <li><a href="#about">Our Team</a></li>
-        <li><a href="#drive-with-us">Careers</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="https://safedriveservice.com/index.php/schoolmobility/">School Mobility</a></li>
       </ul>
     </div>
     <div>
@@ -1148,51 +523,52 @@
       <ul>
         <li><a href="tel:+14078201996">+1 (407) 820-1996</a></li>
         <li><a href="mailto:info@safedriveservice.com">info@safedriveservice.com</a></li>
-        <li><a href="#">Florida, USA</a></li>
+        <li><a href="#drive-with-us">Join Our Team</a></li>
+        <li><a href="#contact">Send a Message</a></li>
       </ul>
     </div>
   </div>
-  <div class="footer-bottom">
+  <div class="ft-bottom">
     <p>© 2024 Safe Drive Services. All Rights Reserved.</p>
-    <p style="font-size:0.78rem;opacity:0.5;">Serving school districts nationwide</p>
+    <p>Florida, USA · Serving school districts nationwide</p>
   </div>
 </footer>
 
-<!-- ─── SCRIPTS ────────────────────────────────────────────────── -->
 <script>
-  // Dark mode toggle
-  const toggle = document.getElementById('themeToggle');
+  /* Theme */
   const html = document.documentElement;
-  const saved = localStorage.getItem('theme') || 'light';
-  html.setAttribute('data-theme', saved);
-
-  toggle.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    const next = current === 'light' ? 'dark' : 'light';
+  const themeBtn = document.getElementById('themeBtn');
+  html.setAttribute('data-theme', localStorage.getItem('sds-theme') || 'light');
+  themeBtn.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
+    localStorage.setItem('sds-theme', next);
   });
 
-  // Mobile hamburger
-  const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('mobileNav');
-  hamburger.addEventListener('click', () => {
-    mobileNav.classList.toggle('open');
-  });
-  mobileNav.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => mobileNav.classList.remove('open'));
-  });
+  /* Navbar — transparent over hero, hides on scroll-down */
+  const nav = document.getElementById('mainNav');
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    // Solid background once past hero
+    y > 80 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+    // Hide on scroll down, show on scroll up
+    if (y > lastY && y > 200) nav.classList.add('hidden');
+    else nav.classList.remove('hidden');
+    lastY = y;
+  }, { passive: true });
 
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(el => observer.observe(el));
+  /* Hamburger */
+  const hbg = document.getElementById('hbg');
+  const mobNav = document.getElementById('mobNav');
+  hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mobNav.classList.toggle('open'); });
+  mobNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hbg.classList.remove('open'); mobNav.classList.remove('open'); }));
+
+  /* Scroll reveal */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
