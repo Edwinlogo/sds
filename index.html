@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Safe Drive Services – School Transportation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
+
+  <style>
+  :root {
+    --bg:#F5F5F3; --bg2:#EBEBEA; --surface:#FFFFFF; --border:rgba(0,0,0,.09);
+    --text:#1A1A1A; --text-muted:#666260;
+    --accent:#1A3D8F; --accent-h:#152F6E; --accent-lt:#E8EEF9;
+    --gold:#D4920A; --gold-lt:#FFF5DC;
+    --navy:#0C1E45;
+    --nav-bg:rgba(245,245,243,.85);
+    --sh:0 2px 20px rgba(0,0,0,.07); --sh-lg:0 8px 40px rgba(0,0,0,.10);
+    --r:16px; --ease:.32s cubic-bezier(.4,0,.2,1);
+  }
+  [data-theme="dark"]{
+    --bg:#0E1117; --bg2:#161B26; --surface:#1C2336; --border:rgba(255,255,255,.08);
+    --text:#E8EAF0; --text-muted:#8A93AB;
+    --accent:#4B72D4; --accent-h:#5C82E2; --accent-lt:#172046;
+    --gold:#F5B93A; --gold-lt:#2A1F04;
+    --navy:#060E22;
+    --nav-bg:rgba(14,17,23,.88);
+    --sh:0 2px 20px rgba(0,0,0,.3); --sh-lg:0 8px 40px rgba(0,0,0,.4);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);transition:background var(--ease),color var(--ease);overflow-x:hidden;line-height:1.6;}
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3,h4,h5{font-family:'Raleway',sans-serif;line-height:1.15;font-weight:700;}
+
+  /* ── Floating logo ── */
+  .fl-logo{position:fixed;top:14px;left:24px;z-index:200;}
+  .fl-logo img{height:46px;width:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.25));transition:height var(--ease);}
+  [data-theme="dark"] .fl-logo img{filter:brightness(1.15) drop-shadow(0 2px 8px rgba(0,0,0,.5));}
+  @media(max-width:680px){.fl-logo img{height:36px;}}
+
+  /* ── Controls top-right cluster ── */
+  .top-controls{position:fixed;top:14px;right:14px;z-index:200;display:flex;gap:8px;align-items:center;}
+
+  /* ── Language Toggle ── */
+  .lang-btn{
+    height:38px;border-radius:99px;border:none;
+    background:var(--surface);box-shadow:var(--sh);
+    cursor:pointer;display:flex;align-items:center;gap:0;
+    color:var(--text);transition:box-shadow var(--ease),background var(--ease);
+    overflow:hidden;font-family:'Raleway',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.04em;
+  }
+  .lang-btn:hover{box-shadow:var(--sh-lg);}
+  .lang-opt{padding:0 13px;height:100%;display:flex;align-items:center;transition:background var(--ease),color var(--ease);}
+  .lang-opt.active{background:var(--accent);color:#fff;}
+  .lang-divider{width:1px;height:60%;background:var(--border);}
+
+  /* ── Sun/moon toggle ── */
+  .theme-btn{
+    width:38px;height:38px;border-radius:50%;border:none;
+    background:var(--surface);box-shadow:var(--sh);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+    color:var(--text);transition:transform .2s,box-shadow var(--ease),background var(--ease);
+  }
+  .theme-btn:hover{transform:scale(1.12);box-shadow:var(--sh-lg);}
+  .theme-btn svg{width:17px;height:17px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .icon-moon{display:none;}
+  [data-theme="dark"] .icon-sun{display:none;}
+  [data-theme="dark"] .icon-moon{display:block;}
+
+  /* ── Nav ── */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:150;
+    display:flex;align-items:center;justify-content:flex-end;
+    padding:0 160px 0 160px;height:70px;
+    background:transparent;
+    transition:background var(--ease),backdrop-filter var(--ease),border-color var(--ease),transform .38s cubic-bezier(.4,0,.2,1);
+    border-bottom:1px solid transparent;
+  }
+  .nav.scrolled{background:var(--nav-bg);backdrop-filter:blur(18px);border-color:var(--border);}
+  .nav.hidden{transform:translateY(-100%);}
+  .nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
+  .nav-links a{
+    font-family:'Raleway',sans-serif;font-size:.87rem;font-weight:600;letter-spacing:.03em;
+    padding:7px 14px;border-radius:8px;
+    color:rgba(255,255,255,.75);
+    transition:color var(--ease),background var(--ease);
+  }
+  .nav-links a:hover{color:#fff;background:rgba(255,255,255,.1);}
+  .nav-links a.ncta{background:var(--accent);color:#fff;margin-left:6px;padding:7px 16px;}
+  .nav-links a.ncta:hover{background:var(--accent-h);}
+  .nav.scrolled .nav-links a{color:var(--text-muted);}
+  .nav.scrolled .nav-links a:hover{color:var(--text);background:var(--bg2);}
+  .nav.scrolled .nav-links a.ncta{color:#fff;background:var(--accent);}
+  .nav.scrolled .nav-links a.ncta:hover{background:var(--accent-h);}
+
+  /* Hamburger */
+  .hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+  .hbg span{width:22px;height:2px;border-radius:2px;background:var(--text);display:block;transition:all .28s;}
+  .nav:not(.scrolled) .hbg span{background:#fff;}
+  .hbg.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+  .hbg.open span:nth-child(2){opacity:0;}
+  .hbg.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+  @media(max-width:900px){.nav-links{display:none;}.hbg{display:flex;}.nav{padding:0 100px 0 160px;}}
+  .mob-nav{
+    display:none;position:fixed;top:70px;left:0;right:0;z-index:149;
+    background:var(--surface);border-bottom:1px solid var(--border);
+    box-shadow:var(--sh-lg);flex-direction:column;padding:12px 20px 20px;gap:4px;
+  }
+  .mob-nav.open{display:flex;}
+  .mob-nav a{font-family:'Raleway',sans-serif;font-weight:600;font-size:.97rem;padding:11px 16px;border-radius:9px;color:var(--text);transition:background var(--ease);}
+  .mob-nav a:hover{background:var(--bg2);}
+  .mob-nav a.ncta{background:var(--accent);color:#fff;text-align:center;margin-top:6px;}
+
+  /* ── Buttons ── */
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;font-family:'Raleway',sans-serif;font-weight:700;font-size:.92rem;letter-spacing:.02em;cursor:pointer;border:none;transition:all var(--ease);}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover{background:var(--accent-h);transform:translateY(-2px);box-shadow:0 6px 24px rgba(26,61,143,.4);}
+  .btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.3);backdrop-filter:blur(8px);}
+  .btn-ghost:hover{background:rgba(255,255,255,.18);transform:translateY(-2px);}
+  .btn-gold{background:var(--gold);color:#1A0F00;box-shadow:0 4px 20px rgba(212,146,10,.4);}
+  .btn-gold:hover{filter:brightness(1.06);transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,146,10,.5);}
+  .btn-wout{background:transparent;border:1.5px solid rgba(255,255,255,.28);color:#fff;}
+  .btn-wout:hover{background:rgba(255,255,255,.08);transform:translateY(-2px);}
+
+  /* ── Hero with video background ── */
+  .hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;}
+
+  /* Fallback static background always present */
+  .hero-bg-static{
+    position:absolute;inset:0;z-index:0;
+    background:
+      linear-gradient(138deg,rgba(12,30,69,.93) 0%,rgba(26,61,143,.78) 55%,rgba(12,30,69,.65) 100%),
+      url('https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-2-2-1024x683.png') center/cover no-repeat;
+  }
+  [data-theme="dark"] .hero-bg-static{
+    background:linear-gradient(138deg,rgba(6,14,34,.96) 0%,rgba(12,30,69,.9) 55%,rgba(6,14,34,.8) 100%),
+      url('https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-2-2-1024x683.png') center/cover no-repeat;
+  }
+
+  /* Video element on top of static, overlay applied via pseudo-element */
+  .hero-video-wrap{
+    position:absolute;inset:0;z-index:1;overflow:hidden;
+  }
+  .hero-video-wrap video{
+    width:100%;height:100%;object-fit:cover;
+    display:block;
+  }
+  /* Dark overlay on top of video */
+  .hero-video-wrap::after{
+    content:'';
+    position:absolute;inset:0;
+    background:linear-gradient(138deg,rgba(12,30,69,.88) 0%,rgba(26,61,143,.62) 55%,rgba(12,30,69,.72) 100%);
+    z-index:1;
+  }
+  [data-theme="dark"] .hero-video-wrap::after{
+    background:linear-gradient(138deg,rgba(6,14,34,.94) 0%,rgba(12,30,69,.88) 55%,rgba(6,14,34,.78) 100%);
+  }
+
+  .hero-content{position:relative;z-index:3;padding:130px 8% 80px;max-width:780px;}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:'Raleway',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:22px;
+  }
+  .hero-eyebrow::before{content:'';width:26px;height:2px;background:var(--gold);}
+  .hero h1{font-size:clamp(2.8rem,5.5vw,4.4rem);font-weight:900;color:#fff;letter-spacing:-.02em;margin-bottom:20px;}
+  .hero h1 span{color:var(--gold);}
+  .hero p{font-size:1.08rem;color:rgba(255,255,255,.7);max-width:520px;line-height:1.78;margin-bottom:38px;}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
+  .hero-stats{display:flex;flex-wrap:wrap;gap:0;margin-top:56px;padding-top:34px;border-top:1px solid rgba(255,255,255,.14);}
+  .hstat{padding-right:36px;margin-right:36px;border-right:1px solid rgba(255,255,255,.12);}
+  .hstat:last-child{border-right:none;}
+  .hstat .n{font-family:'Raleway',sans-serif;font-size:2.1rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:4px;}
+  .hstat .l{font-size:.8rem;color:rgba(255,255,255,.52);font-weight:500;}
+
+  /* ── Sections ── */
+  .sec{padding:88px 8%;}
+  .sec-alt{background:var(--bg2);}
+  .eyebrow{
+    font-family:'Raleway',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  }
+  .eyebrow::before{content:'';width:22px;height:2px;background:var(--accent);}
+  .sec-title{font-size:clamp(1.8rem,3vw,2.55rem);font-weight:800;letter-spacing:-.02em;margin-bottom:14px;}
+  .sec-sub{font-size:1.02rem;color:var(--text-muted);line-height:1.78;max-width:560px;}
+  .sec-hdr{margin-bottom:50px;}
+  .sec-hdr.center{text-align:center;}
+  .sec-hdr.center .eyebrow{justify-content:center;}
+  .sec-hdr.center .sec-sub{margin:0 auto;}
+
+  /* ── Cards grid ── */
+  .grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--sh);transition:transform var(--ease),box-shadow var(--ease);}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);}
+  .card-ico{width:48px;height:48px;border-radius:11px;background:var(--accent-lt);display:flex;align-items:center;justify-content:center;font-size:1.35rem;margin-bottom:16px;}
+  .card h3{font-size:1.02rem;font-weight:700;margin-bottom:7px;}
+  .card p{font-size:.87rem;color:var(--text-muted);line-height:1.7;}
+
+  /* ── About split ── */
+  .about-split{display:grid;grid-template-columns:1fr 1fr;gap:68px;align-items:center;}
+  .about-img-wrap{position:relative;}
+  .about-img-wrap img{border-radius:18px;width:100%;object-fit:cover;box-shadow:var(--sh-lg);}
+  .about-img-wrap::after{content:'';position:absolute;bottom:-14px;right:-14px;width:65%;height:65%;background:var(--accent-lt);border-radius:18px;z-index:-1;}
+  .about-checks{display:flex;flex-direction:column;gap:16px;margin:26px 0;}
+  .acheck{display:flex;gap:13px;}
+  .acheck-dot{width:24px;height:24px;flex-shrink:0;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;margin-top:2px;}
+  .acheck h4{font-size:.94rem;font-weight:700;margin-bottom:3px;}
+  .acheck p{font-size:.86rem;color:var(--text-muted);line-height:1.62;}
+  @media(max-width:900px){.about-split{grid-template-columns:1fr;gap:36px;}.about-img-wrap{max-width:500px;}}
+
+  /* ── Steps ── */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;}
+  .step-c{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:26px;box-shadow:var(--sh);position:relative;transition:transform var(--ease);}
+  .step-c:hover{transform:translateY(-3px);}
+  .step-c:not(:last-child)::after{content:'→';position:absolute;right:-11px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:1.1rem;font-weight:700;z-index:2;}
+  .step-n{font-family:'Raleway',sans-serif;font-size:2.6rem;font-weight:900;color:var(--accent-lt);line-height:1;margin-bottom:12px;}
+  .step-c h3{font-size:1rem;font-weight:700;margin-bottom:7px;}
+  .step-c p{font-size:.86rem;color:var(--text-muted);line-height:1.65;}
+  @media(max-width:680px){.step-c:not(:last-child)::after{display:none;}}
+
+  /* ── Recruitment ── */
+  #drive-with-us{background:var(--navy);position:relative;overflow:hidden;padding:88px 8%;}
+  [data-theme="dark"] #drive-with-us{background:#060911;}
+  .r-glow{pointer-events:none;position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 55% 55% at 85% 15%,rgba(75,114,212,.22),transparent 60%),radial-gradient(ellipse 40% 50% at 10% 88%,rgba(212,146,10,.12),transparent 55%);}
+  .r-grid{pointer-events:none;position:absolute;inset:0;z-index:0;opacity:.032;background-image:linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px);background-size:48px 48px;}
+  .r-inner{position:relative;z-index:1;}
+  .r-cols{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-bottom:60px;}
+  @media(max-width:900px){.r-cols{grid-template-columns:1fr;gap:42px;}}
+  .r-eyebrow{font-family:'Raleway',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .r-eyebrow::before{content:'';width:22px;height:2px;background:var(--gold);}
+  .r-title{font-family:'Raleway',sans-serif;font-size:clamp(2rem,3.4vw,3rem);font-weight:900;letter-spacing:-.02em;color:#fff;margin-bottom:16px;}
+  .r-sub{font-size:1rem;color:rgba(255,255,255,.6);line-height:1.78;margin-bottom:34px;}
+  .perks{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:500px){.perks{grid-template-columns:1fr;}}
+  .perk{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;transition:background var(--ease);}
+  .perk:hover{background:rgba(255,255,255,.09);}
+  .perk-top{display:flex;align-items:center;gap:9px;margin-bottom:5px;}
+  .perk-ico{font-size:1.2rem;}
+  .perk h4{font-family:'Raleway',sans-serif;font-size:.88rem;font-weight:700;color:#fff;}
+  .perk p{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.55;}
+  .req-panel{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:30px;}
+  .req-panel h3{font-family:'Raleway',sans-serif;font-size:1.08rem;font-weight:700;color:#fff;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.09);display:flex;align-items:center;gap:9px;}
+  .req-list{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .req-list li{display:flex;align-items:flex-start;gap:9px;font-size:.86rem;color:rgba(255,255,255,.68);line-height:1.5;}
+  .req-list li::before{content:'✓';color:var(--gold);font-weight:700;flex-shrink:0;margin-top:1px;}
+  .r-divider{height:1px;background:rgba(255,255,255,.08);margin-bottom:60px;}
+  .pos-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
+  .pos-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:99px;font-size:.85rem;color:rgba(255,255,255,.78);font-family:'Raleway',sans-serif;font-weight:600;transition:background var(--ease);}
+  .pos-badge:hover{background:rgba(255,255,255,.12);}
+  .r-cta-box{text-align:center;padding:50px 36px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;position:relative;overflow:hidden;}
+  .r-cta-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));}
+  .r-cta-box h2{font-family:'Raleway',sans-serif;font-size:clamp(1.75rem,2.8vw,2.4rem);font-weight:900;color:#fff;margin-bottom:10px;}
+  .r-cta-box p{color:rgba(255,255,255,.58);font-size:.98rem;margin-bottom:30px;}
+  .cta-acts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  @media(max-width:480px){.cta-acts{flex-direction:column;align-items:center;}}
+
+  /* ── Team – smaller cards with zoom on hover / click ── */
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px;}
+  .team-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+    overflow:visible;box-shadow:var(--sh);
+    transition:transform var(--ease),box-shadow var(--ease);
+    text-align:center;position:relative;
+    cursor:pointer;
+  }
+  .team-card-inner{overflow:hidden;border-radius:var(--r);}
+  .team-card img{
+    width:100%;aspect-ratio:1;object-fit:cover;object-position:top center;display:block;
+    transition:transform .45s cubic-bezier(.4,0,.2,1);
+  }
+  .team-card:hover img,
+  .team-card.zoomed img{transform:scale(1.12);}
+  .team-card:hover,
+  .team-card.zoomed{transform:translateY(-6px) scale(1.04);box-shadow:var(--sh-lg),0 0 0 3px var(--accent);}
+  .team-info{padding:14px 12px;}
+  .team-info h3{font-size:.9rem;font-weight:700;margin-bottom:4px;}
+  .team-info p{font-size:.7rem;color:var(--accent);font-family:'Raleway',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.07em;}
+
+  /* ── Contact ── */
+  .contact-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:52px;align-items:start;}
+  @media(max-width:900px){.contact-grid{grid-template-columns:1fr;}}
+  .contact-cards{display:flex;flex-direction:column;gap:14px;}
+  .cc{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px 20px;display:flex;gap:14px;align-items:center;box-shadow:var(--sh);transition:transform var(--ease);}
+  .cc:hover{transform:translateX(4px);}
+  .cc-ico{width:44px;height:44px;flex-shrink:0;border-radius:11px;background:var(--accent-lt);color:var(--accent);font-size:1.2rem;display:flex;align-items:center;justify-content:center;}
+  .cc h4{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:3px;}
+  .cc p{font-size:.93rem;font-weight:500;}
+  .cf-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px;box-shadow:var(--sh);}
+  .cf-box h3{font-size:1.25rem;font-weight:800;margin-bottom:22px;}
+  .f-row{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  @media(max-width:500px){.f-row{grid-template-columns:1fr;}}
+  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+  .field label{font-size:.8rem;font-weight:600;color:var(--text-muted);font-family:'Raleway',sans-serif;letter-spacing:.03em;}
+  .field input,.field textarea,.field select{padding:10px 13px;border:1.5px solid var(--border);border-radius:9px;background:var(--bg2);color:var(--text);font-family:'Source Sans 3',sans-serif;font-size:.92rem;outline:none;transition:border-color var(--ease),background var(--ease);}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);background:var(--surface);}
+  .field textarea{min-height:95px;resize:vertical;}
+  .f-submit{width:100%;justify-content:center;font-size:.95rem;padding:13px;}
+
+  /* ── Footer ── */
+  footer{background:var(--navy);color:rgba(255,255,255,.62);padding:56px 8% 26px;}
+  [data-theme="dark"] footer{background:#060911;}
+  .ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:44px;margin-bottom:40px;}
+  @media(max-width:680px){.ft-grid{grid-template-columns:1fr;}}
+  .ft-brand img{height:38px;width:auto;filter:brightness(0) invert(1) opacity(.88);margin-bottom:14px;}
+  .ft-brand p{font-size:.86rem;line-height:1.7;max-width:280px;}
+  .ft-social{display:flex;gap:9px;margin-top:18px;}
+  .soc-btn{width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.65);transition:background .2s,border-color .2s;}
+  .soc-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff;}
+  .soc-btn svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  footer h4{font-family:'Raleway',sans-serif;font-size:.76rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+  footer ul li a{font-size:.86rem;transition:color .2s;}
+  footer ul li a:hover{color:#fff;}
+  .ft-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:.8rem;}
+
+  /* ── Scroll reveal ── */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+  .rv.in{opacity:1;transform:none;}
+  .d1{transition-delay:.08s;} .d2{transition-delay:.16s;} .d3{transition-delay:.24s;} .d4{transition-delay:.32s;}
+  </style>
+</head>
+<body>
+
+<!-- floating logo -->
+<a class="fl-logo" href="#home" aria-label="Safe Drive Services – Home">
+  <img src="https://safedriveservice.com/wp-content/uploads/2024/08/logo-original-copia-1.png" alt="Safe Drive Services"/>
+</a>
+
+<!-- top-right controls: language toggle + theme toggle -->
+<div class="top-controls">
+  <button class="lang-btn" id="langBtn" aria-label="Toggle language">
+    <span class="lang-opt active" id="langEN">EN</span>
+    <span class="lang-divider"></span>
+    <span class="lang-opt" id="langES">ES</span>
+  </button>
+  <button class="theme-btn" id="themeBtn" aria-label="Toggle dark/light mode">
+    <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+</div>
+
+<!-- nav -->
+<nav class="nav" id="mainNav">
+  <ul class="nav-links">
+    <li><a href="#services" data-i18n="nav_services">Services</a></li>
+    <li><a href="#about" data-i18n="nav_about">About Us</a></li>
+    <li><a href="#how-it-works" data-i18n="nav_how">How It Works</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+    <li><a href="#drive-with-us" class="ncta" data-i18n="nav_drive">Drive With Us →</a></li>
+  </ul>
+  <button class="hbg" id="hbg" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob-nav" id="mobNav">
+  <a href="#services" data-i18n="nav_services">Services</a>
+  <a href="#about" data-i18n="nav_about">About Us</a>
+  <a href="#how-it-works" data-i18n="nav_how">How It Works</a>
+  <a href="#contact" data-i18n="nav_contact">Contact</a>
+  <a href="#drive-with-us" class="ncta" data-i18n="nav_drive">Drive With Us →</a>
+</div>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section id="home">
+  <div class="hero">
+    <!-- Static fallback background (always visible as base layer) -->
+    <div class="hero-bg-static"></div>
+
+    <!-- Video background (on top of static, with overlay) -->
+    <div class="hero-video-wrap" id="heroVideoWrap">
+      <video id="heroBgVideo" autoplay muted loop playsinline preload="auto">
+        <source src="https://safedrivesds.com/media/0306.mp4" type="video/mp4"/>
+        <!-- If video fails to load, the static image fallback below will show -->
+      </video>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow rv" data-i18n="hero_eyebrow">Serving School Districts Nationwide</div>
+      <h1 class="rv d1"><span data-i18n="hero_h1_1">Safe Rides for</span><br><span style="color:var(--gold)" data-i18n="hero_h1_2">Every Child,</span><br><span data-i18n="hero_h1_3">Every Day.</span></h1>
+      <p class="rv d2" data-i18n="hero_p">Safe Drive Services provides professional, compassionate transportation for children with special needs — trusted by hundreds of school districts across the United States.</p>
+      <div class="hero-ctas rv d3">
+        <a href="#how-it-works" class="btn btn-primary" data-i18n="hero_cta1">How It Works →</a>
+        <a href="#drive-with-us" class="btn btn-ghost" data-i18n="hero_cta2">Drive With Us</a>
+      </div>
+      <div class="hero-stats rv d4">
+        <div class="hstat"><div class="n">500+</div><div class="l" data-i18n="stat1">School Districts</div></div>
+        <div class="hstat"><div class="n">10K+</div><div class="l" data-i18n="stat2">Students Served</div></div>
+        <div class="hstat"><div class="n">15+</div><div class="l" data-i18n="stat3">States</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ SERVICES ════════════════════ -->
+<section class="sec sec-alt" id="services">
+  <div class="sec-hdr center rv">
+    <div class="eyebrow" data-i18n="serv_eyebrow">What We Offer</div>
+    <h2 class="sec-title" data-i18n="serv_title">Trusted School Transportation</h2>
+    <p class="sec-sub" data-i18n="serv_sub">We combine professional logistics with genuine care — because every child deserves a safe, comfortable ride.</p>
+  </div>
+  <div class="grid-4">
+    <div class="card rv"><div class="card-ico">🎒</div><h3 data-i18n="s1_title">Daily School Runs</h3><p data-i18n="s1_p">Reliable morning pick-up and afternoon drop-off for students in special education and traditional school programs.</p></div>
+    <div class="card rv d1"><div class="card-ico">♿</div><h3 data-i18n="s2_title">Special Needs Support</h3><p data-i18n="s2_p">Trained staff provide compassionate, expert assistance for children with physical, cognitive, and developmental needs.</p></div>
+    <div class="card rv d2"><div class="card-ico">🏫</div><h3 data-i18n="s3_title">School Mobility Program</h3><p data-i18n="s3_p">Extended coverage ensuring every child — regardless of location — can access quality education every day.</p></div>
+    <div class="card rv d3"><div class="card-ico">📡</div><h3 data-i18n="s4_title">GPS Tracking</h3><p data-i18n="s4_p">Live vehicle tracking with automatic parent notifications for every pick-up and drop-off event.</p></div>
+  </div>
+</section>
+
+<!-- ════════════════════ ABOUT ════════════════════ -->
+<section class="sec" id="about">
+  <div class="about-split">
+    <div class="about-img-wrap rv">
+      <img src="https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-2-2-1024x683.png" alt="Safe Drive transportation"/>
+    </div>
+    <div>
+      <div class="eyebrow rv" data-i18n="about_eyebrow">About Safe Drive</div>
+      <h2 class="sec-title rv d1" data-i18n="about_title">More Than Transportation — We Build Trust</h2>
+      <p class="sec-sub rv d2" style="max-width:100%" data-i18n="about_sub">Founded with a single mission: ensuring every child can get to school safely and comfortably. Our team combines professional logistics expertise with a genuine commitment to the families we serve.</p>
+      <div class="about-checks">
+        <div class="acheck rv d2"><div class="acheck-dot">✓</div><div><h4 data-i18n="chk1_h">Rigorous Driver Selection</h4><p data-i18n="chk1_p">Federal background checks, driving record reviews, and in-person interviews before every hire.</p></div></div>
+        <div class="acheck rv d3"><div class="acheck-dot">✓</div><div><h4 data-i18n="chk2_h">GPS-Optimized Routes</h4><p data-i18n="chk2_p">Every route is designed for safety and efficiency using real-time vehicle tracking technology.</p></div></div>
+        <div class="acheck rv d4"><div class="acheck-dot">✓</div><div><h4 data-i18n="chk3_h">Continuous Staff Training</h4><p data-i18n="chk3_p">Ongoing programs in child safety, first aid, and special needs care keep our team at the highest standards.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ HOW IT WORKS ════════════════════ -->
+<section class="sec sec-alt" id="how-it-works">
+  <div class="sec-hdr center rv">
+    <div class="eyebrow" data-i18n="how_eyebrow">The Process</div>
+    <h2 class="sec-title" data-i18n="how_title">How It Works</h2>
+    <p class="sec-sub" data-i18n="how_sub">Getting started with Safe Drive is simple and straightforward.</p>
+  </div>
+  <div class="steps">
+    <div class="step-c rv"><div class="step-n">01</div><h3 data-i18n="step1_h">Contact Us</h3><p data-i18n="step1_p">Reach out via our form or by phone. We assess your district's transportation requirements.</p></div>
+    <div class="step-c rv d1"><div class="step-n">02</div><h3 data-i18n="step2_h">Route Planning</h3><p data-i18n="step2_p">Our logistics team designs safe, efficient routes tailored to your students and geography.</p></div>
+    <div class="step-c rv d2"><div class="step-n">03</div><h3 data-i18n="step3_h">Driver Assignment</h3><p data-i18n="step3_p">Experienced, trained drivers are matched to each route with student needs carefully considered.</p></div>
+    <div class="step-c rv d3"><div class="step-n">04</div><h3 data-i18n="step4_h">Safe Daily Service</h3><p data-i18n="step4_p">Students picked up and dropped off every day with real-time tracking and parent notifications.</p></div>
+  </div>
+</section>
+
+<!-- ════════════════════ DRIVE WITH US ════════════════════ -->
+<section id="drive-with-us">
+  <div class="r-glow"></div>
+  <div class="r-grid"></div>
+  <div class="r-inner">
+
+    <div class="r-cols">
+      <div>
+        <div class="r-eyebrow rv" data-i18n="hire_eyebrow">We're Hiring</div>
+        <h2 class="r-title rv d1" data-i18n="hire_title">Drive With Us.<br>Make a Difference.</h2>
+        <p class="r-sub rv d2" data-i18n="hire_sub">Due to our rapid growth, Safe Drive is constantly looking for reliable drivers and student monitors across the United States. Join our family and help every child get to school safely.</p>
+        <div class="perks rv d3">
+          <div class="perk"><div class="perk-top"><span class="perk-ico">💰</span><h4 data-i18n="perk1_h">Competitive Pay</h4></div><p data-i18n="perk1_p">Attractive hourly rates with route bonuses and performance incentives.</p></div>
+          <div class="perk"><div class="perk-top"><span class="perk-ico">📅</span><h4 data-i18n="perk2_h">Flexible Hours</h4></div><p data-i18n="perk2_p">School-hours routes only — no nights or weekends required.</p></div>
+          <div class="perk"><div class="perk-top"><span class="perk-ico">🏥</span><h4 data-i18n="perk3_h">Benefits Package</h4></div><p data-i18n="perk3_p">Health coverage, paid training, and growth opportunities available.</p></div>
+          <div class="perk"><div class="perk-top"><span class="perk-ico">❤️</span><h4 data-i18n="perk4_h">Purposeful Work</h4></div><p data-i18n="perk4_p">Make a real difference in the lives of children with special needs every single day.</p></div>
+        </div>
+      </div>
+
+      <div class="req-panel rv d2">
+        <h3>📋 <span data-i18n="req_title">Basic Requirements</span></h3>
+        <ul class="req-list">
+          <li data-i18n="req1">Valid Driver's License (CDL preferred for bus routes)</li>
+          <li data-i18n="req2">Clean driving record — last 3 years</li>
+          <li data-i18n="req3">Federal &amp; state background check clearance</li>
+          <li data-i18n="req4">Minimum 21 years of age</li>
+          <li data-i18n="req5">High school diploma or equivalent</li>
+          <li data-i18n="req6">Drug screening clearance</li>
+          <li data-i18n="req7">Basic English communication skills</li>
+          <li data-i18n="req8">CPR / First Aid certified (or willing to obtain)</li>
+          <li data-i18n="req9">Reliable, punctual, and professional attitude</li>
+          <li data-i18n="req10">Prior experience with children is a plus</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="r-divider"></div>
+
+    <div class="r-cta-box rv">
+      <div class="pos-row">
+        <span class="pos-badge">🚌 <span data-i18n="pos1">Bus Drivers</span></span>
+        <span class="pos-badge">🚐 <span data-i18n="pos2">Van Drivers</span></span>
+        <span class="pos-badge">👩‍⚕️ <span data-i18n="pos3">Student Monitors</span></span>
+        <span class="pos-badge">🔄 <span data-i18n="pos4">Part-Time Available</span></span>
+      </div>
+      <h2 data-i18n="cta_title">Ready to Join Our Team?</h2>
+      <p data-i18n="cta_sub">Fill out our quick application — it takes under 3 minutes. We'll be in touch within 48 hours.</p>
+      <div class="cta-acts">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScZ1QY8i71dFQGX-NvmzfLqV6Sir4jk2LRB3V-6WUGcdTZsdA/viewform" target="_blank" class="btn btn-gold">📝 <span data-i18n="apply_btn">Apply Now</span></a>
+        <a href="tel:+14078201996" class="btn btn-wout">📞 (407) 820-1996</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════ TEAM ════════════════════ -->
+<section class="sec sec-alt">
+  <div class="sec-hdr center rv">
+    <div class="eyebrow" data-i18n="team_eyebrow">Our Leadership</div>
+    <h2 class="sec-title" data-i18n="team_title">The Team Behind Safe Drive</h2>
+  </div>
+  <div class="team-grid">
+    <div class="team-card rv" onclick="this.classList.toggle('zoomed')">
+      <div class="team-card-inner">
+        <img src="https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-7-500x500.png" alt="Adda Lopez CEO"/>
+      </div>
+      <div class="team-info"><h3>Adda Lopez</h3><p data-i18n="tm1_role">Chief Executive Officer</p></div>
+    </div>
+    <div class="team-card rv d1" onclick="this.classList.toggle('zoomed')">
+      <div class="team-card-inner">
+        <img src="https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-1-1-500x500.png" alt="Jannie Orduz COO"/>
+      </div>
+      <div class="team-info"><h3>Jannie Orduz</h3><p data-i18n="tm2_role">Chief Operating Officer</p></div>
+    </div>
+    <div class="team-card rv d2" onclick="this.classList.toggle('zoomed')">
+      <div class="team-card-inner">
+        <img src="https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-2-1-500x500.png" alt="Yoyle Guerrero"/>
+      </div>
+      <div class="team-info"><h3>Yoyle Guerrero</h3><p data-i18n="tm3_role">Recruitment &amp; Marketing</p></div>
+    </div>
+    <div class="team-card rv d3" onclick="this.classList.toggle('zoomed')">
+      <div class="team-card-inner">
+        <img src="https://safedriveservice.com/wp-content/uploads/2024/08/Mask-group-3-1-500x500.png" alt="Daniel Guerrero"/>
+      </div>
+      <div class="team-info"><h3>Daniel Guerrero</h3><p data-i18n="tm4_role">Digital Support</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ CONTACT ════════════════════ -->
+<section class="sec" id="contact">
+  <div class="sec-hdr rv">
+    <div class="eyebrow" data-i18n="contact_eyebrow">Get In Touch</div>
+    <h2 class="sec-title" data-i18n="contact_title">Let's Talk</h2>
+    <p class="sec-sub" data-i18n="contact_sub">Whether you represent a school district, are a parent, or want to drive with us — we'd love to hear from you.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-cards">
+      <div class="cc rv"><div class="cc-ico">📞</div><div><h4 data-i18n="cc1_h">Phone</h4><p>+1 (407) 820-1996</p></div></div>
+      <div class="cc rv d1"><div class="cc-ico">✉️</div><div><h4 data-i18n="cc2_h">Email</h4><p>info@safedriveservice.com</p></div></div>
+      <div class="cc rv d2"><div class="cc-ico">📍</div><div><h4 data-i18n="cc3_h">Location</h4><p data-i18n="cc3_p">Florida, USA · Nationwide</p></div></div>
+      <a href="#drive-with-us" class="cc rv d3" style="cursor:pointer;"><div class="cc-ico">🚐</div><div><h4 data-i18n="cc4_h">Careers</h4><p style="color:var(--accent);font-weight:600;" data-i18n="cc4_p">Apply to drive with us →</p></div></a>
+    </div>
+    <div class="cf-box rv d1">
+      <h3 data-i18n="form_title">Send Us a Message</h3>
+      <div class="f-row">
+        <div class="field"><label data-i18n="f_fname">First Name</label><input type="text" data-i18n-ph="ph_fname" placeholder="Maria"/></div>
+        <div class="field"><label data-i18n="f_lname">Last Name</label><input type="text" data-i18n-ph="ph_lname" placeholder="Lopez"/></div>
+      </div>
+      <div class="field"><label data-i18n="f_email">Email</label><input type="email" placeholder="maria@example.com"/></div>
+      <div class="field"><label data-i18n="f_phone">Phone</label><input type="tel" placeholder="+1 (407) 000-0000"/></div>
+      <div class="field">
+        <label data-i18n="f_iam">I am a...</label>
+        <select>
+          <option data-i18n="f_opt1">Parent / Guardian</option>
+          <option data-i18n="f_opt2">School District Representative</option>
+          <option data-i18n="f_opt3">Prospective Driver</option>
+          <option data-i18n="f_opt4">Partner / Organization</option>
+          <option data-i18n="f_opt5">Other</option>
+        </select>
+      </div>
+      <div class="field"><label data-i18n="f_msg">Message</label><textarea data-i18n-ph="ph_msg" placeholder="Tell us about your needs..."></textarea></div>
+      <button class="btn btn-primary f-submit" data-i18n="f_submit">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer>
+  <div class="ft-grid">
+    <div class="ft-brand">
+      <img src="https://safedriveservice.com/wp-content/uploads/2024/08/logo-original-copia-1.png" alt="Safe Drive Services"/>
+      <p data-i18n="ft_tagline">Safe, reliable, and compassionate transportation for children with special needs across the United States.</p>
+      <div class="ft-social">
+        <a href="https://www.instagram.com/safe_drive_services_" target="_blank" class="soc-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" class="soc-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h4 data-i18n="ft_company">Company</h4>
+      <ul>
+        <li><a href="#about" data-i18n="nav_about">About Us</a></li>
+        <li><a href="#services" data-i18n="nav_services">Services</a></li>
+        <li><a href="#how-it-works" data-i18n="nav_how">How It Works</a></li>
+        <li><a href="https://safedriveservice.com/index.php/schoolmobility/" data-i18n="ft_mobility">School Mobility</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 data-i18n="ft_contact_h">Contact</h4>
+      <ul>
+        <li><a href="tel:+14078201996">+1 (407) 820-1996</a></li>
+        <li><a href="mailto:info@safedriveservice.com">info@safedriveservice.com</a></li>
+        <li><a href="#drive-with-us" data-i18n="ft_join">Join Our Team</a></li>
+        <li><a href="#contact" data-i18n="ft_send">Send a Message</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <p>© 2024 Safe Drive Services. All Rights Reserved.</p>
+    <p data-i18n="ft_location">Florida, USA · Serving school districts nationwide</p>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════
+   TRANSLATIONS
+══════════════════════════════════════════ */
+const translations = {
+  en: {
+    nav_services: "Services",
+    nav_about: "About Us",
+    nav_how: "How It Works",
+    nav_contact: "Contact",
+    nav_drive: "Drive With Us →",
+    hero_eyebrow: "Serving School Districts Nationwide",
+    hero_h1_1: "Safe Rides for",
+    hero_h1_2: "Every Child,",
+    hero_h1_3: "Every Day.",
+    hero_p: "Safe Drive Services provides professional, compassionate transportation for children with special needs — trusted by hundreds of school districts across the United States.",
+    hero_cta1: "How It Works →",
+    hero_cta2: "Drive With Us",
+    stat1: "School Districts",
+    stat2: "Students Served",
+    stat3: "States",
+    serv_eyebrow: "What We Offer",
+    serv_title: "Trusted School Transportation",
+    serv_sub: "We combine professional logistics with genuine care — because every child deserves a safe, comfortable ride.",
+    s1_title: "Daily School Runs",
+    s1_p: "Reliable morning pick-up and afternoon drop-off for students in special education and traditional school programs.",
+    s2_title: "Special Needs Support",
+    s2_p: "Trained staff provide compassionate, expert assistance for children with physical, cognitive, and developmental needs.",
+    s3_title: "School Mobility Program",
+    s3_p: "Extended coverage ensuring every child — regardless of location — can access quality education every day.",
+    s4_title: "GPS Tracking",
+    s4_p: "Live vehicle tracking with automatic parent notifications for every pick-up and drop-off event.",
+    about_eyebrow: "About Safe Drive",
+    about_title: "More Than Transportation — We Build Trust",
+    about_sub: "Founded with a single mission: ensuring every child can get to school safely and comfortably. Our team combines professional logistics expertise with a genuine commitment to the families we serve.",
+    chk1_h: "Rigorous Driver Selection",
+    chk1_p: "Federal background checks, driving record reviews, and in-person interviews before every hire.",
+    chk2_h: "GPS-Optimized Routes",
+    chk2_p: "Every route is designed for safety and efficiency using real-time vehicle tracking technology.",
+    chk3_h: "Continuous Staff Training",
+    chk3_p: "Ongoing programs in child safety, first aid, and special needs care keep our team at the highest standards.",
+    how_eyebrow: "The Process",
+    how_title: "How It Works",
+    how_sub: "Getting started with Safe Drive is simple and straightforward.",
+    step1_h: "Contact Us",
+    step1_p: "Reach out via our form or by phone. We assess your district's transportation requirements.",
+    step2_h: "Route Planning",
+    step2_p: "Our logistics team designs safe, efficient routes tailored to your students and geography.",
+    step3_h: "Driver Assignment",
+    step3_p: "Experienced, trained drivers are matched to each route with student needs carefully considered.",
+    step4_h: "Safe Daily Service",
+    step4_p: "Students picked up and dropped off every day with real-time tracking and parent notifications.",
+    hire_eyebrow: "We're Hiring",
+    hire_title: "Drive With Us.<br>Make a Difference.",
+    hire_sub: "Due to our rapid growth, Safe Drive is constantly looking for reliable drivers and student monitors across the United States. Join our family and help every child get to school safely.",
+    perk1_h: "Competitive Pay",
+    perk1_p: "Attractive hourly rates with route bonuses and performance incentives.",
+    perk2_h: "Flexible Hours",
+    perk2_p: "School-hours routes only — no nights or weekends required.",
+    perk3_h: "Benefits Package",
+    perk3_p: "Health coverage, paid training, and growth opportunities available.",
+    perk4_h: "Purposeful Work",
+    perk4_p: "Make a real difference in the lives of children with special needs every single day.",
+    req_title: "Basic Requirements",
+    req1: "Valid Driver's License (CDL preferred for bus routes)",
+    req2: "Clean driving record — last 3 years",
+    req3: "Federal & state background check clearance",
+    req4: "Minimum 21 years of age",
+    req5: "High school diploma or equivalent",
+    req6: "Drug screening clearance",
+    req7: "Basic English communication skills",
+    req8: "CPR / First Aid certified (or willing to obtain)",
+    req9: "Reliable, punctual, and professional attitude",
+    req10: "Prior experience with children is a plus",
+    pos1: "Bus Drivers",
+    pos2: "Van Drivers",
+    pos3: "Student Monitors",
+    pos4: "Part-Time Available",
+    cta_title: "Ready to Join Our Team?",
+    cta_sub: "Fill out our quick application — it takes under 3 minutes. We'll be in touch within 48 hours.",
+    apply_btn: "Apply Now",
+    team_eyebrow: "Our Leadership",
+    team_title: "The Team Behind Safe Drive",
+    tm1_role: "Chief Executive Officer",
+    tm2_role: "Chief Operating Officer",
+    tm3_role: "Recruitment & Marketing",
+    tm4_role: "Digital Support",
+    contact_eyebrow: "Get In Touch",
+    contact_title: "Let's Talk",
+    contact_sub: "Whether you represent a school district, are a parent, or want to drive with us — we'd love to hear from you.",
+    cc1_h: "Phone",
+    cc2_h: "Email",
+    cc3_h: "Location",
+    cc3_p: "Florida, USA · Nationwide",
+    cc4_h: "Careers",
+    cc4_p: "Apply to drive with us →",
+    form_title: "Send Us a Message",
+    f_fname: "First Name",
+    f_lname: "Last Name",
+    f_email: "Email",
+    f_phone: "Phone",
+    f_iam: "I am a...",
+    f_opt1: "Parent / Guardian",
+    f_opt2: "School District Representative",
+    f_opt3: "Prospective Driver",
+    f_opt4: "Partner / Organization",
+    f_opt5: "Other",
+    f_msg: "Message",
+    f_submit: "Send Message →",
+    ph_fname: "Maria",
+    ph_lname: "Lopez",
+    ph_msg: "Tell us about your needs...",
+    ft_tagline: "Safe, reliable, and compassionate transportation for children with special needs across the United States.",
+    ft_company: "Company",
+    ft_mobility: "School Mobility",
+    ft_contact_h: "Contact",
+    ft_join: "Join Our Team",
+    ft_send: "Send a Message",
+    ft_location: "Florida, USA · Serving school districts nationwide",
+  },
+  es: {
+    nav_services: "Servicios",
+    nav_about: "Nosotros",
+    nav_how: "Cómo Funciona",
+    nav_contact: "Contacto",
+    nav_drive: "Trabaja con Nosotros →",
+    hero_eyebrow: "Sirviendo Distritos Escolares en Todo el País",
+    hero_h1_1: "Traslados Seguros para",
+    hero_h1_2: "Cada Niño,",
+    hero_h1_3: "Cada Día.",
+    hero_p: "Safe Drive Services ofrece transporte profesional y especializado para niños con necesidades especiales — con la confianza de cientos de distritos escolares en todo Estados Unidos.",
+    hero_cta1: "Cómo Funciona →",
+    hero_cta2: "Trabaja con Nosotros",
+    stat1: "Distritos Escolares",
+    stat2: "Estudiantes Atendidos",
+    stat3: "Estados",
+    serv_eyebrow: "Lo Que Ofrecemos",
+    serv_title: "Transporte Escolar de Confianza",
+    serv_sub: "Combinamos logística profesional con atención genuina — porque cada niño merece un traslado seguro y cómodo.",
+    s1_title: "Rutas Escolares Diarias",
+    s1_p: "Recogida matutina y entrega vespertina confiables para estudiantes en educación especial y programas tradicionales.",
+    s2_title: "Apoyo a Necesidades Especiales",
+    s2_p: "Personal capacitado brinda asistencia experta y comprometida para niños con necesidades físicas, cognitivas y del desarrollo.",
+    s3_title: "Programa de Movilidad Escolar",
+    s3_p: "Cobertura ampliada que garantiza que cada niño, sin importar su ubicación, acceda a educación de calidad cada día.",
+    s4_title: "Seguimiento GPS",
+    s4_p: "Rastreo de vehículos en tiempo real con notificaciones automáticas a los padres en cada recogida y entrega.",
+    about_eyebrow: "Sobre Safe Drive",
+    about_title: "Más que Transporte — Construimos Confianza",
+    about_sub: "Fundados con una sola misión: garantizar que cada niño llegue a la escuela de manera segura y cómoda. Nuestro equipo combina experiencia logística profesional con un compromiso genuino hacia las familias que servimos.",
+    chk1_h: "Selección Rigurosa de Conductores",
+    chk1_p: "Verificación federal de antecedentes, revisión de historial de manejo y entrevistas presenciales antes de cada contratación.",
+    chk2_h: "Rutas Optimizadas con GPS",
+    chk2_p: "Cada ruta está diseñada para la seguridad y eficiencia mediante tecnología de rastreo vehicular en tiempo real.",
+    chk3_h: "Capacitación Continua del Personal",
+    chk3_p: "Programas permanentes en seguridad infantil, primeros auxilios y atención a necesidades especiales mantienen nuestro equipo en los más altos estándares.",
+    how_eyebrow: "El Proceso",
+    how_title: "Cómo Funciona",
+    how_sub: "Comenzar con Safe Drive es simple y directo.",
+    step1_h: "Contáctanos",
+    step1_p: "Comunícate por nuestro formulario o teléfono. Evaluamos los requisitos de transporte de tu distrito.",
+    step2_h: "Planificación de Rutas",
+    step2_p: "Nuestro equipo logístico diseña rutas seguras y eficientes adaptadas a tus estudiantes y geografía.",
+    step3_h: "Asignación de Conductores",
+    step3_p: "Conductores experimentados y capacitados son asignados a cada ruta considerando cuidadosamente las necesidades del estudiante.",
+    step4_h: "Servicio Diario Seguro",
+    step4_p: "Estudiantes recogidos y entregados cada día con rastreo en tiempo real y notificaciones a los padres.",
+    hire_eyebrow: "Estamos Contratando",
+    hire_title: "Maneja con Nosotros.<br>Marca la Diferencia.",
+    hire_sub: "Debido a nuestro rápido crecimiento, Safe Drive busca constantemente conductores confiables y monitores estudiantiles en todo Estados Unidos. Únete a nuestra familia y ayuda a que cada niño llegue a la escuela con seguridad.",
+    perk1_h: "Pago Competitivo",
+    perk1_p: "Tarifas por hora atractivas con bonificaciones por ruta e incentivos por desempeño.",
+    perk2_h: "Horarios Flexibles",
+    perk2_p: "Solo rutas en horario escolar — sin noches ni fines de semana.",
+    perk3_h: "Paquete de Beneficios",
+    perk3_p: "Cobertura de salud, capacitación pagada y oportunidades de crecimiento disponibles.",
+    perk4_h: "Trabajo con Propósito",
+    perk4_p: "Haz una diferencia real en la vida de niños con necesidades especiales cada día.",
+    req_title: "Requisitos Básicos",
+    req1: "Licencia de conducir válida (CDL preferida para rutas de bus)",
+    req2: "Historial de manejo limpio — últimos 3 años",
+    req3: "Verificación de antecedentes federal y estatal",
+    req4: "Mínimo 21 años de edad",
+    req5: "Diploma de secundaria o equivalente",
+    req6: "Prueba de drogas aprobada",
+    req7: "Habilidades básicas de comunicación en inglés",
+    req8: "Certificado en RCP / Primeros Auxilios (o disposición para obtenerlo)",
+    req9: "Actitud confiable, puntual y profesional",
+    req10: "Experiencia previa con niños es un plus",
+    pos1: "Conductores de Bus",
+    pos2: "Conductores de Van",
+    pos3: "Monitores Estudiantiles",
+    pos4: "Tiempo Parcial Disponible",
+    cta_title: "¿Listo para Unirte a Nuestro Equipo?",
+    cta_sub: "Completa nuestra solicitud rápida — toma menos de 3 minutos. Nos pondremos en contacto en 48 horas.",
+    apply_btn: "Aplicar Ahora",
+    team_eyebrow: "Nuestro Liderazgo",
+    team_title: "El Equipo Detrás de Safe Drive",
+    tm1_role: "Directora Ejecutiva",
+    tm2_role: "Directora de Operaciones",
+    tm3_role: "Reclutamiento y Marketing",
+    tm4_role: "Soporte Digital",
+    contact_eyebrow: "Contáctanos",
+    contact_title: "Hablemos",
+    contact_sub: "Si representas un distrito escolar, eres padre de familia, o quieres conducir con nosotros — nos encantaría saber de ti.",
+    cc1_h: "Teléfono",
+    cc2_h: "Correo",
+    cc3_h: "Ubicación",
+    cc3_p: "Florida, EE.UU. · A nivel nacional",
+    cc4_h: "Empleos",
+    cc4_p: "Aplica para conducir con nosotros →",
+    form_title: "Envíanos un Mensaje",
+    f_fname: "Nombre",
+    f_lname: "Apellido",
+    f_email: "Correo Electrónico",
+    f_phone: "Teléfono",
+    f_iam: "Soy...",
+    f_opt1: "Padre / Tutor",
+    f_opt2: "Representante de Distrito Escolar",
+    f_opt3: "Conductor Potencial",
+    f_opt4: "Socio / Organización",
+    f_opt5: "Otro",
+    f_msg: "Mensaje",
+    f_submit: "Enviar Mensaje →",
+    ph_fname: "María",
+    ph_lname: "López",
+    ph_msg: "Cuéntanos sobre tus necesidades...",
+    ft_tagline: "Transporte seguro, confiable y especializado para niños con necesidades especiales en todo Estados Unidos.",
+    ft_company: "Empresa",
+    ft_mobility: "Movilidad Escolar",
+    ft_contact_h: "Contacto",
+    ft_join: "Únete al Equipo",
+    ft_send: "Enviar Mensaje",
+    ft_location: "Florida, EE.UU. · Sirviendo distritos escolares a nivel nacional",
+  }
+};
+
+let currentLang = localStorage.getItem('sds-lang') || 'en';
+
+function applyTranslations(lang) {
+  const t = translations[lang];
+  // text content
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  // placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (t[key] !== undefined) el.setAttribute('placeholder', t[key]);
+  });
+  // lang buttons state
+  document.getElementById('langEN').classList.toggle('active', lang === 'en');
+  document.getElementById('langES').classList.toggle('active', lang === 'es');
+  document.documentElement.lang = lang;
+}
+
+// Init
+applyTranslations(currentLang);
+
+document.getElementById('langBtn').addEventListener('click', () => {
+  currentLang = currentLang === 'en' ? 'es' : 'en';
+  localStorage.setItem('sds-lang', currentLang);
+  applyTranslations(currentLang);
+});
+
+/* ══════════════════════════════════════════
+   THEME
+══════════════════════════════════════════ */
+const html = document.documentElement;
+const themeBtn = document.getElementById('themeBtn');
+html.setAttribute('data-theme', localStorage.getItem('sds-theme') || 'light');
+themeBtn.addEventListener('click', () => {
+  const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('sds-theme', next);
+});
+
+/* ══════════════════════════════════════════
+   VIDEO BACKGROUND — hide wrap if video errors
+══════════════════════════════════════════ */
+const heroVideo = document.getElementById('heroBgVideo');
+const heroVideoWrap = document.getElementById('heroVideoWrap');
+
+// If video fails to load / errors, hide the wrap so the static bg shows
+heroVideo.addEventListener('error', () => {
+  heroVideoWrap.style.display = 'none';
+});
+
+// Extra safety: if video stalls for too long on slow connections, fall back
+let videoLoaded = false;
+heroVideo.addEventListener('canplay', () => { videoLoaded = true; });
+setTimeout(() => {
+  if (!videoLoaded) heroVideoWrap.style.display = 'none';
+}, 6000); // 6s timeout fallback
+
+/* ══════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════ */
+const nav = document.getElementById('mainNav');
+let lastY = 0;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  y > 80 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+  if (y > lastY && y > 200) nav.classList.add('hidden');
+  else nav.classList.remove('hidden');
+  lastY = y;
+}, { passive: true });
+
+/* ══════════════════════════════════════════
+   HAMBURGER
+══════════════════════════════════════════ */
+const hbg = document.getElementById('hbg');
+const mobNav = document.getElementById('mobNav');
+hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mobNav.classList.toggle('open'); });
+mobNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hbg.classList.remove('open'); mobNav.classList.remove('open'); }));
+
+/* ══════════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════════ */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
