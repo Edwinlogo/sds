@@ -1,4 +1,55 @@
 
+
+/* BACKGROUND MUSIC */
+(function(){
+  const audio = document.getElementById('bgMusic');
+  const btn   = document.getElementById('muteBtn');
+  if (!audio || !btn) return;
+  
+  let started = false;
+
+  // Empezar silenciado visualmente en el boton si no ha iniciado
+  btn.classList.add('muted');
+
+  function tryPlay() {
+    if (started) return;
+    audio.volume = 0.35;
+    audio.muted = false;
+    audio.play().then(() => {
+      started = true;
+      btn.classList.remove('muted');
+      btn.classList.add('playing');
+    }).catch(() => {
+      // Bloqueado temporalmente por navegador
+    });
+  }
+
+  // Intentamos reproducir al primer clic humano en cualquier lugar
+  document.body.addEventListener('click', tryPlay, { once: true, capture: true });
+  document.body.addEventListener('touchstart', tryPlay, { once: true, capture: true });
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation(); 
+    if (!started) {
+      tryPlay();
+      return;
+    }
+    // Si ya habia iniciado, togglea el mute
+    if (audio.muted) {
+      audio.muted = false;
+      audio.play(); // Asegurar si estaba pausado
+      btn.classList.remove('muted');
+      btn.classList.add('playing');
+      btn.title = 'Silenciar música';
+    } else {
+      audio.muted = true;
+      btn.classList.add('muted');
+      btn.classList.remove('playing');
+      btn.title = 'Activar música';
+    }
+  });
+})();
+
 const T = {
   en:{
     nav_partners:"For Partners",nav_services:"Services",nav_about:"About Us",nav_how:"How It Works",nav_contact:"Contact",nav_drive:"Drive With Us →",
