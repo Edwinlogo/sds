@@ -46,6 +46,7 @@ const T = {
     chk2_h:"Control Before Improvisation",chk2_p:"Every route operates under defined protocols. No ad-hoc decisions on critical routes.",
     chk3_h:"Controlled, Strategic Expansion",chk3_p:"We grow within real operational capacity. No commitments beyond our ability to execute with full compliance.",
     cov_eyebrow:"National Reach",cov_title:"Our Active States",cov_sub:"Safe Drive provides structured transportation across multiple states. Hover over an active state below to view operations data.",
+    cov_eyebrow:"National Reach",cov_title:"Our Active States",cov_sub:"Safe Drive provides structured transportation across multiple states. Hover over an active state below to view operations data.",
     how_eyebrow:"Onboarding Process",how_title:"How We Onboard Partners",how_sub:"A structured, frictionless process from first contact to full operational execution.",
     step1_h:"Initial Contact",step1_p:"Connect via form or phone. We assess your operational requirements and jurisdictional scope.",
     step2_h:"Route & Scope Review",step2_p:"Operations team reviews route volume, geography, student profiles, and compliance requirements per state.",
@@ -69,7 +70,6 @@ const T = {
     form_title:"Send Us a Message",f_fname:"First Name",f_lname:"Last Name",f_email:"Email",f_phone:"Phone",f_iam:"I represent a...",
     f_opt1:"School District",f_opt2:"Transport Broker",f_opt3:"Charter / Private School",f_opt4:"Other Institution",f_opt5:"Prospective Driver",
     f_msg:"Message",f_submit:"Send Message →",ph_fname:"Maria",ph_lname:"Lopez",ph_msg:"Describe your operational needs...",
-    cov_routes:"Active Routes",cov_manager:"Op. Manager",
     ft_tagline:"Structured B2B student transportation for school districts, transport brokers, and charter institutions — multi-state, compliance-first.",
     ft_company:"Company",ft_mobility:"School Mobility",ft_contact_h:"Contact",ft_join:"Join Our Team",ft_send:"Send a Message",ft_location:"Florida, USA · Multi-State B2B Operations"
   },
@@ -141,7 +141,6 @@ const T = {
     form_title:"Envíanos un Mensaje",f_fname:"Nombre",f_lname:"Apellido",f_email:"Correo Electrónico",f_phone:"Teléfono",f_iam:"Represento a...",
     f_opt1:"Distrito Escolar",f_opt2:"Broker de Transporte",f_opt3:"Escuela Charter / Privada",f_opt4:"Otra Institución",f_opt5:"Conductor Potencial",
     f_msg:"Mensaje",f_submit:"Enviar Mensaje →",ph_fname:"María",ph_lname:"López",ph_msg:"Describe tus necesidades operativas...",
-    cov_routes:"Rutas Activas",cov_manager:"Gerente Op.",
     ft_tagline:"Transporte estudiantil B2B estructurado para distritos escolares, brokers de transporte e instituciones charter — multiestado, cumplimiento primero.",
     ft_company:"Empresa",ft_mobility:"Movilidad Escolar",ft_contact_h:"Contacto",ft_join:"Únete al Equipo",ft_send:"Enviar Mensaje",ft_location:"Florida, EE.UU. · Operaciones B2B Multiestado"
   }
@@ -162,12 +161,6 @@ function applyLang(l) {
   document.getElementById('langEN').classList.toggle('active', l === 'en');
   document.getElementById('langES').classList.toggle('active', l === 'es');
   document.documentElement.lang = l;
-  
-  // Update map static tooltip labels if they exist
-  const trt = document.getElementById('tt-routes-label');
-  const trm = document.getElementById('tt-manager-label');
-  if(trt) trt.textContent = t.cov_routes + ":";
-  if(trm) trm.textContent = t.cov_manager + ":";
 }
 applyLang(lang);
 document.getElementById('langBtn').addEventListener('click', () => {
@@ -198,18 +191,15 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 /* VIDEO */
 const vid = document.getElementById('heroBgVideo');
 const vw = document.getElementById('heroVideoWrap');
-if (vid) {
-    vid.addEventListener('error', () => { vw.style.display = 'none'; });
-    let vl = false;
-    vid.addEventListener('canplay', () => { vl = true; });
-    setTimeout(() => { if (!vl && vw) vw.style.display = 'none'; }, 6000);
-}
+vid.addEventListener('error', () => { vw.style.display = 'none'; });
+let vl = false;
+vid.addEventListener('canplay', () => { vl = true; });
+setTimeout(() => { if (!vl) vw.style.display = 'none'; }, 6000);
 
 /* NAV */
 const nav = document.getElementById('mainNav');
 let ly = 0;
 window.addEventListener('scroll', () => {
-  if(!nav) return;
   const y = window.scrollY;
   y > 80 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
   if (y > ly && y > 200) nav.classList.add('hidden'); else nav.classList.remove('hidden');
@@ -219,16 +209,15 @@ window.addEventListener('scroll', () => {
 /* HAMBURGER */
 const hbg = document.getElementById('hbg');
 const mn = document.getElementById('mobNav');
-if (hbg && mn) {
-    hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mn.classList.toggle('open'); });
-    mn.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hbg.classList.remove('open'); mn.classList.remove('open'); }));
-}
+hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mn.classList.toggle('open'); });
+mn.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hbg.classList.remove('open'); mn.classList.remove('open'); }));
 
 /* REVEAL */
 const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
 document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
-/* MAP DATA */
+
+
 const stateData = {
   "Florida": { manager: "Carlos Diaz", routes: 45 },
   "Arizona": { manager: "Sarah Connor", routes: 12 },
@@ -241,29 +230,25 @@ const stateData = {
 const mapTooltip = document.getElementById('map-tooltip');
 const states = document.querySelectorAll('.state.active');
 
-if (mapTooltip) {
-    states.forEach(state => {
-      state.addEventListener('mousemove', (e) => {
-        const stateName = state.getAttribute('data-name');
-        const data = stateData[stateName];
-        if (data) {
-          document.getElementById('tt-state').textContent = stateName;
-          document.getElementById('tt-routes').textContent = data.routes;
-          document.getElementById('tt-manager').textContent = data.manager;
-          mapTooltip.style.opacity = 1;
-          const offset = 15;
-          let tx = e.pageX + offset;
-          let ty = e.pageY + offset;
-          
-          // Clamp to window
-          if (tx + 200 > window.innerWidth) tx = e.pageX - 210;
-          
-          mapTooltip.style.transform = `translate(${tx}px, ${ty}px)`;
-        }
-      });
+states.forEach(state => {
+  state.addEventListener('mousemove', (e) => {
+    const stateName = state.getAttribute('data-name');
+    const data = stateData[stateName];
+    if (data) {
+      document.getElementById('tt-state').textContent = stateName;
+      document.getElementById('tt-routes').textContent = data.routes;
+      document.getElementById('tt-manager').textContent = data.manager;
+      mapTooltip.style.opacity = 1;
+      mapTooltip.style.transform = `translate(${e.pageX + 15}px, ${e.pageY + 15}px)`;
+    }
+  });
 
-      state.addEventListener('mouseout', () => {
-        mapTooltip.style.opacity = 0;
-      });
-    });
-}
+  state.addEventListener('mouseout', () => {
+    mapTooltip.style.opacity = 0;
+  });
+});
+
+
+
+
+
