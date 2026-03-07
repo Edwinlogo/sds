@@ -46,7 +46,6 @@ const T = {
     chk2_h:"Control Before Improvisation",chk2_p:"Every route operates under defined protocols. No ad-hoc decisions on critical routes.",
     chk3_h:"Controlled, Strategic Expansion",chk3_p:"We grow within real operational capacity. No commitments beyond our ability to execute with full compliance.",
     cov_eyebrow:"National Reach",cov_title:"Our Active States",cov_sub:"Safe Drive provides structured transportation across multiple states. Hover over an active state below to view operations data.",
-    cov_eyebrow:"National Reach",cov_title:"Our Active States",cov_sub:"Safe Drive provides structured transportation across multiple states. Hover over an active state below to view operations data.",
     how_eyebrow:"Onboarding Process",how_title:"How We Onboard Partners",how_sub:"A structured, frictionless process from first contact to full operational execution.",
     step1_h:"Initial Contact",step1_p:"Connect via form or phone. We assess your operational requirements and jurisdictional scope.",
     step2_h:"Route & Scope Review",step2_p:"Operations team reviews route volume, geography, student profiles, and compliance requirements per state.",
@@ -118,6 +117,7 @@ const T = {
     chk1_h:"Cumplimiento Antes que Velocidad",chk1_p:"El cumplimiento regulatorio no es negociable en ninguna jurisdicción donde operamos.",
     chk2_h:"Control Antes que Improvisación",chk2_p:"Cada ruta opera bajo protocolos definidos. Sin decisiones ad-hoc en rutas críticas.",
     chk3_h:"Expansión Controlada y Estratégica",chk3_p:"Crecemos dentro de nuestra capacidad operativa real. Sin compromisos más allá de nuestra capacidad de ejecución.",
+    cov_eyebrow:"Alcance Nacional",cov_title:"Nuestros Estados Activos",cov_sub:"Safe Drive proporciona transporte estructurado en múltiples estados. Pasa el cursor sobre un estado activo para ver datos de operaciones.",
     how_eyebrow:"Proceso de Incorporación",how_title:"Cómo Incorporamos Socios",how_sub:"Un proceso estructurado y sin fricción, desde el primer contacto hasta la ejecución operativa completa.",
     step1_h:"Contacto Inicial",step1_p:"Conéctate por formulario o teléfono. Evaluamos tus requisitos operativos y alcance jurisdiccional.",
     step2_h:"Revisión de Ruta y Alcance",step2_p:"Revisamos volumen de rutas, geografía, perfiles de estudiantes y requisitos de cumplimiento por estado.",
@@ -219,20 +219,38 @@ document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
 
 const stateData = {
-  "Florida": { manager: "Carlos Diaz", routes: 45 },
-  "Arizona": { manager: "Sarah Connor", routes: 12 },
-  "California": { manager: "Michael Chen", routes: 38 },
-  "Texas": { manager: "Elena Rodriguez", routes: 56 },
-  "Alaska": { manager: "John Smith", routes: 8 },
-  "Colorado": { manager: "David Miller", routes: 19 }
+  "Florida":    { manager: "Carlos Diaz",       routes: 45 },
+  "Arizona":    { manager: "Sarah Connor",       routes: 12 },
+  "California": { manager: "Edwin Lopez",        routes: 38 },
+  "Texas":      { manager: "Elena Rodriguez",    routes: 56 },
+  "Alaska":     { manager: "John Smith",         routes:  8 },
+  "Colorado":   { manager: "David Miller",       routes: 19 }
 };
 
 const mapTooltip = document.getElementById('map-tooltip');
-const states = document.querySelectorAll('.state.active');
+const statesGroup = document.getElementById('states');
+const mapSvg = document.getElementById('us-map');
 
-states.forEach(state => {
-  state.addEventListener('mousemove', (e) => {
-    const stateName = state.getAttribute('data-name');
+// Al cargar: mueve todos los estados inactivos al inicio del <g>
+// → se pintan primero = capa más baja
+document.querySelectorAll('.state:not(.active)').forEach(s => {
+  statesGroup.insertBefore(s, statesGroup.firstChild);
+});
+
+let lastHovered = null;
+
+// Escuchar en el SVG padre evita el bug de mouseout al mover elementos en el DOM
+mapSvg.addEventListener('mousemove', (e) => {
+  const target = e.target;
+
+  if (target.classList.contains('state') && target.classList.contains('active')) {
+    // Solo reordenar cuando el cursor llega a un estado diferente
+    if (target !== lastHovered) {
+      statesGroup.appendChild(target); // → pinta último = capa más alta
+      lastHovered = target;
+    }
+
+    const stateName = target.getAttribute('data-name');
     const data = stateData[stateName];
     if (data) {
       document.getElementById('tt-state').textContent = stateName;
@@ -241,12 +259,17 @@ states.forEach(state => {
       mapTooltip.style.opacity = 1;
       mapTooltip.style.transform = `translate(${e.pageX + 15}px, ${e.pageY + 15}px)`;
     }
-  });
-
-  state.addEventListener('mouseout', () => {
+  } else {
     mapTooltip.style.opacity = 0;
-  });
+  }
 });
+
+mapSvg.addEventListener('mouseleave', () => {
+  mapTooltip.style.opacity = 0;
+  lastHovered = null;
+});
+
+
 
 
 
