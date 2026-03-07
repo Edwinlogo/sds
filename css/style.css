@@ -245,8 +245,9 @@
 
     /* COVERAGE MAP */
   #coverage{background:var(--bg);position:relative;overflow:hidden;padding:28px 8% 16px;}
-  #coverage .sec-hdr{margin-bottom:24px;}
-  .map-wrap{max-width:1200px;margin:0 auto;padding:0;}
+  #coverage .sec-hdr{margin-bottom:0;}
+  .cov-layout{display:grid;grid-template-columns:35fr 65fr;gap:52px;align-items:center;}
+  .map-wrap{max-width:100%;margin:0;padding:0;}
   #us-map{width:100%;height:auto;filter:drop-shadow(var(--sh));max-height:68vh;display:block;}
   .state{fill:#e2e6eb;stroke:var(--border);stroke-width:1;}
   [data-theme="dark"] .state{fill:#28324e;}
@@ -267,9 +268,13 @@
   .tt-row{font-size:.85rem;color:var(--text-muted);display:flex;justify-content:space-between;gap:12px;}
   .tt-val{font-weight:600;color:var(--accent);}
 
+  @media(max-width:860px){
+    .cov-layout{grid-template-columns:1fr;gap:28px;}
+    #coverage .sec-hdr{margin-bottom:4px;}
+  }
   @media(max-width:680px){
     #coverage{padding:20px 0 16px;}
-    #coverage .sec-hdr{padding:0 8%;margin-bottom:18px;}
+    #coverage .sec-hdr{padding:0 8%;margin-bottom:0;}
     #us-map{max-height:none;}
   }
   
