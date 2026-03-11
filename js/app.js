@@ -271,11 +271,11 @@ document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
 const stateData = {
   "Florida":    { manager: "Carlos Diaz",       routes: 45 },
-  "Arizona":    { manager: "Sarah Connor",       routes: 12 },
+  "Arizona":    { manager: "Sarah Miller",       routes: 350 },
   "California": { manager: "Edwin Lopez",        routes: 38 },
   "Texas":      { manager: "Elena Rodriguez",    routes: 56 },
-  "Alaska":     { manager: "John Smith",         routes:  8 },
-  "Colorado":   { manager: "David Miller",       routes: 19 }
+  "Alaska":     { manager: "John Smith",         routes: 20 },
+  "Colorado":   { manager: "David Connor",       routes: 19 }
 };
 
 const mapTooltip = document.getElementById('map-tooltip');
