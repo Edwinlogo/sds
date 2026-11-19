@@ -326,6 +326,45 @@
   footer ul li a{font-size:.86rem;transition:color .2s;}
   footer ul li a:hover{color:#fff;}
   .ft-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:.8rem;}
+  .ft-bottom-links{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .ft-bottom a{color:rgba(255,255,255,.78);text-decoration:underline;text-underline-offset:3px;transition:color .2s;}
+  .ft-bottom a:hover{color:#fff;}
+
+  /* PRIVACY POLICY PAGE */
+  .policy-hero{background:var(--navy);position:relative;overflow:hidden;padding:132px 8% 64px;color:#fff;}
+  [data-theme="dark"] .policy-hero{background:#060911;}
+  .policy-hero-inner{position:relative;z-index:1;max-width:860px;margin:0 auto;}
+  .policy-back{display:inline-flex;align-items:center;gap:8px;font-family:'Raleway',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.72);margin-bottom:22px;padding:7px 14px;border-radius:99px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);transition:background var(--ease),color var(--ease),transform var(--ease);}
+  .policy-back:hover{background:rgba(255,255,255,.14);color:#fff;transform:translateX(-2px);}
+  .policy-hero h1{font-size:clamp(2rem,4vw,3.1rem);font-weight:900;letter-spacing:-.02em;color:#fff;margin-bottom:24px;}
+  .policy-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+  @media(max-width:740px){.policy-meta{grid-template-columns:1fr;}}
+  .policy-meta-item{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:14px 16px;}
+  .policy-meta-label{display:block;font-family:'Raleway',sans-serif;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:4px;}
+  .policy-meta-val{font-size:.92rem;color:rgba(255,255,255,.88);font-weight:500;}
+  .policy-meta-val a{color:#fff;text-decoration:underline;text-underline-offset:3px;}
+  .policy-meta-val a:hover{color:var(--gold);}
+
+  .policy-sec{padding:56px 8% 88px;background:var(--bg);}
+  .policy-card{max-width:860px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:48px 52px;box-shadow:var(--sh);}
+  @media(max-width:680px){.policy-card{padding:28px 22px;}}
+  .policy-intro{font-size:1.05rem;line-height:1.82;color:var(--text-muted);padding-bottom:28px;margin-bottom:32px;border-bottom:1px solid var(--border);}
+  .policy-intro strong{color:var(--text);}
+  .policy-block{padding-bottom:28px;margin-bottom:28px;border-bottom:1px solid var(--border);}
+  .policy-block:last-child{padding-bottom:0;margin-bottom:0;border-bottom:none;}
+  .policy-block h2{font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .policy-block h2::before{content:'';width:4px;height:1.15em;border-radius:4px;background:var(--accent);flex-shrink:0;}
+  .policy-block p{font-size:.98rem;line-height:1.8;color:var(--text-muted);margin-bottom:14px;}
+  .policy-block p:last-child{margin-bottom:0;}
+  .policy-block strong{color:var(--text);}
+  .policy-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:12px;}
+  .policy-list li{position:relative;padding-left:26px;font-size:.96rem;line-height:1.75;color:var(--text-muted);}
+  .policy-list li::before{content:'✓';position:absolute;left:0;top:3px;width:18px;height:18px;border-radius:5px;background:var(--accent-lt);color:var(--accent);font-size:.68rem;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .policy-callout{background:var(--accent-lt);border-left:4px solid var(--accent);border-radius:10px;padding:14px 18px;margin:14px 0 16px;color:var(--text);font-size:.98rem;line-height:1.65;}
+  .policy-callout strong{color:var(--accent);}
+  [data-theme="dark"] .policy-callout strong{color:#9BB7FF;}
+  .policy-contact-link{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font-family:'Raleway',sans-serif;font-weight:800;font-size:1.02rem;color:var(--accent);padding:10px 18px;border-radius:10px;background:var(--accent-lt);transition:background var(--ease),color var(--ease),transform var(--ease);}
+  .policy-contact-link:hover{background:var(--accent);color:#fff;transform:translateY(-1px);}
 
   .rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
   .rv.in{opacity:1;transform:none;}

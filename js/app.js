@@ -121,7 +121,41 @@ const T = {
     f_opt1:"School District",f_opt2:"Transport Broker",f_opt3:"Charter / Private School",f_opt4:"Other Institution",f_opt5:"Prospective Driver",
     f_msg:"Message",f_submit:"Send Message →",ph_fname:"Maria",ph_lname:"Lopez",ph_msg:"Describe your operational needs...",
     ft_tagline:"Structured B2B student transportation for school districts, transport brokers, and charter institutions — multi-state, compliance-first.",
-    ft_company:"Company",ft_mobility:"School Mobility",ft_contact_h:"Contact",ft_join:"Join Our Team",ft_send:"Send a Message",ft_location:"Florida, USA · Multi-State B2B Operations"
+    ft_company:"Company",ft_mobility:"School Mobility",ft_privacy:"Privacy Policy",ft_contact_h:"Contact",ft_join:"Join Our Team",ft_send:"Send a Message",ft_rights:"© 2026 Safe Drive Services. All Rights Reserved.",ft_location:"Florida, USA · Multi-State B2B Operations",
+    pp_page_title:"Privacy Policy — Safe Drive Services",
+    pp_back:"← Back to Home",
+    pp_eyebrow:"Legal & Privacy",
+    pp_title:"Safe Drive Services Privacy Policy",
+    pp_meta_updated_label:"Last Updated",
+    pp_meta_updated_val:"November 2026",
+    pp_meta_web_label:"Website",
+    pp_meta_hq_label:"Headquarters",
+    pp_meta_hq_val:"Orlando, Florida, United States.",
+    pp_intro:"At <strong>Safe Drive Services (SDS)</strong>, we respect your right to privacy. This policy describes how we collect, use, store, and protect the personal information you provide when interacting with our websites, online forms, social media channels, or messaging applications (WhatsApp, SMS).",
+    pp_s1_h:"1. Information We Collect",
+    pp_s1_p:"When you complete a recruitment form or contact us directly, we may collect:",
+    pp_s1_li1:"<strong>Identification and contact details:</strong> Full name, phone number, email address, city, and state or ZIP code.",
+    pp_s1_li2:"<strong>Employment eligibility information:</strong> Driver's license status, driving record (MVR), U.S. work authorization status, certifications (such as CPR/First Aid), and screening results (Background Check and Drug Test).",
+    pp_s1_li3:"<strong>Vehicle information:</strong> Make, model, year, registration status, auto insurance, and mechanical inspection (when using a personal vehicle applies).",
+    pp_s2_h:"2. How We Use Information",
+    pp_s2_p:"We use the collected data solely to:",
+    pp_s2_li1:"Evaluate and process applications from drivers interested in providing services with SDS.",
+    pp_s2_li2:"Verify compliance with safety standards required by school districts and state laws.",
+    pp_s2_li3:"Contact you by phone call, email, SMS, or WhatsApp to advance your onboarding process or inform you about available routes.",
+    pp_s2_li4:"Coordinate logistics and operational assignment of specialized student transportation services.",
+    pp_s3_h:"3. Disclosure and Transfer of Data to Third Parties",
+    pp_s3_callout:"<strong>We do not sell, rent, or trade your personal information to third parties.</strong>",
+    pp_s3_p:"Your data may only be shared under the following conditions:",
+    pp_s3_li1:"<strong>Verification providers:</strong> Accredited companies responsible for conducting criminal background reports, substance screenings, and driving record checks, always under strict confidentiality.",
+    pp_s3_li2:"<strong>Legal compliance and school districts:</strong> Regulatory authorities or contracting entities when strictly required by law or school regulations for service delivery.",
+    pp_s4_h:"4. Data Security",
+    pp_s4_p:"We implement administrative, technical, and organizational measures to protect your personal data against unauthorized access, loss, alteration, or improper disclosure.",
+    pp_s5_h:"5. Communications and Consent",
+    pp_s5_p:"By providing your data through forms or direct messages, you authorize Safe Drive Services to contact you regarding service opportunities. You may revoke this consent or opt out of our communications at any time by replying \"STOP\" to a message or requesting it in writing.",
+    pp_s6_h:"6. Your Rights",
+    pp_s6_p:"You have the right to request access to, correction of, or deletion of your personal data stored in our databases, except for records we are required to retain under legal or contractual regulations in the transportation sector.",
+    pp_s7_h:"7. Contact",
+    pp_s7_p:"For questions about this policy or the handling of your data, you may contact the Safe Drive Services team through our website:"
   },
   es:{
     nav_partners:"Para Socios",nav_services:"Servicios",nav_about:"Nosotros",nav_how:"Cómo Funciona",nav_contact:"Contacto",nav_drive:"Trabaja con Nosotros →",
@@ -193,7 +227,41 @@ const T = {
     f_opt1:"Distrito Escolar",f_opt2:"Broker de Transporte",f_opt3:"Escuela Charter / Privada",f_opt4:"Otra Institución",f_opt5:"Conductor Potencial",
     f_msg:"Mensaje",f_submit:"Enviar Mensaje →",ph_fname:"María",ph_lname:"López",ph_msg:"Describe tus necesidades operativas...",
     ft_tagline:"Transporte estudiantil B2B estructurado para distritos escolares, brokers de transporte e instituciones charter — multiestado, cumplimiento primero.",
-    ft_company:"Empresa",ft_mobility:"Movilidad Escolar",ft_contact_h:"Contacto",ft_join:"Únete al Equipo",ft_send:"Enviar Mensaje",ft_location:"Florida, EE.UU. · Operaciones B2B Multiestado"
+    ft_company:"Empresa",ft_mobility:"Movilidad Escolar",ft_privacy:"Política de Privacidad",ft_contact_h:"Contacto",ft_join:"Únete al Equipo",ft_send:"Enviar Mensaje",ft_rights:"© 2026 Safe Drive Services. Todos los derechos reservados.",ft_location:"Florida, EE.UU. · Operaciones B2B Multiestado",
+    pp_page_title:"Política de Privacidad — Safe Drive Services",
+    pp_back:"← Volver al Inicio",
+    pp_eyebrow:"Legal y Privacidad",
+    pp_title:"Política de Privacidad de Safe Drive Services",
+    pp_meta_updated_label:"Última actualización",
+    pp_meta_updated_val:"Noviembre de 2026",
+    pp_meta_web_label:"Sitio web",
+    pp_meta_hq_label:"Sede principal",
+    pp_meta_hq_val:"Orlando, Florida, Estados Unidos.",
+    pp_intro:"En <strong>Safe Drive Services (SDS)</strong> respetamos tu derecho a la privacidad. Esta política describe cómo recopilamos, utilizamos, almacenamos y protegemos la información personal que nos proporcionas al interactuar con nuestros sitios web, formularios en línea, canales de redes sociales o aplicaciones de mensajería (WhatsApp, SMS).",
+    pp_s1_h:"1. Información que recopilamos",
+    pp_s1_p:"Cuando completas un formulario de reclutamiento o nos contactas directamente, podemos recopilar:",
+    pp_s1_li1:"<strong>Datos de identificación y contacto:</strong> Nombre completo, número de teléfono, dirección de correo electrónico, ciudad y estado o código postal.",
+    pp_s1_li2:"<strong>Información de idoneidad laboral:</strong> Estado de licencia de conducir, historial de manejo (MVR), estatus legal de trabajo en EE. UU., certificaciones (como CPR/primeros auxilios) y resultados de verificaciones de antecedentes (Background Check y Drug Test).",
+    pp_s1_li3:"<strong>Información del vehículo:</strong> Marca, modelo, año, estado de registro, seguro vehicular e inspección mecánica (cuando aplica el uso de vehículo propio).",
+    pp_s2_h:"2. Uso de la información",
+    pp_s2_p:"Utilizamos los datos recolectados únicamente para:",
+    pp_s2_li1:"Evaluar y procesar solicitudes de conductores interesados en prestar servicios con SDS.",
+    pp_s2_li2:"Verificar el cumplimiento de los estándares de seguridad exigidos por los distritos escolares y las leyes estatales.",
+    pp_s2_li3:"Contactarte por llamada, correo electrónico, SMS o WhatsApp para avanzar en tu proceso de registro o informarte sobre rutas disponibles.",
+    pp_s2_li4:"Coordinar la logística y asignación operativa de servicios de transporte escolar especializado.",
+    pp_s3_h:"3. Divulgación y transferencia de datos a terceros",
+    pp_s3_callout:"<strong>No vendemos, alquilamos ni comercializamos tu información personal a terceros.</strong>",
+    pp_s3_p:"Tus datos solo pueden ser compartidos bajo las siguientes condiciones:",
+    pp_s3_li1:"<strong>Proveedores de verificación:</strong> Empresas acreditadas encargadas de realizar reportes de antecedentes penales, pruebas de detección de sustancias y récord de manejo, siempre bajo estricta confidencialidad.",
+    pp_s3_li2:"<strong>Cumplimiento legal y distritos escolares:</strong> Autoridades reguladoras o entidades contratantes cuando sea estrictamente requerido por ley o normativa escolar para la prestación del servicio.",
+    pp_s4_h:"4. Seguridad de los datos",
+    pp_s4_p:"Implementamos medidas administrativas, técnicas y organizativas para proteger tus datos personales contra accesos no autorizados, pérdida, alteración o divulgación indebida.",
+    pp_s5_h:"5. Comunicaciones y consentimiento",
+    pp_s5_p:"Al facilitarnos tus datos a través de formularios o mensajes directos, autorizas a Safe Drive Services a ponerse en contacto contigo respecto a oportunidades de servicio. Puedes revocar este consentimiento o solicitar darte de baja de nuestras comunicaciones en cualquier momento respondiendo \"STOP\" a un mensaje o solicitándolo por escrito.",
+    pp_s6_h:"6. Tus derechos",
+    pp_s6_p:"Tienes derecho a solicitar acceso, corrección o eliminación de tus datos personales archivados en nuestras bases de datos, salvo aquellos registros que debamos conservar por regulaciones legales o contractuales del sector transporte.",
+    pp_s7_h:"7. Contacto",
+    pp_s7_p:"Para dudas sobre esta política o el tratamiento de tus datos, puedes comunicarte con el equipo de Safe Drive Services a través de nuestro sitio web:"
   }
 };
 
@@ -201,33 +269,45 @@ let lang = localStorage.getItem('sds-lang') || 'en';
 
 function applyLang(l) {
   const t = T[l];
+  if (!t) return;
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const k = el.getAttribute('data-i18n');
-    if (t[k] !== undefined) el.innerHTML = t[k];
+    if (t[k] !== undefined) {
+      if (el.tagName === 'TITLE') document.title = t[k];
+      else el.innerHTML = t[k];
+    }
   });
   document.querySelectorAll('[data-i18n-ph]').forEach(el => {
     const k = el.getAttribute('data-i18n-ph');
     if (t[k] !== undefined) el.setAttribute('placeholder', t[k]);
   });
-  document.getElementById('langEN').classList.toggle('active', l === 'en');
-  document.getElementById('langES').classList.toggle('active', l === 'es');
+  const langEN = document.getElementById('langEN');
+  const langES = document.getElementById('langES');
+  if (langEN) langEN.classList.toggle('active', l === 'en');
+  if (langES) langES.classList.toggle('active', l === 'es');
   document.documentElement.lang = l;
 }
 applyLang(lang);
-document.getElementById('langBtn').addEventListener('click', () => {
-  lang = lang === 'en' ? 'es' : 'en';
-  localStorage.setItem('sds-lang', lang);
-  applyLang(lang);
-});
+const langBtn = document.getElementById('langBtn');
+if (langBtn) {
+  langBtn.addEventListener('click', () => {
+    lang = lang === 'en' ? 'es' : 'en';
+    localStorage.setItem('sds-lang', lang);
+    applyLang(lang);
+  });
+}
 
 /* THEME */
 const html = document.documentElement;
 html.setAttribute('data-theme', localStorage.getItem('sds-theme') || 'light');
-document.getElementById('themeBtn').addEventListener('click', () => {
-  const n = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-  html.setAttribute('data-theme', n);
-  localStorage.setItem('sds-theme', n);
-});
+const themeBtn = document.getElementById('themeBtn');
+if (themeBtn) {
+  themeBtn.addEventListener('click', () => {
+    const n = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', n);
+    localStorage.setItem('sds-theme', n);
+  });
+}
 
 /* TABS */
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -242,26 +322,32 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 /* VIDEO */
 const vid = document.getElementById('heroBgVideo');
 const vw = document.getElementById('heroVideoWrap');
-vid.addEventListener('error', () => { vw.style.display = 'none'; });
-let vl = false;
-vid.addEventListener('canplay', () => { vl = true; });
-setTimeout(() => { if (!vl) vw.style.display = 'none'; }, 6000);
+if (vid && vw) {
+  vid.addEventListener('error', () => { vw.style.display = 'none'; });
+  let vl = false;
+  vid.addEventListener('canplay', () => { vl = true; });
+  setTimeout(() => { if (!vl) vw.style.display = 'none'; }, 6000);
+}
 
 /* NAV */
 const nav = document.getElementById('mainNav');
-let ly = 0;
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  y > 80 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
-  if (y > ly && y > 200) nav.classList.add('hidden'); else nav.classList.remove('hidden');
-  ly = y;
-}, { passive: true });
+if (nav) {
+  let ly = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    y > 80 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+    if (y > ly && y > 200) nav.classList.add('hidden'); else nav.classList.remove('hidden');
+    ly = y;
+  }, { passive: true });
+}
 
 /* HAMBURGER */
 const hbg = document.getElementById('hbg');
 const mn = document.getElementById('mobNav');
-hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mn.classList.toggle('open'); });
-mn.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hbg.classList.remove('open'); mn.classList.remove('open'); }));
+if (hbg && mn) {
+  hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mn.classList.toggle('open'); });
+  mn.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hbg.classList.remove('open'); mn.classList.remove('open'); }));
+}
 
 /* REVEAL */
 const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
@@ -282,43 +368,45 @@ const mapTooltip = document.getElementById('map-tooltip');
 const statesGroup = document.getElementById('states');
 const mapSvg = document.getElementById('us-map');
 
-// Al cargar: mueve todos los estados inactivos al inicio del <g>
-// → se pintan primero = capa más baja
-document.querySelectorAll('.state:not(.active)').forEach(s => {
-  statesGroup.insertBefore(s, statesGroup.firstChild);
-});
+if (mapTooltip && statesGroup && mapSvg) {
+  // Al cargar: mueve todos los estados inactivos al inicio del <g>
+  // → se pintan primero = capa más baja
+  document.querySelectorAll('.state:not(.active)').forEach(s => {
+    statesGroup.insertBefore(s, statesGroup.firstChild);
+  });
 
-let lastHovered = null;
+  let lastHovered = null;
 
-// Escuchar en el SVG padre evita el bug de mouseout al mover elementos en el DOM
-mapSvg.addEventListener('mousemove', (e) => {
-  const target = e.target;
+  // Escuchar en el SVG padre evita el bug de mouseout al mover elementos en el DOM
+  mapSvg.addEventListener('mousemove', (e) => {
+    const target = e.target;
 
-  if (target.classList.contains('state') && target.classList.contains('active')) {
-    // Solo reordenar cuando el cursor llega a un estado diferente
-    if (target !== lastHovered) {
-      statesGroup.appendChild(target); // → pinta último = capa más alta
-      lastHovered = target;
+    if (target.classList.contains('state') && target.classList.contains('active')) {
+      // Solo reordenar cuando el cursor llega a un estado diferente
+      if (target !== lastHovered) {
+        statesGroup.appendChild(target); // → pinta último = capa más alta
+        lastHovered = target;
+      }
+
+      const stateName = target.getAttribute('data-name');
+      const data = stateData[stateName];
+      if (data) {
+        document.getElementById('tt-state').textContent = stateName;
+        document.getElementById('tt-routes').textContent = data.routes;
+        document.getElementById('tt-manager').textContent = data.manager;
+        mapTooltip.style.opacity = 1;
+        mapTooltip.style.transform = `translate(${e.pageX + 15}px, ${e.pageY + 15}px)`;
+      }
+    } else {
+      mapTooltip.style.opacity = 0;
     }
+  });
 
-    const stateName = target.getAttribute('data-name');
-    const data = stateData[stateName];
-    if (data) {
-      document.getElementById('tt-state').textContent = stateName;
-      document.getElementById('tt-routes').textContent = data.routes;
-      document.getElementById('tt-manager').textContent = data.manager;
-      mapTooltip.style.opacity = 1;
-      mapTooltip.style.transform = `translate(${e.pageX + 15}px, ${e.pageY + 15}px)`;
-    }
-  } else {
+  mapSvg.addEventListener('mouseleave', () => {
     mapTooltip.style.opacity = 0;
-  }
-});
-
-mapSvg.addEventListener('mouseleave', () => {
-  mapTooltip.style.opacity = 0;
-  lastHovered = null;
-});
+    lastHovered = null;
+  });
+}
 
 
 
