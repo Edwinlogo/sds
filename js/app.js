@@ -1,9 +1,12 @@
 
 
+const CURRENT_YEAR = new Date().getFullYear();
+const YEARS_OPERATING = Math.max(1, CURRENT_YEAR - 2021);
+
 const T = {
   en:{
     nav_partners:"For Partners",nav_services:"Services",nav_about:"About Us",nav_how:"How It Works",nav_contact:"Contact",nav_drive:"Drive With Us →",
-    hero_eyebrow:"B2B Institutional Transportation · 4 Years · Multi-State",
+    hero_eyebrow:`B2B Institutional Transportation · ${YEARS_OPERATING} Years · Multi-State`,
     hero_h1a:"Operational Stability",hero_h1b:"Districts Can Measure.",hero_h1c:"Risks They Won't Have to Manage.",
     hero_p:"Safe Drive Services is a structured B2B operator delivering compliant, trackable student transportation for school districts, transport brokers, and charter institutions across multiple states.",
     hero_cta1:"Our Partners →",hero_cta2:"Request a Meeting",
@@ -25,7 +28,7 @@ const T = {
     tbe_v1h:"KPI and SLA alignment",tbe_v1p:"We operate under your metrics. Reporting available on request.",
     tbe_v2h:"Multi-state coverage",tbe_v2p:"Consistent execution across jurisdictions under a single operator.",
     tbe_v3h:"Low operational friction",tbe_v3p:"Internal protocols handle escalations before they reach your account team.",
-    tbe_v4h:"Contractual stability",tbe_v4p:"4 years of consistent operation. No sudden capacity failures.",
+    tbe_v4h:"Contractual stability",tbe_v4p:`${YEARS_OPERATING} years of consistent operation. No sudden capacity failures.`,
     tbe_cta:"Connect With Our Operations Team →",
     tc_ey:"For Charter & Private Schools",tc_title:"Structured Access.<br>Institutional Accountability.",
     tc_body:"Charter and private schools need transport partners who operate under defined standards — not informal arrangements. Safe Drive delivers consistent routes, regulatory compliance, and operational control that protects your institution's reputation.",
@@ -42,7 +45,7 @@ const T = {
     s5_title:"GPS Monitoring & Tracking",s5_p:"Real-time vehicle tracking with event-based logging for district and broker oversight.",
     s6_title:"School Mobility Program",s6_p:"Extended coverage ensuring access to education regardless of geography, multi-state compliant.",
     about_eyebrow:"About Safe Drive",about_title:"Operational Risk Reduction, Not Just Transportation",
-    about_sub:"Safe Drive Services is a B2B institutional operator with 4 years of multi-state structured operation. The value we deliver is not physical movement — it is the elimination of operational chaos that districts, brokers, and schools cannot afford to absorb.",
+    about_sub:`Safe Drive Services is a B2B institutional operator with ${YEARS_OPERATING} years of multi-state structured operation. The value we deliver is not physical movement — it is the elimination of operational chaos that districts, brokers, and schools cannot afford to absorb.`,
     chk1_h:"Compliance Before Speed",chk1_p:"Regulatory compliance is non-negotiable in every jurisdiction we operate.",
     chk2_h:"Control Before Improvisation",chk2_p:"Every route operates under defined protocols. No ad-hoc decisions on critical routes.",
     chk3_h:"Controlled, Strategic Expansion",chk3_p:"We grow within real operational capacity. No commitments beyond our ability to execute with full compliance.",
@@ -73,7 +76,7 @@ const T = {
     f_msg:"Message",f_submit:"Send Message →",f_sending:"Sending...",f_success:"Thank you! Your message has been sent. Our operations team will respond within 24 business hours.",f_error:"Could not send your message. Please try again or email info@safedriveservice.com.",
     ph_fname:"Maria",ph_lname:"Lopez",ph_msg:"Describe your operational needs...",
     ft_tagline:"Structured B2B student transportation for school districts, transport brokers, and charter institutions — multi-state, compliance-first.",
-    ft_company:"Company",ft_privacy:"Privacy Policy",ft_contact_h:"Contact",ft_join:"Join Our Team",ft_send:"Send a Message",ft_rights:"© 2026 Safe Drive Services. All Rights Reserved.",ft_location:"Florida, USA · Multi-State B2B Operations",
+    ft_company:"Company",ft_privacy:"Privacy Policy",ft_contact_h:"Contact",ft_join:"Join Our Team",ft_send:"Send a Message",ft_rights:`© ${CURRENT_YEAR} Safe Drive Services. All Rights Reserved.`,ft_location:"Florida, USA · Multi-State B2B Operations",
     pp_page_title:"Privacy Policy — Safe Drive Services",
     pp_back:"← Back to Home",
     pp_eyebrow:"Legal & Privacy",
@@ -111,7 +114,7 @@ const T = {
   },
   es:{
     nav_partners:"Para Socios",nav_services:"Servicios",nav_about:"Nosotros",nav_how:"Cómo Funciona",nav_contact:"Contacto",nav_drive:"Trabaja con Nosotros →",
-    hero_eyebrow:"Transporte Institucional B2B · 4 Años · Multiestado",
+    hero_eyebrow:`Transporte Institucional B2B · ${YEARS_OPERATING} Años · Multiestado`,
     hero_h1a:"Estabilidad Operativa",hero_h1b:"Que los Distritos Pueden Medir.",hero_h1c:"Riesgos que No Tendrán que Gestionar.",
     hero_p:"Safe Drive Services es un operador B2B estructurado que entrega transporte estudiantil conforme y trazable para distritos escolares, brokers de transporte e instituciones charter en múltiples estados.",
     hero_cta1:"Nuestros Socios →",hero_cta2:"Solicitar Reunión",
@@ -133,7 +136,7 @@ const T = {
     tbe_v1h:"Alineación con KPI y SLA",tbe_v1p:"Operamos bajo tus métricas. Reportes disponibles bajo solicitud.",
     tbe_v2h:"Cobertura multiestado",tbe_v2p:"Ejecución consistente en múltiples jurisdicciones bajo un solo operador.",
     tbe_v3h:"Baja fricción operativa",tbe_v3p:"Los protocolos internos gestionan escalaciones antes de que lleguen a tu equipo.",
-    tbe_v4h:"Estabilidad contractual",tbe_v4p:"4 años de operación consistente. Sin fallas de capacidad inesperadas.",
+    tbe_v4h:"Estabilidad contractual",tbe_v4p:`${YEARS_OPERATING} años de operación consistente. Sin fallas de capacidad inesperadas.`,
     tbe_cta:"Conectar con Nuestro Equipo de Operaciones →",
     tc_ey:"Para Escuelas Charter y Privadas",tc_title:"Acceso Estructurado.<br>Responsabilidad Institucional.",
     tc_body:"Las escuelas charter y privadas necesitan socios de transporte que operen bajo estándares definidos. Safe Drive entrega rutas consistentes, cumplimiento regulatorio y control operativo que protege la reputación de tu institución.",
@@ -150,7 +153,7 @@ const T = {
     s5_title:"Monitoreo y Rastreo GPS",s5_p:"Rastreo vehicular en tiempo real con registro de eventos para supervisión de distritos y brokers.",
     s6_title:"Programa de Movilidad Escolar",s6_p:"Cobertura extendida que garantiza acceso a la educación sin importar la geografía, cumplimiento multiestado.",
     about_eyebrow:"Sobre Safe Drive",about_title:"Reducción de Riesgo Operativo, No Solo Transporte",
-    about_sub:"Safe Drive Services es un operador institucional B2B con 4 años de operación estructurada multiestado. El valor que entregamos no es el traslado físico — es la eliminación del caos operativo que distritos, brokers y escuelas no pueden absorber.",
+    about_sub:`Safe Drive Services es un operador institucional B2B con ${YEARS_OPERATING} años de operación estructurada multiestado. El valor que entregamos no es el traslado físico — es la eliminación del caos operativo que distritos, brokers y escuelas no pueden absorber.`,
     chk1_h:"Cumplimiento Antes que Velocidad",chk1_p:"El cumplimiento regulatorio no es negociable en ninguna jurisdicción donde operamos.",
     chk2_h:"Control Antes que Improvisación",chk2_p:"Cada ruta opera bajo protocolos definidos. Sin decisiones ad-hoc en rutas críticas.",
     chk3_h:"Expansión Controlada y Estratégica",chk3_p:"Crecemos dentro de nuestra capacidad operativa real. Sin compromisos más allá de nuestra capacidad de ejecución.",
@@ -181,7 +184,7 @@ const T = {
     f_msg:"Mensaje",f_submit:"Enviar Mensaje →",f_sending:"Enviando...",f_success:"¡Gracias! Tu mensaje ha sido enviado. Nuestro equipo de operaciones responderá en menos de 24 horas hábiles.",f_error:"No se pudo enviar el mensaje. Inténtalo nuevamente o escribe a info@safedriveservice.com.",
     ph_fname:"María",ph_lname:"López",ph_msg:"Describe tus necesidades operativas...",
     ft_tagline:"Transporte estudiantil B2B estructurado para distritos escolares, brokers de transporte e instituciones charter — multiestado, cumplimiento primero.",
-    ft_company:"Empresa",ft_privacy:"Política de Privacidad",ft_contact_h:"Contacto",ft_join:"Únete al Equipo",ft_send:"Enviar Mensaje",ft_rights:"© 2026 Safe Drive Services. Todos los derechos reservados.",ft_location:"Florida, EE.UU. · Operaciones B2B Multiestado",
+    ft_company:"Empresa",ft_privacy:"Política de Privacidad",ft_contact_h:"Contacto",ft_join:"Únete al Equipo",ft_send:"Enviar Mensaje",ft_rights:`© ${CURRENT_YEAR} Safe Drive Services. Todos los derechos reservados.`,ft_location:"Florida, EE.UU. · Operaciones B2B Multiestado",
     pp_page_title:"Política de Privacidad — Safe Drive Services",
     pp_back:"← Volver al Inicio",
     pp_eyebrow:"Legal y Privacidad",
@@ -252,6 +255,9 @@ function applyLang(l) {
   updateMuteBtnLabel(l);
 }
 applyLang(lang);
+document.querySelectorAll('[data-years-operating]').forEach(el => {
+  el.textContent = String(YEARS_OPERATING);
+});
 const langBtn = document.getElementById('langBtn');
 if (langBtn) {
   langBtn.addEventListener('click', () => {
