@@ -20,7 +20,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=2">
 </head>
 
 <body>
@@ -756,7 +756,7 @@
       </div>
       <form class="cf-box rv d1" id="contactForm"
         action="https://docs.google.com/forms/d/e/1FAIpQLSdggpfdQAx8dTU7CfLtFSen9-IZFIxbONvPL2NvsUxa4AcE6g/formResponse"
-        method="POST">
+        method="POST" target="gform_hidden_iframe">
         <h3 data-i18n="form_title">Send Us a Message</h3>
         <div class="f-row">
           <div class="field">
@@ -798,6 +798,7 @@
         <div id="cfStatus" class="cf-status" role="status" aria-live="polite"></div>
       </form>
     </div>
+    <iframe name="gform_hidden_iframe" id="gform_hidden_iframe" style="display:none;" aria-hidden="true" tabindex="-1"></iframe>
   </section>
 
   <!-- FOOTER -->
@@ -849,7 +850,7 @@
     </div>
   </footer>
 
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=2"></script>
 </body>
 
 </html>
