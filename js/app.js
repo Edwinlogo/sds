@@ -261,46 +261,22 @@ if (langBtn) {
   });
 }
 
-/* BACKGROUND MUSIC (500% GAIN VIA WEB AUDIO API) */
+/* BACKGROUND MUSIC (50% ORIGINAL VOLUME) */
 (function(){
   const audio = document.getElementById('bgMusic');
   const btn   = document.getElementById('muteBtn');
   if (!audio || !btn) return;
 
-  const TARGET_GAIN = 5.0; // 500% volume
+  const TARGET_VOLUME = 0.5; // 50% of original volume
   let started = false;
-  let audioCtx = null;
-  let gainNode = null;
 
   btn.classList.add('muted');
   updateMuteBtnLabel(lang);
 
-  function ensureAudioBoost() {
-    if (audioCtx || window.location.protocol === 'file:') return;
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if (!AC) return;
-    try {
-      audioCtx = new AC();
-      const source = audioCtx.createMediaElementSource(audio);
-      gainNode = audioCtx.createGain();
-      gainNode.gain.value = TARGET_GAIN;
-      source.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-    } catch (_) {
-      audioCtx = null;
-      gainNode = null;
-    }
-  }
-
   function tryPlay() {
     if (started) return;
-    ensureAudioBoost();
-    if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume().catch(() => {});
-    }
-    audio.volume = 1.0;
+    audio.volume = TARGET_VOLUME;
     audio.muted = false;
-    if (gainNode) gainNode.gain.value = TARGET_GAIN;
     audio.play().then(() => {
       started = true;
       btn.classList.remove('muted');
@@ -321,18 +297,13 @@ if (langBtn) {
       return;
     }
     if (audio.muted) {
-      if (audioCtx && audioCtx.state === 'suspended') {
-        audioCtx.resume().catch(() => {});
-      }
-      audio.volume = 1.0;
+      audio.volume = TARGET_VOLUME;
       audio.muted = false;
-      if (gainNode) gainNode.gain.value = TARGET_GAIN;
       audio.play().catch(() => {});
       btn.classList.remove('muted');
       btn.classList.add('playing');
     } else {
       audio.muted = true;
-      if (gainNode) gainNode.gain.value = 0;
       btn.classList.add('muted');
       btn.classList.remove('playing');
     }
@@ -389,29 +360,37 @@ if (vid && vw) {
 
 /* NAV */
 const nav = document.getElementById('mainNav');
+const mobNavEl = document.getElementById('mobNav');
 if (nav) {
   let ly = 0;
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
-    y > 80 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
-    if (y > ly && y > 200) nav.classList.add('hidden'); else nav.classList.remove('hidden');
+    const mobOpen = mobNavEl && mobNavEl.classList.contains('open');
+    y > 80 || mobOpen ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+    if (y > ly && y > 200 && !mobOpen) nav.classList.add('hidden'); else nav.classList.remove('hidden');
     ly = y;
   }, { passive: true });
 }
 
 /* HAMBURGER */
 const hbg = document.getElementById('hbg');
-const mn = document.getElementById('mobNav');
+const mn = mobNavEl;
 if (hbg && mn) {
   hbg.addEventListener('click', () => {
     const open = hbg.classList.toggle('open');
     mn.classList.toggle('open', open);
     hbg.setAttribute('aria-expanded', String(open));
+    if (nav) {
+      nav.classList.remove('hidden');
+      if (open) nav.classList.add('scrolled');
+      else if (window.scrollY <= 80) nav.classList.remove('scrolled');
+    }
   });
   mn.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
     hbg.classList.remove('open');
     mn.classList.remove('open');
     hbg.setAttribute('aria-expanded', 'false');
+    if (nav && window.scrollY <= 80) nav.classList.remove('scrolled');
   }));
 }
 
