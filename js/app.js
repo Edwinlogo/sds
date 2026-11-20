@@ -261,13 +261,13 @@ if (langBtn) {
   });
 }
 
-/* BACKGROUND MUSIC (50% ORIGINAL VOLUME) */
+/* BACKGROUND MUSIC (20% ORIGINAL VOLUME) */
 (function(){
   const audio = document.getElementById('bgMusic');
   const btn   = document.getElementById('muteBtn');
   if (!audio || !btn) return;
 
-  const TARGET_VOLUME = 0.5; // 50% of original volume
+  const TARGET_VOLUME = 0.2; // 20% of original volume
   let started = false;
 
   btn.classList.add('muted');
