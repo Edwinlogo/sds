@@ -5,6 +5,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Safe Drive Services</title>
+  <meta name="description"
+    content="Safe Drive Services is a structured B2B operator delivering compliant, trackable student transportation for school districts, transport brokers, and charter institutions across multiple states." />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="canonical" href="https://safedriveservice.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Safe Drive Services — B2B Institutional Student Transportation" />
+  <meta property="og:description"
+    content="Compliant, trackable multi-state student transportation for school districts, transport brokers, and charter institutions." />
+  <meta property="og:url" content="https://safedriveservice.com/" />
+  <meta property="og:image" content="https://safedriveservice.com/media/Mask-group-2-2-1024x683.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -19,7 +29,7 @@
 <audio id="bgMusic" src="media/song.mp3" loop preload="auto"></audio>
 
 <!-- FLOATING MUSIC CONTROL -->
-<button class="music-btn" id="muteBtn" title="Silenciar música" aria-label="Toggle music">
+<button class="music-btn" id="muteBtn" title="Unmute music" aria-label="Unmute music">
   <svg class="ico-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
     <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
@@ -35,12 +45,12 @@
   <a class="fl-logo" href="#home"><img src="media/logo-original-copia-1.png" alt="Safe Drive Services" /></a>
 
   <div class="top-controls">
-    <button class="lang-btn" id="langBtn">
+    <button class="lang-btn" id="langBtn" aria-label="Change language">
       <span class="lang-opt active" id="langEN">EN</span>
       <span class="lang-divider"></span>
       <span class="lang-opt" id="langES">ES</span>
     </button>
-    <button class="theme-btn" id="themeBtn">
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle color theme">
       <svg class="icon-sun" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="5" />
         <line x1="12" y1="1" x2="12" y2="3" />
@@ -67,7 +77,7 @@
       <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
       <li><a href="#drive-with-us" class="ncta" data-i18n="nav_drive">Drive With Us →</a></li>
     </ul>
-    <button class="hbg" id="hbg"><span></span><span></span><span></span></button>
+    <button class="hbg" id="hbg" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </nav>
   <div class="mob-nav" id="mobNav">
     <a href="#partners" data-i18n="nav_partners">For Partners</a>
@@ -83,8 +93,8 @@
     <div class="hero">
       <div class="hero-bg-static"></div>
       <div class="hero-video-wrap" id="heroVideoWrap">
-        <video id="heroBgVideo" autoplay muted loop playsinline preload="auto">
-          <source src="https://safedrivesds.com/media/0306.mp4" type="video/mp4" />
+        <video id="heroBgVideo" autoplay muted loop playsinline preload="auto" poster="media/Mask-group-2-2-1024x683.png">
+          <source src="https://safedriveservice.com/media/0306.mp4" type="video/mp4" />
         </video>
       </div>
       <div class="hero-content">
@@ -376,7 +386,7 @@
       <div>
         <div class="eyebrow rv" data-i18n="about_eyebrow">About Safe Drive</div>
         <h2 class="sec-title rv d1" data-i18n="about_title">Operational Risk Reduction, Not Just Transportation</h2>
-        <p class="sec-sub rv d2" style="max-width:100%" data-i18n="about_sub">Safe Drive Service is a B2B institutional
+        <p class="sec-sub rv d2" style="max-width:100%" data-i18n="about_sub">Safe Drive Services is a B2B institutional
           operator with 4 years of multi-state structured operation. The value we deliver is not physical movement — it
           is the elimination of operational chaos that districts, brokers, and schools cannot afford to absorb.</p>
         <div class="about-checks">
@@ -512,9 +522,9 @@
           hours.</p>
         <div class="cta-acts">
           <a href="https://docs.google.com/forms/d/e/1FAIpQLScZ1QY8i71dFQGX-NvmzfLqV6Sir4jk2LRB3V-6WUGcdTZsdA/viewform"
-            target="_blank" class="btn btn-gold">📝 <span data-i18n="apply_btn">Apply Now</span></a>
-          <a href="https://wa.me/14078201996" target="_blank" class="btn btn-wout" style="display:inline-flex; align-items:center; gap:8px;">
-            <img src="media/wp.png" alt="WhatsApp" style="width:24px; height:auto;" /> (407) 820-1996
+            target="_blank" rel="noopener noreferrer" class="btn btn-gold">📝 <span data-i18n="apply_btn">Apply Now</span></a>
+          <a href="https://wa.me/14078201996" target="_blank" rel="noopener noreferrer" class="btn btn-wout" style="display:inline-flex; align-items:center; gap:8px;">
+            <img src="media/wp.png" alt="WhatsApp" loading="lazy" decoding="async" style="width:24px; height:auto;" /> (407) 820-1996
           </a>
         </div>
       </div>
@@ -528,43 +538,43 @@
       <h2 class="sec-title" data-i18n="team_title">The Team Behind Safe Drive</h2>
     </div>
     <div class="team-grid">
-      <div class="team-card rv" onclick="this.classList.toggle('zoomed')">
-        <div class="team-card-inner"><img src="media/team/Adda.png" alt="Adda Lopez" /></div>
+      <div class="team-card rv" role="button" tabindex="0" aria-pressed="false">
+        <div class="team-card-inner"><img src="media/team/Adda.png" alt="Adda Lopez" loading="lazy" decoding="async" /></div>
         <div class="team-info">
           <h3>Adda Lopez</h3>
           <p data-i18n="tm1_role">Chief Executive Officer</p>
         </div>
       </div>
-      <div class="team-card rv d1" onclick="this.classList.toggle('zoomed')">
-        <div class="team-card-inner"><img src="media/team/Jannie.png" alt="Jannie Orduz" /></div>
+      <div class="team-card rv d1" role="button" tabindex="0" aria-pressed="false">
+        <div class="team-card-inner"><img src="media/team/Jannie.png" alt="Jannie Orduz" loading="lazy" decoding="async" /></div>
         <div class="team-info">
           <h3>Jannie Orduz</h3>
           <p data-i18n="tm2_role">Chief Operating Officer</p>
         </div>
       </div>
-      <div class="team-card rv d2" onclick="this.classList.toggle('zoomed')">
-        <div class="team-card-inner"><img src="media/team/Yoyle.png" alt="Yoyle Guerrero" /></div>
+      <div class="team-card rv d2" role="button" tabindex="0" aria-pressed="false">
+        <div class="team-card-inner"><img src="media/team/Yoyle.png" alt="Yoyle Guerrero" loading="lazy" decoding="async" /></div>
         <div class="team-info">
           <h3>Yoyle Guerrero</h3>
           <p data-i18n="tm3_role">Recruitment &amp; Marketing</p>
         </div>
       </div>
-      <div class="team-card rv d3" onclick="this.classList.toggle('zoomed')">
-        <div class="team-card-inner"><img src="media/team/Daniel.png" alt="Daniel Guerrero" /></div>
+      <div class="team-card rv d3" role="button" tabindex="0" aria-pressed="false">
+        <div class="team-card-inner"><img src="media/team/Daniel.png" alt="Daniel Guerrero" loading="lazy" decoding="async" /></div>
         <div class="team-info">
           <h3>Daniel Guerrero</h3>
           <p data-i18n="tm4_role">Digital Support</p>
         </div>
       </div>
-      <div class="team-card rv d4" onclick="this.classList.toggle('zoomed')">
-        <div class="team-card-inner"><img src="media/team/Maria.jpg" alt="María Delgado" /></div>
+      <div class="team-card rv d4" role="button" tabindex="0" aria-pressed="false">
+        <div class="team-card-inner"><img src="media/team/Maria.jpg" alt="María Delgado" loading="lazy" decoding="async" /></div>
         <div class="team-info">
           <h3>María Delgado</h3>
           <p data-i18n="tm5_role">Recruitment &amp; Marketing</p>
         </div>
       </div>
-      <div class="team-card rv d5" onclick="this.classList.toggle('zoomed')">
-        <div class="team-card-inner"><img src="media/team/Mauricio.jpg" alt="Mauricio Ruiz" /></div>
+      <div class="team-card rv d5" role="button" tabindex="0" aria-pressed="false">
+        <div class="team-card-inner"><img src="media/team/Mauricio.jpg" alt="Mauricio Ruiz" loading="lazy" decoding="async" /></div>
         <div class="team-info">
           <h3>Mauricio Ruiz</h3>
           <p data-i18n="tm6_role">Financial Coordinator</p>
@@ -581,7 +591,7 @@
         <div class="eyebrow" data-i18n="cov_eyebrow">National Reach</div>
         <h2 class="sec-title" data-i18n="cov_title">Our Active States</h2>
         <p class="sec-sub" data-i18n="cov_sub">Safe Drive provides structured transportation across multiple states.
-          Hover over an active state below to view operations data.</p>
+          Hover or tap an active state below to view operations data.</p>
       </div>
       <div class="map-wrap rv d1">
         <svg id="us-map" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
@@ -698,8 +708,8 @@
       <span id="tt-state">State Name</span>
       <img src="media/logo-original-copia-1.png" alt="Safe Drive Services" class="tt-logo" />
     </div>
-    <div class="tt-row"><span>Active Routes:</span><span class="tt-val" id="tt-routes">0</span></div>
-    <div class="tt-row"><span>Op. Manager:</span><span class="tt-val" id="tt-manager">-</span></div>
+    <div class="tt-row"><span data-i18n="map_routes">Active Routes:</span><span class="tt-val" id="tt-routes">0</span></div>
+    <div class="tt-row"><span data-i18n="map_manager">Op. Manager:</span><span class="tt-val" id="tt-manager">-</span></div>
   </div>
 
 
@@ -715,61 +725,78 @@
     </div>
     <div class="contact-grid">
       <div class="contact-cards">
-        <div class="cc rv">
-          <div class="cc-ico"><img src="media/8761723.gif" alt="Phone" /></div>
+        <a href="tel:+14078201996" class="cc rv">
+          <div class="cc-ico"><img src="media/8761723.gif" alt="Phone" loading="lazy" decoding="async" /></div>
           <div>
             <h4 data-i18n="cc1_h">Phone</h4>
             <p>+1 (407) 820-1996</p>
           </div>
-        </div>
-        <div class="cc rv d1">
-          <div class="cc-ico"><img src="media/8717907.gif" alt="Email" /></div>
+        </a>
+        <a href="mailto:info@safedriveservice.com" class="cc rv d1">
+          <div class="cc-ico"><img src="media/8717907.gif" alt="Email" loading="lazy" decoding="async" /></div>
           <div>
             <h4 data-i18n="cc2_h">Email</h4>
             <p>info@safedriveservice.com</p>
           </div>
-        </div>
+        </a>
         <div class="cc rv d2">
-          <div class="cc-ico"><img src="media/6839004.gif" alt="Location" /></div>
+          <div class="cc-ico"><img src="media/6839004.gif" alt="Location" loading="lazy" decoding="async" /></div>
           <div>
             <h4 data-i18n="cc3_h">Location</h4>
             <p data-i18n="cc3_p">Florida, USA · Multi-State Operations</p>
           </div>
         </div>
         <a href="#drive-with-us" class="cc rv d3" style="cursor:pointer;">
-          <div class="cc-ico"><img src="media/13470918.gif" alt="Careers" /></div>
+          <div class="cc-ico"><img src="media/13470918.gif" alt="Careers" loading="lazy" decoding="async" /></div>
           <div>
             <h4 data-i18n="cc4_h">Careers</h4>
             <p style="color:var(--accent);font-weight:600;" data-i18n="cc4_p">Apply to drive with us →</p>
           </div>
         </a>
       </div>
-      <div class="cf-box rv d1">
+      <form class="cf-box rv d1" id="contactForm"
+        action="https://docs.google.com/forms/d/e/1FAIpQLSdggpfdQAx8dTU7CfLtFSen9-IZFIxbONvPL2NvsUxa4AcE6g/formResponse"
+        method="POST">
         <h3 data-i18n="form_title">Send Us a Message</h3>
         <div class="f-row">
-          <div class="field"><label data-i18n="f_fname">First Name</label><input type="text" data-i18n-ph="ph_fname"
-              placeholder="Maria" /></div>
-          <div class="field"><label data-i18n="f_lname">Last Name</label><input type="text" data-i18n-ph="ph_lname"
-              placeholder="Lopez" /></div>
-        </div>
-        <div class="field"><label data-i18n="f_email">Email</label><input type="email"
-            placeholder="contact@district.edu" /></div>
-        <div class="field"><label data-i18n="f_phone">Phone</label><input type="tel" placeholder="+1 (407) 000-0000" />
+          <div class="field">
+            <label for="cf-fname" data-i18n="f_fname">First Name</label>
+            <input id="cf-fname" name="entry.486835730" type="text" required autocomplete="given-name"
+              data-i18n-ph="ph_fname" placeholder="Maria" />
+          </div>
+          <div class="field">
+            <label for="cf-lname" data-i18n="f_lname">Last Name</label>
+            <input id="cf-lname" name="entry.1567993042" type="text" required autocomplete="family-name"
+              data-i18n-ph="ph_lname" placeholder="Lopez" />
+          </div>
         </div>
         <div class="field">
-          <label data-i18n="f_iam">I represent a...</label>
-          <select>
-            <option data-i18n="f_opt1">School District</option>
-            <option data-i18n="f_opt2">Transport Broker</option>
-            <option data-i18n="f_opt3">Charter / Private School</option>
-            <option data-i18n="f_opt4">Other Institution</option>
-            <option data-i18n="f_opt5">Prospective Driver</option>
+          <label for="cf-email" data-i18n="f_email">Email</label>
+          <input id="cf-email" name="entry.967834010" type="email" required autocomplete="email"
+            placeholder="contact@district.edu" />
+        </div>
+        <div class="field">
+          <label for="cf-phone" data-i18n="f_phone">Phone</label>
+          <input id="cf-phone" name="entry.1904671112" type="tel" autocomplete="tel" placeholder="+1 (407) 000-0000" />
+        </div>
+        <div class="field">
+          <label for="cf-iam" data-i18n="f_iam">I represent a...</label>
+          <select id="cf-iam" name="entry.1815623813" required>
+            <option value="Distrito Escolar" data-i18n="f_opt1">School District</option>
+            <option value="Broker de Transporte" data-i18n="f_opt2">Transport Broker</option>
+            <option value="Escuela Charter / Privada" data-i18n="f_opt3">Charter / Private School</option>
+            <option value="Otra Institución" data-i18n="f_opt4">Other Institution</option>
+            <option value="Conductor Potencial" data-i18n="f_opt5">Prospective Driver</option>
           </select>
         </div>
-        <div class="field"><label data-i18n="f_msg">Message</label><textarea data-i18n-ph="ph_msg"
-            placeholder="Describe your operational needs..."></textarea></div>
-        <button class="btn btn-primary f-submit" data-i18n="f_submit">Send Message →</button>
-      </div>
+        <div class="field">
+          <label for="cf-msg" data-i18n="f_msg">Message</label>
+          <textarea id="cf-msg" name="entry.1711079610" required data-i18n-ph="ph_msg"
+            placeholder="Describe your operational needs..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary f-submit" id="cfSubmit" data-i18n="f_submit">Send Message →</button>
+        <div id="cfStatus" class="cf-status" role="status" aria-live="polite"></div>
+      </form>
     </div>
   </section>
 
@@ -777,17 +804,18 @@
   <footer>
     <div class="ft-grid">
       <div class="ft-brand">
-        <img src="media/logo-original-copia-1.png" alt="Safe Drive Services" />
+        <img src="media/logo-original-copia-1.png" alt="Safe Drive Services" loading="lazy" decoding="async" />
         <p data-i18n="ft_tagline">Structured B2B student transportation for school districts, transport brokers, and
           charter institutions — multi-state, compliance-first.</p>
         <div class="ft-social">
-          <a href="https://www.instagram.com/safe_drive_services_" target="_blank" class="soc-btn"
-            aria-label="Instagram"><svg viewBox="0 0 24 24">
+          <a href="https://www.instagram.com/safe_drive_services_" target="_blank" rel="noopener noreferrer"
+            class="soc-btn" aria-label="Instagram"><svg viewBox="0 0 24 24">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
             </svg></a>
-          <a href="#" class="soc-btn" aria-label="Facebook"><svg viewBox="0 0 24 24">
+          <a href="https://www.facebook.com/profile.php?id=61566128469557" target="_blank" rel="noopener noreferrer"
+            class="soc-btn" aria-label="Facebook"><svg viewBox="0 0 24 24">
               <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
             </svg></a>
         </div>
@@ -798,8 +826,6 @@
           <li><a href="#partners" data-i18n="nav_partners">For Partners</a></li>
           <li><a href="#services" data-i18n="nav_services">Services</a></li>
           <li><a href="#about" data-i18n="nav_about">About Us</a></li>
-          <li><a href="https://safedriveservice.com/index.php/schoolmobility/" data-i18n="ft_mobility">School
-              Mobility</a></li>
           <li><a href="privacy-policy.html" data-i18n="ft_privacy">Privacy Policy</a></li>
         </ul>
       </div>

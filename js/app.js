@@ -1,55 +1,5 @@
 
 
-/* BACKGROUND MUSIC */
-(function(){
-  const audio = document.getElementById('bgMusic');
-  const btn   = document.getElementById('muteBtn');
-  if (!audio || !btn) return;
-  
-  let started = false;
-
-  // Empezar silenciado visualmente en el boton si no ha iniciado
-  btn.classList.add('muted');
-
-  function tryPlay() {
-    if (started) return;
-    audio.volume = 0.35;
-    audio.muted = false;
-    audio.play().then(() => {
-      started = true;
-      btn.classList.remove('muted');
-      btn.classList.add('playing');
-    }).catch(() => {
-      // Bloqueado temporalmente por navegador
-    });
-  }
-
-  // Intentamos reproducir al primer clic humano en cualquier lugar
-  document.body.addEventListener('click', tryPlay, { once: true, capture: true });
-  document.body.addEventListener('touchstart', tryPlay, { once: true, capture: true });
-
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation(); 
-    if (!started) {
-      tryPlay();
-      return;
-    }
-    // Si ya habia iniciado, togglea el mute
-    if (audio.muted) {
-      audio.muted = false;
-      audio.play(); // Asegurar si estaba pausado
-      btn.classList.remove('muted');
-      btn.classList.add('playing');
-      btn.title = 'Silenciar música';
-    } else {
-      audio.muted = true;
-      btn.classList.add('muted');
-      btn.classList.remove('playing');
-      btn.title = 'Activar música';
-    }
-  });
-})();
-
 const T = {
   en:{
     nav_partners:"For Partners",nav_services:"Services",nav_about:"About Us",nav_how:"How It Works",nav_contact:"Contact",nav_drive:"Drive With Us →",
@@ -92,11 +42,13 @@ const T = {
     s5_title:"GPS Monitoring & Tracking",s5_p:"Real-time vehicle tracking with event-based logging for district and broker oversight.",
     s6_title:"School Mobility Program",s6_p:"Extended coverage ensuring access to education regardless of geography, multi-state compliant.",
     about_eyebrow:"About Safe Drive",about_title:"Operational Risk Reduction, Not Just Transportation",
-    about_sub:"Safe Drive Service is a B2B institutional operator with 4 years of multi-state structured operation. The value we deliver is not physical movement — it is the elimination of operational chaos that districts, brokers, and schools cannot afford to absorb.",
+    about_sub:"Safe Drive Services is a B2B institutional operator with 4 years of multi-state structured operation. The value we deliver is not physical movement — it is the elimination of operational chaos that districts, brokers, and schools cannot afford to absorb.",
     chk1_h:"Compliance Before Speed",chk1_p:"Regulatory compliance is non-negotiable in every jurisdiction we operate.",
     chk2_h:"Control Before Improvisation",chk2_p:"Every route operates under defined protocols. No ad-hoc decisions on critical routes.",
     chk3_h:"Controlled, Strategic Expansion",chk3_p:"We grow within real operational capacity. No commitments beyond our ability to execute with full compliance.",
-    cov_eyebrow:"National Reach",cov_title:"Our Active States",cov_sub:"Safe Drive provides structured transportation across multiple states. Hover over an active state below to view operations data.",
+    cov_eyebrow:"National Reach",cov_title:"Our Active States",cov_sub:"Safe Drive provides structured transportation across multiple states. Hover or tap an active state below to view operations data.",
+    map_routes:"Active Routes:",map_manager:"Op. Manager:",
+    music_mute:"Mute music",music_unmute:"Unmute music",
     how_eyebrow:"Onboarding Process",how_title:"How We Onboard Partners",how_sub:"A structured, frictionless process from first contact to full operational execution.",
     step1_h:"Initial Contact",step1_p:"Connect via form or phone. We assess your operational requirements and jurisdictional scope.",
     step2_h:"Route & Scope Review",step2_p:"Operations team reviews route volume, geography, student profiles, and compliance requirements per state.",
@@ -110,7 +62,6 @@ const T = {
     perk4_h:"Structured Operation",perk4_p:"Clear protocols, defined routes, and professional institutional standards.",
     req_title:"Basic Requirements",
     req1:"Valid Driver's License",req2:"Clean driving record — last 3 years",req3:"Federal & state background check clearance",req4:"Minimum 21 years of age",req5:"Employment Certificates",req6:"Drug screening clearance",req7:"Basic English communication skills",req8:"CPR / First Aid certified (or willing to obtain)",req9:"Reliable, punctual, and professional attitude",req10:"Prior experience with children is a plus",
-    pos2:"Van Drivers",pos3:"Student Monitors",
     cta_title:"Ready to Join Our Team?",cta_sub:"Fill out our quick application — under 3 minutes. We'll be in touch within 48 hours.",apply_btn:"Apply Now",
     team_eyebrow:"Our Leadership",team_title:"The Team Behind Safe Drive",
     tm1_role:"Chief Executive Officer",tm2_role:"Chief Operating Officer",tm3_role:"Recruitment & Marketing",tm4_role:"Digital Support",tm5_role:"Recruitment & Marketing",tm6_role:"Financial Coordinator",
@@ -119,9 +70,10 @@ const T = {
     cc1_h:"Phone",cc2_h:"Email",cc3_h:"Location",cc3_p:"Florida, USA · Multi-State Operations",cc4_h:"Careers",cc4_p:"Apply to drive with us →",
     form_title:"Send Us a Message",f_fname:"First Name",f_lname:"Last Name",f_email:"Email",f_phone:"Phone",f_iam:"I represent a...",
     f_opt1:"School District",f_opt2:"Transport Broker",f_opt3:"Charter / Private School",f_opt4:"Other Institution",f_opt5:"Prospective Driver",
-    f_msg:"Message",f_submit:"Send Message →",ph_fname:"Maria",ph_lname:"Lopez",ph_msg:"Describe your operational needs...",
+    f_msg:"Message",f_submit:"Send Message →",f_sending:"Sending...",f_success:"Thank you! Your message has been sent. Our operations team will respond within 24 business hours.",f_error:"Could not send your message. Please try again or email info@safedriveservice.com.",
+    ph_fname:"Maria",ph_lname:"Lopez",ph_msg:"Describe your operational needs...",
     ft_tagline:"Structured B2B student transportation for school districts, transport brokers, and charter institutions — multi-state, compliance-first.",
-    ft_company:"Company",ft_mobility:"School Mobility",ft_privacy:"Privacy Policy",ft_contact_h:"Contact",ft_join:"Join Our Team",ft_send:"Send a Message",ft_rights:"© 2026 Safe Drive Services. All Rights Reserved.",ft_location:"Florida, USA · Multi-State B2B Operations",
+    ft_company:"Company",ft_privacy:"Privacy Policy",ft_contact_h:"Contact",ft_join:"Join Our Team",ft_send:"Send a Message",ft_rights:"© 2026 Safe Drive Services. All Rights Reserved.",ft_location:"Florida, USA · Multi-State B2B Operations",
     pp_page_title:"Privacy Policy — Safe Drive Services",
     pp_back:"← Back to Home",
     pp_eyebrow:"Legal & Privacy",
@@ -198,11 +150,13 @@ const T = {
     s5_title:"Monitoreo y Rastreo GPS",s5_p:"Rastreo vehicular en tiempo real con registro de eventos para supervisión de distritos y brokers.",
     s6_title:"Programa de Movilidad Escolar",s6_p:"Cobertura extendida que garantiza acceso a la educación sin importar la geografía, cumplimiento multiestado.",
     about_eyebrow:"Sobre Safe Drive",about_title:"Reducción de Riesgo Operativo, No Solo Transporte",
-    about_sub:"Safe Drive Service es un operador institucional B2B con 4 años de operación estructurada multiestado. El valor que entregamos no es el traslado físico — es la eliminación del caos operativo que distritos, brokers y escuelas no pueden absorber.",
+    about_sub:"Safe Drive Services es un operador institucional B2B con 4 años de operación estructurada multiestado. El valor que entregamos no es el traslado físico — es la eliminación del caos operativo que distritos, brokers y escuelas no pueden absorber.",
     chk1_h:"Cumplimiento Antes que Velocidad",chk1_p:"El cumplimiento regulatorio no es negociable en ninguna jurisdicción donde operamos.",
     chk2_h:"Control Antes que Improvisación",chk2_p:"Cada ruta opera bajo protocolos definidos. Sin decisiones ad-hoc en rutas críticas.",
     chk3_h:"Expansión Controlada y Estratégica",chk3_p:"Crecemos dentro de nuestra capacidad operativa real. Sin compromisos más allá de nuestra capacidad de ejecución.",
-    cov_eyebrow:"Alcance Nacional",cov_title:"Nuestros Estados Activos",cov_sub:"Safe Drive proporciona transporte estructurado en múltiples estados. Pasa el cursor sobre un estado activo para ver datos de operaciones.",
+    cov_eyebrow:"Alcance Nacional",cov_title:"Nuestros Estados Activos",cov_sub:"Safe Drive proporciona transporte estructurado en múltiples estados. Pasa el cursor o toca un estado activo para ver datos de operaciones.",
+    map_routes:"Rutas Activas:",map_manager:"Gerente Op.:",
+    music_mute:"Silenciar música",music_unmute:"Activar música",
     how_eyebrow:"Proceso de Incorporación",how_title:"Cómo Incorporamos Socios",how_sub:"Un proceso estructurado y sin fricción, desde el primer contacto hasta la ejecución operativa completa.",
     step1_h:"Contacto Inicial",step1_p:"Conéctate por formulario o teléfono. Evaluamos tus requisitos operativos y alcance jurisdiccional.",
     step2_h:"Revisión de Ruta y Alcance",step2_p:"Revisamos volumen de rutas, geografía, perfiles de estudiantes y requisitos de cumplimiento por estado.",
@@ -216,7 +170,6 @@ const T = {
     perk4_h:"Operación Estructurada",perk4_p:"Protocolos claros, rutas definidas y estándares institucionales profesionales.",
     req_title:"Requisitos Básicos",
     req1:"Licencia de conducir válida",req2:"Historial de manejo limpio — últimos 3 años",req3:"Verificación de antecedentes federal y estatal",req4:"Mínimo 21 años de edad",req5:"Certificados Laborales",req6:"Prueba de drogas aprobada",req7:"Habilidades básicas de comunicación en inglés",req8:"Certificado en RCP / Primeros Auxilios (o disposición para obtenerlo)",req9:"Actitud confiable, puntual y profesional",req10:"Experiencia previa con niños es un plus",
-    pos2:"Conductores de Van",pos3:"Monitores Estudiantiles",
     cta_title:"¿Listo para Unirte a Nuestro Equipo?",cta_sub:"Completa nuestra solicitud rápida — menos de 3 minutos. Nos pondremos en contacto en 48 horas.",apply_btn:"Aplicar Ahora",
     team_eyebrow:"Nuestro Liderazgo",team_title:"El Equipo Detrás de Safe Drive",
     tm1_role:"Directora Ejecutiva",tm2_role:"Directora de Operaciones",tm3_role:"Reclutamiento y Marketing",tm4_role:"Soporte Digital",tm5_role:"Reclutamiento y Marketing",tm6_role:"Coordinador Financiero",
@@ -225,9 +178,10 @@ const T = {
     cc1_h:"Teléfono",cc2_h:"Correo",cc3_h:"Ubicación",cc3_p:"Florida, EE.UU. · Operaciones Multiestado",cc4_h:"Empleos",cc4_p:"Aplica para conducir con nosotros →",
     form_title:"Envíanos un Mensaje",f_fname:"Nombre",f_lname:"Apellido",f_email:"Correo Electrónico",f_phone:"Teléfono",f_iam:"Represento a...",
     f_opt1:"Distrito Escolar",f_opt2:"Broker de Transporte",f_opt3:"Escuela Charter / Privada",f_opt4:"Otra Institución",f_opt5:"Conductor Potencial",
-    f_msg:"Mensaje",f_submit:"Enviar Mensaje →",ph_fname:"María",ph_lname:"López",ph_msg:"Describe tus necesidades operativas...",
+    f_msg:"Mensaje",f_submit:"Enviar Mensaje →",f_sending:"Enviando...",f_success:"¡Gracias! Tu mensaje ha sido enviado. Nuestro equipo de operaciones responderá en menos de 24 horas hábiles.",f_error:"No se pudo enviar el mensaje. Inténtalo nuevamente o escribe a info@safedriveservice.com.",
+    ph_fname:"María",ph_lname:"López",ph_msg:"Describe tus necesidades operativas...",
     ft_tagline:"Transporte estudiantil B2B estructurado para distritos escolares, brokers de transporte e instituciones charter — multiestado, cumplimiento primero.",
-    ft_company:"Empresa",ft_mobility:"Movilidad Escolar",ft_privacy:"Política de Privacidad",ft_contact_h:"Contacto",ft_join:"Únete al Equipo",ft_send:"Enviar Mensaje",ft_rights:"© 2026 Safe Drive Services. Todos los derechos reservados.",ft_location:"Florida, EE.UU. · Operaciones B2B Multiestado",
+    ft_company:"Empresa",ft_privacy:"Política de Privacidad",ft_contact_h:"Contacto",ft_join:"Únete al Equipo",ft_send:"Enviar Mensaje",ft_rights:"© 2026 Safe Drive Services. Todos los derechos reservados.",ft_location:"Florida, EE.UU. · Operaciones B2B Multiestado",
     pp_page_title:"Política de Privacidad — Safe Drive Services",
     pp_back:"← Volver al Inicio",
     pp_eyebrow:"Legal y Privacidad",
@@ -267,6 +221,15 @@ const T = {
 
 let lang = localStorage.getItem('sds-lang') || 'en';
 
+function updateMuteBtnLabel(l) {
+  const btn = document.getElementById('muteBtn');
+  const t = T[l];
+  if (!btn || !t) return;
+  const label = btn.classList.contains('muted') ? t.music_unmute : t.music_mute;
+  btn.title = label;
+  btn.setAttribute('aria-label', label);
+}
+
 function applyLang(l) {
   const t = T[l];
   if (!t) return;
@@ -286,6 +249,7 @@ function applyLang(l) {
   if (langEN) langEN.classList.toggle('active', l === 'en');
   if (langES) langES.classList.toggle('active', l === 'es');
   document.documentElement.lang = l;
+  updateMuteBtnLabel(l);
 }
 applyLang(lang);
 const langBtn = document.getElementById('langBtn');
@@ -296,6 +260,85 @@ if (langBtn) {
     applyLang(lang);
   });
 }
+
+/* BACKGROUND MUSIC (500% GAIN VIA WEB AUDIO API) */
+(function(){
+  const audio = document.getElementById('bgMusic');
+  const btn   = document.getElementById('muteBtn');
+  if (!audio || !btn) return;
+
+  const TARGET_GAIN = 5.0; // 500% volume
+  let started = false;
+  let audioCtx = null;
+  let gainNode = null;
+
+  btn.classList.add('muted');
+  updateMuteBtnLabel(lang);
+
+  function ensureAudioBoost() {
+    if (audioCtx || window.location.protocol === 'file:') return;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    try {
+      audioCtx = new AC();
+      const source = audioCtx.createMediaElementSource(audio);
+      gainNode = audioCtx.createGain();
+      gainNode.gain.value = TARGET_GAIN;
+      source.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+    } catch (_) {
+      audioCtx = null;
+      gainNode = null;
+    }
+  }
+
+  function tryPlay() {
+    if (started) return;
+    ensureAudioBoost();
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+    audio.volume = 1.0;
+    audio.muted = false;
+    if (gainNode) gainNode.gain.value = TARGET_GAIN;
+    audio.play().then(() => {
+      started = true;
+      btn.classList.remove('muted');
+      btn.classList.add('playing');
+      updateMuteBtnLabel(lang);
+    }).catch(() => {
+      // Bloqueado temporalmente por navegador
+    });
+  }
+
+  document.body.addEventListener('click', tryPlay, { once: true, capture: true });
+  document.body.addEventListener('touchstart', tryPlay, { once: true, capture: true });
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!started) {
+      tryPlay();
+      return;
+    }
+    if (audio.muted) {
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+      audio.volume = 1.0;
+      audio.muted = false;
+      if (gainNode) gainNode.gain.value = TARGET_GAIN;
+      audio.play().catch(() => {});
+      btn.classList.remove('muted');
+      btn.classList.add('playing');
+    } else {
+      audio.muted = true;
+      if (gainNode) gainNode.gain.value = 0;
+      btn.classList.add('muted');
+      btn.classList.remove('playing');
+    }
+    updateMuteBtnLabel(lang);
+  });
+})();
 
 /* THEME */
 const html = document.documentElement;
@@ -316,6 +359,21 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* TEAM CARDS (CLICK & KEYBOARD) */
+document.querySelectorAll('.team-card').forEach(card => {
+  const toggleZoom = () => {
+    const zoomed = card.classList.toggle('zoomed');
+    card.setAttribute('aria-pressed', String(zoomed));
+  };
+  card.addEventListener('click', toggleZoom);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleZoom();
+    }
   });
 });
 
@@ -345,16 +403,72 @@ if (nav) {
 const hbg = document.getElementById('hbg');
 const mn = document.getElementById('mobNav');
 if (hbg && mn) {
-  hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mn.classList.toggle('open'); });
-  mn.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hbg.classList.remove('open'); mn.classList.remove('open'); }));
+  hbg.addEventListener('click', () => {
+    const open = hbg.classList.toggle('open');
+    mn.classList.toggle('open', open);
+    hbg.setAttribute('aria-expanded', String(open));
+  });
+  mn.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    hbg.classList.remove('open');
+    mn.classList.remove('open');
+    hbg.setAttribute('aria-expanded', 'false');
+  }));
+}
+
+/* CONTACT FORM -> GOOGLE FORMS */
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  const submitBtn = document.getElementById('cfSubmit');
+  const statusEl = document.getElementById('cfStatus');
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!contactForm.reportValidity()) return;
+
+    const t = T[lang] || T.en;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = t.f_sending;
+    }
+    if (statusEl) {
+      statusEl.className = 'cf-status';
+      statusEl.removeAttribute('data-i18n');
+      statusEl.textContent = '';
+    }
+
+    try {
+      const payload = new URLSearchParams(new FormData(contactForm));
+      await fetch(contactForm.action, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: payload
+      });
+      contactForm.reset();
+      if (statusEl) {
+        statusEl.setAttribute('data-i18n', 'f_success');
+        statusEl.textContent = (T[lang] || T.en).f_success;
+        statusEl.className = 'cf-status show ok';
+      }
+    } catch (_) {
+      if (statusEl) {
+        statusEl.setAttribute('data-i18n', 'f_error');
+        statusEl.textContent = (T[lang] || T.en).f_error;
+        statusEl.className = 'cf-status show err';
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = (T[lang] || T.en).f_submit;
+      }
+    }
+  });
 }
 
 /* REVEAL */
 const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
 document.querySelectorAll('.rv').forEach(el => obs.observe(el));
 
-
-
+/* COVERAGE MAP */
 const stateData = {
   "Florida":    { manager: "Carlos Diaz",       routes: 45 },
   "Arizona":    { manager: "Sarah Miller",       routes: 350 },
@@ -369,42 +483,90 @@ const statesGroup = document.getElementById('states');
 const mapSvg = document.getElementById('us-map');
 
 if (mapTooltip && statesGroup && mapSvg) {
-  // Al cargar: mueve todos los estados inactivos al inicio del <g>
-  // → se pintan primero = capa más baja
   document.querySelectorAll('.state:not(.active)').forEach(s => {
     statesGroup.insertBefore(s, statesGroup.firstChild);
   });
 
   let lastHovered = null;
+  let pinnedState = null;
 
-  // Escuchar en el SVG padre evita el bug de mouseout al mover elementos en el DOM
+  function showTooltipForState(target, pageX, pageY) {
+    if (target !== lastHovered) {
+      statesGroup.appendChild(target);
+      lastHovered = target;
+    }
+    const stateName = target.getAttribute('data-name');
+    const data = stateData[stateName];
+    if (!data) return;
+
+    document.getElementById('tt-state').textContent = stateName;
+    document.getElementById('tt-routes').textContent = data.routes;
+    document.getElementById('tt-manager').textContent = data.manager;
+    mapTooltip.style.opacity = 1;
+
+    const pad = 12;
+    const ttW = mapTooltip.offsetWidth || 210;
+    const ttH = mapTooltip.offsetHeight || 95;
+    const vw = document.documentElement.clientWidth;
+    const vh = window.innerHeight;
+    const minX = window.scrollX + pad;
+    const maxX = window.scrollX + vw - ttW - pad;
+    const minY = window.scrollY + pad;
+    const maxY = window.scrollY + vh - ttH - pad;
+
+    let x = pageX + 15;
+    if (x > maxX) x = pageX - ttW - 15;
+    x = Math.max(minX, Math.min(x, maxX));
+
+    let y = pageY + 15;
+    if (y > maxY) y = pageY - ttH - 15;
+    y = Math.max(minY, Math.min(y, maxY));
+
+    mapTooltip.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+  }
+
+  function hideTooltip() {
+    mapTooltip.style.opacity = 0;
+    lastHovered = null;
+    pinnedState = null;
+  }
+
   mapSvg.addEventListener('mousemove', (e) => {
     const target = e.target;
-
     if (target.classList.contains('state') && target.classList.contains('active')) {
-      // Solo reordenar cuando el cursor llega a un estado diferente
-      if (target !== lastHovered) {
-        statesGroup.appendChild(target); // → pinta último = capa más alta
-        lastHovered = target;
-      }
-
-      const stateName = target.getAttribute('data-name');
-      const data = stateData[stateName];
-      if (data) {
-        document.getElementById('tt-state').textContent = stateName;
-        document.getElementById('tt-routes').textContent = data.routes;
-        document.getElementById('tt-manager').textContent = data.manager;
-        mapTooltip.style.opacity = 1;
-        mapTooltip.style.transform = `translate(${e.pageX + 15}px, ${e.pageY + 15}px)`;
-      }
-    } else {
+      pinnedState = null;
+      showTooltipForState(target, e.pageX, e.pageY);
+    } else if (!pinnedState) {
       mapTooltip.style.opacity = 0;
     }
   });
 
   mapSvg.addEventListener('mouseleave', () => {
-    mapTooltip.style.opacity = 0;
-    lastHovered = null;
+    if (!pinnedState) hideTooltip();
+  });
+
+  mapSvg.addEventListener('click', (e) => {
+    const target = e.target;
+    if (target.classList.contains('state') && target.classList.contains('active')) {
+      e.stopPropagation();
+      if (pinnedState === target) {
+        hideTooltip();
+        return;
+      }
+      pinnedState = target;
+      const rect = target.getBoundingClientRect();
+      const px = e.pageX || (rect.left + rect.width / 2 + window.scrollX);
+      const py = e.pageY || (rect.top + rect.height / 2 + window.scrollY);
+      showTooltipForState(target, px, py);
+    } else {
+      hideTooltip();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (pinnedState && !mapSvg.contains(e.target)) {
+      hideTooltip();
+    }
   });
 }
 
